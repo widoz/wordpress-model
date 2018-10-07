@@ -1,7 +1,7 @@
 <?php # -*- coding: utf-8 -*-
 
 /**
- * Plugin Name: WordPress Theme Model
+ * Plugin Name: WordPress Model
  * Plugin URI: http://github.com/widoz/wordpress-model
  * Author: Guido Scialfa
  * Author URI: https://guidoscialfa.com
