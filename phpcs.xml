@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<ruleset name="WordPressModel">
+    <description>WordPress Model Coding Standard</description>
+
+    <!--
+    PHP 7.0 and higher.
+    -->
+    <config name="testVersion" value="7.1-"/>
+
+    <file>./src</file>
+
+    <config name="text_domain" value="wordpress-model"/>
+
+    <rule ref="Inpsyde"/>
+</ruleset>

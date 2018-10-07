@@ -1,0 +1,51 @@
+{
+  "name": "widoz/wordpress-theme-model",
+  "type": "wordpress-plugin",
+  "description": "",
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "mvc",
+    "psr",
+    "autoloader",
+    "composer"
+  ],
+  "homepage": "https://github.com/widoz/wordpress-theme-model",
+  "license": "GPL-2.0-only",
+  "authors": [
+    {
+      "name": "Guido Scialfa",
+      "email": "dev@guidoscialfa.com",
+      "homepage": "http://www.guidoscialfa.com",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/widoz/wordpress-theme-model/issues"
+  },
+  "autoload": {
+    "classmap": [
+      "src/"
+    ],
+    "psr-4": {
+      "WordPressModel\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "WordPressModel\\": "src",
+      "WordPressModel\\Tests\\": "tests",
+      "WordPressModel\\Tests\\Unit\\": "tests/unit/src",
+      "WordPressModel\\Tests\\Integration\\": "tests/integration/src"
+    }
+  },
+  "require": {
+    "php": ">=7.1",
+    "widoz/bem": "dev-master"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~6.5.5",
+    "brain/monkey": "dev-master",
+    "inpsyde/php-coding-standards": "^0.13.3"
+  }
+}
