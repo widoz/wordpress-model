@@ -21,7 +21,7 @@ use Widoz\Bem\BemPrefixed;
  */
 final class CommentSectionTitle implements Model
 {
-    private const FILTER_DATA = 'wordpressmodel.template_data_comments_section_title';
+    private const FILTER_DATA = 'wordpressmodel.comments_section_title';
 
     /**
      * @return array

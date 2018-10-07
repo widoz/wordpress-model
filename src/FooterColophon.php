@@ -21,7 +21,7 @@ use Widoz\Bem\BemPrefixed;
  */
 final class FooterColophon implements Model
 {
-    private const FILTER_DATA = 'wordpressmodel.template_data_footer_colophon';
+    private const FILTER_DATA = 'wordpressmodel.footer_colophon';
 
     /**
      * @inheritdoc

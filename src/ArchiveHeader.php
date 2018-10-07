@@ -21,7 +21,7 @@ use WordPressModel\Attribute\ClassAttribute;
  */
 final class ArchiveHeader implements Model
 {
-    private const FILTER_DATA = 'wordpressmodel.template_data_archive_header';
+    private const FILTER_DATA = 'wordpressmodel.archive_header';
 
     /**
      * @inheritdoc

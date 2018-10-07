@@ -20,7 +20,7 @@ use Widoz\Bem\BemPrefixed;
  */
 final class HeaderBackground implements Model, NeedAsset
 {
-    private const FILTER_DATA = 'wordpressmodel.template_data_header_background';
+    private const FILTER_DATA = 'wordpressmodel.header_background';
 
     /**
      * @inheritdoc

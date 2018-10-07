@@ -21,7 +21,7 @@ use Widoz\Bem\BemPrefixed;
  */
 final class Pagination implements Model
 {
-    private const FILTER_DATA = 'wordpressmodel.template_data_pagination';
+    private const FILTER_DATA = 'wordpressmodel.pagination';
 
     /**
      * @var \WP_Query The query which build the pagination for

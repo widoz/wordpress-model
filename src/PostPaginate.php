@@ -20,7 +20,7 @@ use Widoz\Bem\BemPrefixed;
  */
 final class PostPaginate implements Model
 {
-    private const FILTER_DATA = 'wordpressmodel.template_data_post_paginate';
+    private const FILTER_DATA = 'wordpressmodel.post_paginate';
 
     /**
      * @var string

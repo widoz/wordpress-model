@@ -21,7 +21,7 @@ use Widoz\Bem\BemPrefixed;
  */
 final class Author implements Model
 {
-    private const FILTER_DATA = 'wordpressmodel.template_data_post_author';
+    private const FILTER_DATA = 'wordpressmodel.post_author';
 
     /**
      * @var \WP_User

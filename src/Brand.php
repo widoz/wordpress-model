@@ -23,7 +23,7 @@ use Widoz\Bem\Bem;
  */
 final class Brand implements Model
 {
-    private const FILTER_DATA = 'wordpressmodel.template_data_brandlogo';
+    private const FILTER_DATA = 'wordpressmodel.brandlogo';
 
     /**
      * @var array|string
