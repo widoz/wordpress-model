@@ -16,27 +16,40 @@ declare(strict_types=1);
 
 // phpcs:disable
 
+namespace WordPressModel;
+
+/**
+ * Custom Admin Notice Message
+ *
+ * @param string $message
+ * @param string $noticeType
+ * @param array $allowedMarkup
+ */
+function adminNotice(string $message, string $noticeType, array $allowedMarkup = []): void
+{
+    add_action('admin_notices', function () use ($message, $noticeType, $allowedMarkup) {
+        ?>
+        <div class="notice notice-<?= esc_attr($noticeType) ?>">
+            <p><?= wp_kses($message, $allowedMarkup) ?></p>
+        </div>
+        <?php
+    });
+}
+
 function bootstrap(): void
 {
     $autoloader = plugin_dir_path(__FILE__) . '/vendor/autoload.php';
 
     if (!file_exists($autoloader)) {
-        add_action('admin_notices', function () {
-            ?>
-            <div class="notice notice-error">
-                <p>
-                    <?= wp_kses(sprintf(
-                    // translators: %s Is the name of the plugin.
-                        __(
-                            '%s: No autoloader found, plugin cannot load properly.',
-                            'wordpress-model'
-                        ),
-                        '<strong>' . esc_html__('WordPress Model', 'wordpress-model') . '</strong>'
-                    ), ['strong' => true]) ?>
-                </p>
-            </div>
-            <?php
-        });
+        adminNotice(
+            sprintf(
+                // translators: %s Is the name of the plugin.
+                __('%s: No autoloader found, plugin cannot load properly.', 'wordpress-model'),
+                '<strong>' . esc_html__('WordPress Model', 'wordpress-model') . '</strong>'
+            ),
+            'error',
+            ['strong' => true]
+        );
 
         return;
     }
