@@ -11,6 +11,8 @@
 
 namespace WordPressModel\Tests\Unit\Model;
 
+use PHPUnit\Framework\Constraint\Attribute;
+use Widoz\Bem\Bem;
 use WordPressModel\CommentSectionTitle;
 use PHPUnit\Framework\TestCase;
 use \Brain\Monkey\Functions;
@@ -36,13 +38,13 @@ class CommentSectionTitleDataTest extends TestCase
             ->andReturn('Title');
 
         Functions\when('get_comments_number')
-            ->justReturn(1);
+            ->justReturn('1');
 
         Functions\when('number_format_i18n')
             ->returnArg(1);
 
-        $classAttributeMock = \Mockery::mock('WordPressModel\\Attribute\\Attribute');
-        $bemMock = \Mockery::mock('WordPressModel\\Bem\\Bem');
+        $classAttributeMock = \Mockery::mock(Attribute::class);
+        $bemMock = \Mockery::mock(Bem::class);
 
         $classAttributeMock
             ->shouldReceive('value')
@@ -61,8 +63,8 @@ class CommentSectionTitleDataTest extends TestCase
         $response = $sut->data();
 
         $this->assertSame(
-            '%d response to <span class="{{ attributes.class.commentsForTitle }}">Title</span>',
-            $response['title']
+            '%d response to Title',
+            $response['title']['text']
         );
     }
 
@@ -85,18 +87,18 @@ class CommentSectionTitleDataTest extends TestCase
             ->andReturn('');
 
         Functions\when('get_comments_number')
-            ->justReturn(1);
+            ->justReturn('1');
 
         Functions\when('number_format_i18n')
             ->returnArg(1);
 
-        $classAttributeMock = \Mockery::mock('WordPressModel\\Attribute\\Attribute');
-        $bemMock = \Mockery::mock('WordPressModel\\Bem\\Bem');
+        $classAttributeMock = \Mockery::mock(Attribute::class);
+        $bemMock = \Mockery::mock(Bem::class);
 
         $sut = new CommentSectionTitle();
 
         $response = $sut->data();
 
-        $this->assertSame('%d response', $response['title']);
+        $this->assertSame('%d response', $response['title']['text']);
     }
 }

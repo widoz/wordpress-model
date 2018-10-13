@@ -126,6 +126,6 @@ class HeaderBackgroundDataTest extends TestCase
 
         $response = $sut->data();
 
-        $this->assertSame('<div>Markup</div>', $response['video']);
+        $this->assertSame('<div>Markup</div>', $response['markup']);
     }
 }

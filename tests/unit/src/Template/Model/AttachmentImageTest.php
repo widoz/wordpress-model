@@ -15,9 +15,10 @@ use Brain\Monkey\Functions;
 use Brain\Monkey\Filters;
 use Widoz\Bem\BemPrefixed;
 use WordPressModel\AttachmentImage;
+use WordPressModel\Exception\InvalidAttachmentType;
 use WordPressModel\Tests\TestCase;
 
-class AttachmentTest extends TestCase
+class AttachmentImageTest extends TestCase
 {
     public function testFigureImageData()
     {
@@ -48,9 +49,11 @@ class AttachmentTest extends TestCase
         $response = $sut->data();
 
         self::assertEquals([
-            'caption' => 'Caption',
-            'attributes' => [
-                'class' => 'block',
+            'caption' => [
+                'text' => 'Caption',
+                'attributes' => [
+                    'class' => 'block',
+                ],
             ],
             'image' => [
                 'attributes' => [
@@ -67,11 +70,7 @@ class AttachmentTest extends TestCase
         Functions\when('wp_attachment_is_image')
             ->justReturn(false);
 
-        Functions\expect('wp_get_attachment_caption')
-            ->once()
-            ->andReturn('Caption');
-
-        self::expectException('WordPressModel\\Exception\\InvalidAttachmentType');
+        self::expectException(InvalidAttachmentType::class);
 
         $sut = new AttachmentImage(1, 'post-thumbnail', new BemPrefixed('block'));
         $sut->data();

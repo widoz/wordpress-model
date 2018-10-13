@@ -42,7 +42,7 @@ class ArchiveHeaderDataTest extends TestCase
         $sut = new ArchiveHeader();
         $response = $sut->data();
 
-        $this->assertSame('Title: Page For Posts', $response['title']);
+        $this->assertSame('Title: Page For Posts', $response['title']['text']);
     }
 
     public function testThatIfPageForPostsShowEmptyArchiveDescription()
@@ -59,7 +59,6 @@ class ArchiveHeaderDataTest extends TestCase
         Monkey\Functions\when('get_the_title')
             ->justReturn('Title: Page For Posts');
 
-
         Monkey\Functions\expect('is_home')
             ->andReturn(true);
 
@@ -69,7 +68,7 @@ class ArchiveHeaderDataTest extends TestCase
         $sut = new ArchiveHeader();
         $response = $sut->data();
 
-        $this->assertSame('', $response['description']);
+        $this->assertSame('', $response['description']['text']);
     }
 
     public function testThatTitleForPageForPostsFallbackToArchiveTitle()
@@ -89,7 +88,6 @@ class ArchiveHeaderDataTest extends TestCase
         Monkey\Functions\when('get_option')
             ->justReturn(1);
 
-
         Monkey\Functions\expect('is_home')
             ->andReturn(false);
 
@@ -100,7 +98,7 @@ class ArchiveHeaderDataTest extends TestCase
         $sut = new ArchiveHeader();
         $response = $sut->data();
 
-        $this->assertSame('Title: Archive Title', $response['title']);
+        $this->assertSame('Title: Archive Title', $response['title']['text']);
     }
 
     public function testThatArchiveDescriptionIsShowedIfNotPageForPosts()
@@ -120,7 +118,6 @@ class ArchiveHeaderDataTest extends TestCase
         Monkey\Functions\when('get_the_archive_title')
             ->justReturn('Title: Archive Title');
 
-
         Monkey\Functions\expect('is_home')
             ->andReturn(false);
 
@@ -131,6 +128,6 @@ class ArchiveHeaderDataTest extends TestCase
         $sut = new ArchiveHeader();
         $response = $sut->data();
 
-        $this->assertSame('Archive Description', $response['description']);
+        $this->assertSame('Archive Description', $response['description']['text']);
     }
 }
