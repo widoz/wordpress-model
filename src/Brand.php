@@ -23,7 +23,7 @@ use Widoz\Bem\Bem;
  */
 final class Brand implements Model
 {
-    const FILTER_DATA = 'wordpressmodel.brandlogo';
+    public const FILTER_DATA = 'wordpressmodel.brand_logo';
 
     /**
      * @var array|string
@@ -135,9 +135,8 @@ final class Brand implements Model
     private function style(array $attributes): string
     {
         $implode = new ImplodeArray($attributes);
-        $value = $implode->forAttributeStyle();
 
-        return $value;
+        return $implode->forAttributeStyle();
     }
 
     /**

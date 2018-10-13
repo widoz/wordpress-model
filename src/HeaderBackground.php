@@ -20,7 +20,7 @@ use Widoz\Bem\BemPrefixed;
  */
 final class HeaderBackground implements Model, NeedAsset
 {
-    const FILTER_DATA = 'wordpressmodel.header_background';
+    public const FILTER_DATA = 'wordpressmodel.header_background';
 
     /**
      * @inheritdoc
@@ -60,7 +60,7 @@ final class HeaderBackground implements Model, NeedAsset
      */
     public function requireAsset(): void
     {
-        if ($this->hasVideo() and wp_script_is('wp_custom-header', 'registered')) {
+        if ($this->hasVideo() && wp_script_is('wp_custom-header', 'registered')) {
             wp_enqueue_script('wp-custom-header');
             wp_localize_script(
                 'wp-custom-header',

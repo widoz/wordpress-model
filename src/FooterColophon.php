@@ -21,7 +21,7 @@ use Widoz\Bem\BemPrefixed;
  */
 final class FooterColophon implements Model
 {
-    const FILTER_DATA = 'wordpressmodel.footer_colophon';
+    public const FILTER_DATA = 'wordpressmodel.footer_colophon';
 
     /**
      * @inheritdoc
@@ -53,7 +53,7 @@ final class FooterColophon implements Model
         $theme = $this->theme();
 
         return sprintf(
-        // translators: The %s are the links to WordPress and WordPress Theme Model homepages
+            // translators: The %s are the links to WordPress and WordPress Theme Model homepages
             __('Proudly by %1$s - Theme Name: %2$s', 'wordpress-model'),
             '<a href="https://www.wordpress.org">' . __('WordPress', 'wordpress-model') . '</a>',
             '<a href="' . esc_url($theme->get('ThemeURI')) . '">' . $theme->get('Name') . '</a>'

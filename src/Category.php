@@ -21,7 +21,7 @@ use Widoz\Bem\BemPrefixed;
  */
 final class Category implements Model
 {
-    const FILTER_DATA = 'wordpressmodel.post_category';
+    public const FILTER_DATA = 'wordpressmodel.post_category';
 
     /**
      * @var \WP_Post
@@ -48,7 +48,7 @@ final class Category implements Model
      */
     public function data(): array
     {
-        $taxonomoyClassAttribute = new ClassAttribute(new BemPrefixed('post-category'));
+        $taxonomyClassAttribute = new ClassAttribute(new BemPrefixed('post-category'));
         $titleClassAttribute = new ClassAttribute(new BemPrefixed('post-category', 'title'));
         $categoryClassAttribute = new ClassAttribute(new BemPrefixed('terms'));
 
@@ -60,7 +60,7 @@ final class Category implements Model
         return apply_filters(self::FILTER_DATA, [
             'container' => [
                 'attributes' => [
-                    'class' => $taxonomoyClassAttribute->value(),
+                    'class' => $taxonomyClassAttribute->value(),
                 ],
             ],
             'title' => [

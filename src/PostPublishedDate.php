@@ -21,7 +21,7 @@ use Widoz\Bem\BemPrefixed;
  */
 final class PostPublishedDate implements Model
 {
-    const FILTER_DATA = 'wordpressmodel.post_published_date';
+    public const FILTER_DATA = 'wordpressmodel.post_published_date';
 
     /**
      * @var \WP_Post

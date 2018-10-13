@@ -21,7 +21,7 @@ use WordPressModel\Attribute\ClassAttribute;
  */
 final class ArchiveHeader implements Model
 {
-    const FILTER_DATA = 'wordpressmodel.archive_header';
+    public const FILTER_DATA = 'wordpressmodel.archive_header';
 
     /**
      * @inheritdoc
@@ -72,7 +72,7 @@ final class ArchiveHeader implements Model
     private function title(): string
     {
         // Set the title but if not home change it with the current archive title.
-        $title = get_the_title(intval(get_option('page_for_posts')));
+        $title = get_the_title((int)get_option('page_for_posts'));
         if (!is_home()) {
             $title = get_the_archive_title();
         }

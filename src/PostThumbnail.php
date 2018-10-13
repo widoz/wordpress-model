@@ -21,8 +21,8 @@ use Widoz\Bem\BemPrefixed;
  */
 final class PostThumbnail implements Model
 {
-    const FILTER_DATA = 'wordpressmodel.template_post_thumbnail_data';
-    const FILTER_PERMALINK = 'wordpressmodel.template_post_thumbnail_permalink';
+    public const FILTER_DATA = 'wordpressmodel.template_post_thumbnail_data';
+    public const FILTER_PERMALINK = 'wordpressmodel.template_post_thumbnail_permalink';
 
     /**
      * @var \WP_Post

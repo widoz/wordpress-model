@@ -23,9 +23,9 @@ use WordPressModel\Exception\InvalidAttachmentType;
  */
 final class AttachmentImage implements Model
 {
-    const FILTER_DATA = 'wordpressmodel.figure';
-    const FILTER_CAPTION = 'wordpressmodel.figure_caption';
-    const FILTER_ALT = 'wordpressmodel.alt';
+    public const FILTER_DATA = 'wordpressmodel.figure';
+    public const FILTER_CAPTION = 'wordpressmodel.figure_caption';
+    public const FILTER_ALT = 'wordpressmodel.alt';
 
     /**
      * @var

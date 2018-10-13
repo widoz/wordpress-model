@@ -20,8 +20,8 @@ use Widoz\Bem\BemPrefixed;
  */
 final class PostPaginate implements Model
 {
-    const FILTER_DATA = 'wordpressmodel.post_paginate';
-    const FILTER_PAGINATE_LIST = 'wp_link_pages_link';
+    public const FILTER_DATA = 'wordpressmodel.post_paginate';
+    public const FILTER_PAGINATE_LIST = 'wp_link_pages_link';
 
     /**
      * @inheritdoc

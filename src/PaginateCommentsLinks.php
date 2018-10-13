@@ -18,7 +18,7 @@ namespace WordPressModel;
  */
 final class PaginateCommentsLinks implements Model
 {
-    const FILTER_DATA = 'wordpressmodel.paginate_comments_links';
+    public const FILTER_DATA = 'wordpressmodel.paginate_comments_links';
 
     /**
      * @return array

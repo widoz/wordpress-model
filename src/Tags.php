@@ -21,7 +21,7 @@ use Widoz\Bem\BemPrefixed;
  */
 final class Tags implements Model
 {
-    const FILTER_DATA = 'wordpressmodel.tags';
+    public const FILTER_DATA = 'wordpressmodel.tags';
 
     /**
      * @var \WP_Post

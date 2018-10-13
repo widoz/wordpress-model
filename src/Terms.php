@@ -21,7 +21,7 @@ use Widoz\Bem\BemPrefixed;
  */
 final class Terms implements Model
 {
-    const FILTER_DATA = 'wordpressmodel.terms';
+    public const FILTER_DATA = 'wordpressmodel.terms';
 
     /**
      * @var string
@@ -92,8 +92,8 @@ final class Terms implements Model
         ]));
 
         if (!$terms
+            || !\is_array($terms)
             || is_wp_error($terms)
-            || !is_array($terms)
         ) {
             return [];
         }
