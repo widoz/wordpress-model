@@ -21,7 +21,7 @@ use Widoz\Bem\BemPrefixed;
  */
 final class CommentSectionTitle implements Model
 {
-    private const FILTER_DATA = 'wordpressmodel.comments_section_title';
+    const FILTER_DATA = 'wordpressmodel.comments_section_title';
 
     /**
      * @return array
@@ -59,7 +59,7 @@ final class CommentSectionTitle implements Model
                 // translators: %d is the number of responses
                 _n('%d response to', '%d responses to', $commentsNumber, 'wordpress-model')
             ),
-            '<span class="{{ attributes.class.commentsForTitle }}">' . $postTitle . '</span>'
+            $postTitle
         );
 
         !$postTitle and $title = esc_html(

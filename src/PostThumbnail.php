@@ -21,8 +21,8 @@ use Widoz\Bem\BemPrefixed;
  */
 final class PostThumbnail implements Model
 {
-    private const FILTER_DATA = 'wordpressmodel.template_post_thumbnail_data';
-    private const FILTER_PERMALINK = 'wordpressmodel.template_post_thumbnail_permalink';
+    const FILTER_DATA = 'wordpressmodel.template_post_thumbnail_data';
+    const FILTER_PERMALINK = 'wordpressmodel.template_post_thumbnail_permalink';
 
     /**
      * @var \WP_Post
@@ -62,7 +62,7 @@ final class PostThumbnail implements Model
              * @param array Figure Model Data.
              */
             $data += [
-                'container' => [
+                'link' => [
                     'attributes' => [
                         'href' => $this->permalink(),
                     ],

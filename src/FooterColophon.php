@@ -21,7 +21,7 @@ use Widoz\Bem\BemPrefixed;
  */
 final class FooterColophon implements Model
 {
-    private const FILTER_DATA = 'wordpressmodel.footer_colophon';
+    const FILTER_DATA = 'wordpressmodel.footer_colophon';
 
     /**
      * @inheritdoc
@@ -40,8 +40,8 @@ final class FooterColophon implements Model
                 'attributes' => [
                     'class' => $classAttribute->value(),
                 ],
-                'markup' => $this->content(),
             ],
+            'markup' => $this->content(),
         ]);
     }
 

@@ -21,7 +21,7 @@ use Widoz\Bem\BemPrefixed;
  */
 final class PostPublishedDate implements Model
 {
-    private const FILTER_DATA = 'wordpressmodel.post_published_date';
+    const FILTER_DATA = 'wordpressmodel.post_published_date';
 
     /**
      * @var \WP_Post
@@ -58,8 +58,8 @@ final class PostPublishedDate implements Model
          * @param array $data The model.
          */
         return apply_filters(self::FILTER_DATA, [
+            'text' => __('Published On', 'wordpress-model'),
             'container' => [
-                'text' => __('Published On', 'wordpress-model'),
                 'attributes' => [
                     'class' => $containerClass->value(),
                 ],

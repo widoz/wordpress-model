@@ -18,29 +18,17 @@ namespace WordPressModel;
  */
 final class PaginateCommentsLinks implements Model
 {
-    private const FILTER_DATA = 'wordpressmodel.paginate_comments_links';
+    const FILTER_DATA = 'wordpressmodel.paginate_comments_links';
 
     /**
      * @return array
      */
     public function data(): array
     {
-        if (get_comment_pages_count() === 1) {
-            /**
-             * Paginate Comments Links Data
-             *
-             * @param array $data The data arguments for the template.
-             */
-            return apply_filters(self::FILTER_DATA, []);
-        }
+        $data = [];
 
-        /**
-         * Paginate Comments Links Data
-         *
-         * @param array $data The data arguments for the template.
-         */
-        return apply_filters(self::FILTER_DATA, [
-            'container' => [
+        if (get_comment_pages_count() > 1) {
+            $data += [
                 'markup' => paginate_comments_links([
                     'type' => 'list',
                     'before_page_number' => sprintf(
@@ -56,7 +44,14 @@ final class PaginateCommentsLinks implements Model
                         esc_html__('Next Comments', 'wordpress-model')
                     ),
                 ]),
-            ],
-        ]);
+            ];
+        }
+
+        /**
+         * Paginate Comments Links Data
+         *
+         * @param array $data The data arguments for the template.
+         */
+        return apply_filters(self::FILTER_DATA, $data);
     }
 }

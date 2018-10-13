@@ -20,8 +20,8 @@ use Widoz\Bem\BemPrefixed;
  */
 final class PostPaginate implements Model
 {
-    private const FILTER_DATA = 'wordpressmodel.post_paginate';
-    private const FILTER_PAGINATE_LIST = 'wp_link_pages_link';
+    const FILTER_DATA = 'wordpressmodel.post_paginate';
+    const FILTER_PAGINATE_LIST = 'wp_link_pages_link';
 
     /**
      * @inheritdoc
@@ -49,14 +49,12 @@ final class PostPaginate implements Model
          * @param array $data The post paginate data
          */
         $data = apply_filters(self::FILTER_DATA, [
-            'container' => [
-                'markup' => wp_link_pages([
-                    'echo' => 0,
-                    'before' => $this->before(),
-                    'after' => $this->after(),
-                    'link_before' => $this->linkBefore(),
-                ]),
-            ],
+            'markup' => wp_link_pages([
+                'echo' => 0,
+                'before' => $this->before(),
+                'after' => $this->after(),
+                'link_before' => $this->linkBefore(),
+            ]),
         ]);
 
         remove_filter(

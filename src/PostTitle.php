@@ -21,7 +21,7 @@ use Widoz\Bem\BemPrefixed;
  */
 final class PostTitle implements Model
 {
-    private const FILTER_DATA = 'wordpressmodel.post_title';
+    const FILTER_DATA = 'wordpressmodel.post_title';
 
     /**
      * @var \WP_Post

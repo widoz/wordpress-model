@@ -21,7 +21,7 @@ use Widoz\Bem\BemPrefixed;
  */
 final class Category implements Model
 {
-    private const FILTER_DATA = 'wordpressmodel.post_category';
+    const FILTER_DATA = 'wordpressmodel.post_category';
 
     /**
      * @var \WP_Post

@@ -22,8 +22,8 @@ use Widoz\Bem\BemPrefixed;
  */
 final class MainNavMenu implements Model
 {
-    private const FILTER_DATA = 'wordpressmodel.main_nav_menu';
-    private const FILTER_JUMP_TO_CONTENT_HREF = 'wordpressmodel.menu_jump_to_content_href';
+    const FILTER_DATA = 'wordpressmodel.main_nav_menu';
+    const FILTER_JUMP_TO_CONTENT_HREF = 'wordpressmodel.menu_jump_to_content_href';
 
     /**
      * @var int
@@ -89,7 +89,7 @@ final class MainNavMenu implements Model
             $navMenuClass = new ClassAttribute(new BemPrefixed('nav-main', 'items'));
 
             $data = [
-                'container' => [
+                'nav' => [
                     'attributes' => [
                         'id' => $id->value(),
                         'class' => $class->value(),

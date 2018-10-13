@@ -21,7 +21,7 @@ use Widoz\Bem\BemPrefixed;
  */
 final class Terms implements Model
 {
-    private const FILTER_DATA = 'wordpressmodel.terms';
+    const FILTER_DATA = 'wordpressmodel.terms';
 
     /**
      * @var string

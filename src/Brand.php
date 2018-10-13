@@ -23,7 +23,7 @@ use Widoz\Bem\Bem;
  */
 final class Brand implements Model
 {
-    private const FILTER_DATA = 'wordpressmodel.brandlogo';
+    const FILTER_DATA = 'wordpressmodel.brandlogo';
 
     /**
      * @var array|string
@@ -52,7 +52,12 @@ final class Brand implements Model
     public function data(): array
     {
         if (!$this->mayBeDisplayed()) {
-            return [];
+            /**
+             * Filter Data
+             *
+             * @param array $data The data for the template to filter.
+             */
+            return apply_filters(self::FILTER_DATA, []);
         }
 
         $attachmentId = $this->attachmentId();
@@ -72,8 +77,8 @@ final class Brand implements Model
          * @param array $data The data for the template to filter.
          */
         return apply_filters(self::FILTER_DATA, [
+            'name' => get_bloginfo('name'),
             'container' => [
-                'name' => get_bloginfo('name'),
                 'attributes' => [
                     'class' => $class->value(),
                 ],

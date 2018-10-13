@@ -20,7 +20,7 @@ use Widoz\Bem\BemPrefixed;
  */
 final class HeaderBackground implements Model, NeedAsset
 {
-    private const FILTER_DATA = 'wordpressmodel.header_background';
+    const FILTER_DATA = 'wordpressmodel.header_background';
 
     /**
      * @inheritdoc
@@ -38,11 +38,11 @@ final class HeaderBackground implements Model, NeedAsset
          */
         return apply_filters(self::FILTER_DATA, [
             'container' => [
-                'markup' => $this->hasVideo() ? get_custom_header_markup() : '',
                 'attributes' => [
                     'class' => (new BemPrefixed('header-thumbnail'))->value(),
                 ],
             ],
+            'markup' => $this->hasVideo() ? get_custom_header_markup() : '',
             'link' => [
                 'attributes' => [
                     'href' => home_url('/'),

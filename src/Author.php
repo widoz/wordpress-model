@@ -21,7 +21,7 @@ use Widoz\Bem\BemPrefixed;
  */
 final class Author implements Model
 {
-    private const FILTER_DATA = 'wordpressmodel.post_author';
+    const FILTER_DATA = 'wordpressmodel.post_author';
 
     /**
      * @var \WP_User
@@ -43,37 +43,34 @@ final class Author implements Model
      */
     public function data(): array
     {
-        if (!$this->user->exists()) {
-            /**
-             * Author
-             *
-             * @param array $data The data arguments for the template.
-             */
-            return apply_filters(self::FILTER_DATA, []);
-        }
+        $data = [];
 
-        $authorPostsUrl = get_author_posts_url($this->user->ID);
-        $classAttribute = new ClassAttribute(new BemPrefixed('author'));
-        $linkClassAttribute = new BemPrefixed('author', 'posts-page');
+        if ($this->user->exists()) {
+            $authorPostsUrl = get_author_posts_url($this->user->ID);
+            $classAttribute = new ClassAttribute(new BemPrefixed('author'));
+            $linkClassAttribute = new BemPrefixed('author', 'posts-page');
+
+            $data += [
+                'name' => $this->user->display_name,
+                'container' => [
+                    'attributes' => [
+                        'class' => $classAttribute->value(),
+                    ],
+                ],
+                'link' => [
+                    'attributes' => [
+                        'href' => $authorPostsUrl,
+                        'class' => $linkClassAttribute->value(),
+                    ],
+                ],
+            ];
+        }
 
         /**
          * Author
          *
          * @param array $data The data arguments for the template.
          */
-        return apply_filters(self::FILTER_DATA, [
-            'container' => [
-                'name' => $this->user->display_name,
-                'attributes' => [
-                    'class' => $classAttribute->value(),
-                ],
-            ],
-            'link' => [
-                'attributes' => [
-                    'href' => $authorPostsUrl,
-                    'class' => $linkClassAttribute->value(),
-                ],
-            ],
-        ]);
+        return apply_filters(self::FILTER_DATA, $data);
     }
 }
