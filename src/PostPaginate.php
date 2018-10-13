@@ -21,38 +21,46 @@ use Widoz\Bem\BemPrefixed;
 final class PostPaginate implements Model
 {
     private const FILTER_DATA = 'wordpressmodel.post_paginate';
-
-    /**
-     * @var string
-     */
-    private static $paginateLinkFilter = 'wp_link_pages_link';
+    private const FILTER_PAGINATE_LIST = 'wp_link_pages_link';
 
     /**
      * @inheritdoc
      */
     public function data(): array
     {
-        if (! $this->isMultipage()) {
-            return [];
+        if (!$this->isMultipage()) {
+            /**
+             * Post Paginate Filter
+             *
+             * @param array $data The post paginate data
+             */
+            return apply_filters(self::FILTER_DATA, []);
         }
 
         add_filter(
-            self::$paginateLinkFilter,
+            self::FILTER_PAGINATE_LIST,
             [$this, 'makePaginationMarkupClassesBemLike'],
             0
         );
 
+        /**
+         * Post Paginate Filter
+         *
+         * @param array $data The post paginate data
+         */
         $data = apply_filters(self::FILTER_DATA, [
-            'pagination' => wp_link_pages([
-                'echo' => 0,
-                'before' => $this->before(),
-                'after' => $this->after(),
-                'link_before' => $this->linkBefore(),
-            ]),
+            'container' => [
+                'markup' => wp_link_pages([
+                    'echo' => 0,
+                    'before' => $this->before(),
+                    'after' => $this->after(),
+                    'link_before' => $this->linkBefore(),
+                ]),
+            ],
         ]);
 
         remove_filter(
-            self::$paginateLinkFilter,
+            self::FILTER_PAGINATE_LIST,
             [$this, 'makePaginationMarkupClassesBemLike'],
             0
         );
@@ -110,6 +118,9 @@ final class PostPaginate implements Model
      */
     private function linkBefore(): string
     {
-        return '<span class="screen-reader-text">' . esc_html__('Page', 'wordpress-model') . '</span> ';
+        return sprintf(
+            '<span class="screen-reader-text">%s</span>',
+            esc_html_x('Page', 'pagination', 'wordpress-model')
+        );
     }
 }

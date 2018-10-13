@@ -17,7 +17,7 @@ use WordPressModel\Attribute\ClassAttribute;
 use Widoz\Bem\BemPrefixed;
 
 /**
- * Post Category Model
+ * Taxonomy Category Model
  */
 final class Category implements Model
 {
@@ -48,12 +48,9 @@ final class Category implements Model
      */
     public function data(): array
     {
-        $containerClass = new ClassAttribute(new BemPrefixed('post-category'));
-        $labelClass = new ClassAttribute(new BemPrefixed('post-category', 'label'));
-        $categoryClass = new ClassAttribute(new BemPrefixed('terms'));
-        $terms = new Terms(self::$taxonomy, 'get_the_categories', [
-            'object_ids' => [$this->post->ID],
-        ]);
+        $taxonomoyClassAttribute = new ClassAttribute(new BemPrefixed('post-category'));
+        $titleClassAttribute = new ClassAttribute(new BemPrefixed('post-category', 'title'));
+        $categoryClassAttribute = new ClassAttribute(new BemPrefixed('terms'));
 
         /**
          * Category Filter
@@ -61,21 +58,33 @@ final class Category implements Model
          * @param array $category The post terms category to filter.
          */
         return apply_filters(self::FILTER_DATA, [
-            'attributes' => [
-                'class' => $containerClass->value(),
+            'container' => [
+                'attributes' => [
+                    'class' => $taxonomoyClassAttribute->value(),
+                ],
             ],
-            'label' => [
+            'title' => [
                 'text' => __('Posted In: ', 'wordpress-model'),
                 'attributes' => [
-                    'class' => $labelClass->value(),
+                    'class' => $titleClassAttribute->value(),
                 ],
             ],
             'terms' => [
-                'items' => $terms->data(),
+                'items' => $this->terms()->data(),
                 'attributes' => [
-                    'class' => $categoryClass->value(),
+                    'class' => $categoryClassAttribute->value(),
                 ],
             ],
+        ]);
+    }
+
+    /**
+     * @return Terms
+     */
+    private function terms(): Terms
+    {
+        return new Terms(self::$taxonomy, 'get_the_categories', [
+            'object_ids' => [$this->post->ID],
         ]);
     }
 }

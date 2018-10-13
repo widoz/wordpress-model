@@ -23,7 +23,7 @@ use Widoz\Bem\BemPrefixed;
 final class MainNavMenu implements Model
 {
     private const FILTER_DATA = 'wordpressmodel.main_nav_menu';
-    const FILTER_JUMP_TO_CONTENT_HREF = 'wordpressmodel.menu_jump_to_content_href';
+    private const FILTER_JUMP_TO_CONTENT_HREF = 'wordpressmodel.menu_jump_to_content_href';
 
     /**
      * @var int
@@ -52,6 +52,7 @@ final class MainNavMenu implements Model
 
     /**
      * MainNavMenu constructor.
+     *
      * @param string $themeLocation
      * @param string $id
      * @param int $depth
@@ -78,40 +79,42 @@ final class MainNavMenu implements Model
      */
     public function data(): array
     {
-        if (!$this->hasNavMenu()) {
-            return [];
-        }
+        $data = [];
 
-        $id = new IdAttribute('main-menu');
-        $class = new ClassAttribute(new BemPrefixed('nav-main'));
-        $linkId = new IdAttribute('jump_to_content');
-        $linkClass = new ClassAttribute(new BemPrefixed('nav-main', 'to-content'));
-        $navMenuClass = new ClassAttribute(new BemPrefixed('nav-main', 'items'));
+        if ($this->hasNavMenu()) {
+            $id = new IdAttribute('main-menu');
+            $class = new ClassAttribute(new BemPrefixed('nav-main'));
+            $linkId = new IdAttribute('jump_to_content');
+            $linkClass = new ClassAttribute(new BemPrefixed('nav-main', 'to-content'));
+            $navMenuClass = new ClassAttribute(new BemPrefixed('nav-main', 'items'));
 
-        $data = [
-            'attributes' => [
-                'id' => $id->value(),
-                'class' => $class->value(),
-            ],
-            'link' => [
-                'attributes' => [
-                    'href' => apply_filters(self::FILTER_JUMP_TO_CONTENT_HREF, '#content'),
-                    'id' => $linkId->value(),
-                    'class' => $linkClass->value(),
+            $data = [
+                'container' => [
+                    'attributes' => [
+                        'id' => $id->value(),
+                        'class' => $class->value(),
+                    ],
                 ],
-                'label' => __('Jump To Content', 'wordpress-model'),
-            ],
-            'arguments' => [
-                'theme_location' => $this->themeLocation,
-                'menu_id' => $this->id,
-                'container' => '',
-                'depth' => $this->depth,
-                'fallback_cb' => $this->fallback,
-                'menu_class' => $navMenuClass->value(),
-                'items_wrap' => '<ul class="%2$s">%3$s</ul>',
-                'walker' => $this->walker,
-            ],
-        ];
+                'link' => [
+                    'text' => __('Jump To Content', 'wordpress-model'),
+                    'attributes' => [
+                        'href' => apply_filters(self::FILTER_JUMP_TO_CONTENT_HREF, '#content'),
+                        'id' => $linkId->value(),
+                        'class' => $linkClass->value(),
+                    ],
+                ],
+                'arguments' => [
+                    'theme_location' => $this->themeLocation,
+                    'menu_id' => $this->id,
+                    'container' => '',
+                    'depth' => $this->depth,
+                    'fallback_cb' => $this->fallback,
+                    'menu_class' => $navMenuClass->value(),
+                    'items_wrap' => '<ul class="%2$s">%3$s</ul>',
+                    'walker' => $this->walker,
+                ],
+            ];
+        }
 
         /**
          * Menu Data Filter

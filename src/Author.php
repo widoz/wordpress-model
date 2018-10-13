@@ -43,11 +43,18 @@ final class Author implements Model
      */
     public function data(): array
     {
-        if (! $this->user->exists()) {
-            return [];
+        if (!$this->user->exists()) {
+            /**
+             * Author
+             *
+             * @param array $data The data arguments for the template.
+             */
+            return apply_filters(self::FILTER_DATA, []);
         }
 
         $authorPostsUrl = get_author_posts_url($this->user->ID);
+        $classAttribute = new ClassAttribute(new BemPrefixed('author'));
+        $linkClassAttribute = new BemPrefixed('author', 'posts-page');
 
         /**
          * Author
@@ -55,14 +62,16 @@ final class Author implements Model
          * @param array $data The data arguments for the template.
          */
         return apply_filters(self::FILTER_DATA, [
-            'name' => $this->user->display_name,
-            'attributes' => [
-                'class' => (new ClassAttribute(new BemPrefixed('author')))->value(),
+            'container' => [
+                'name' => $this->user->display_name,
+                'attributes' => [
+                    'class' => $classAttribute->value(),
+                ],
             ],
             'link' => [
                 'attributes' => [
                     'href' => $authorPostsUrl,
-                    'class' => (new BemPrefixed('author', 'posts-page'))->value(),
+                    'class' => $linkClassAttribute->value(),
                 ],
             ],
         ]);

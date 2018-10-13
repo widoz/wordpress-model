@@ -28,21 +28,33 @@ final class ArchiveHeader implements Model
      */
     public function data(): array
     {
+        $headerClassAttribute = new ClassAttribute(new BemPrefixed('archive', 'header'));
+        $titleClassAttribute = new ClassAttribute(new BemPrefixed('archive', 'title'));
+        $descriptionClassAttribute = new ClassAttribute(new BemPrefixed('archive', 'description'));
+
         /**
          * Archive Template Data
          *
          * @param array $data The data arguments for the template.
          */
         return apply_filters(self::FILTER_DATA, [
-            'attributes' => [
-                'class' => [
-                    'header' => (new ClassAttribute(new BemPrefixed('archive', 'header')))->value(),
-                    'title' => (new ClassAttribute(new BemPrefixed('archive', 'title')))->value(),
+            'container' => [
+                'attributes' => [
+                    'class' => $headerClassAttribute->value(),
                 ],
             ],
-            'title' => $this->title(),
-            'description' => $this->description(),
-            'show' => 'yes',
+            'title' => [
+                'text' => $this->title(),
+                'attributes' => [
+                    'class' => $titleClassAttribute->value(),
+                ],
+            ],
+            'description' => [
+                'text' => $this->description(),
+                'attributes' => [
+                    'class' => $descriptionClassAttribute->value(),
+                ],
+            ],
         ]);
     }
 

@@ -24,8 +24,8 @@ use WordPressModel\Exception\InvalidAttachmentType;
 final class AttachmentImage implements Model
 {
     private const FILTER_DATA = 'wordpressmodel.figure';
-    const FILTER_CAPTION = 'wordpressmodel.figure_caption';
-    const FILTER_ALT = 'wordpressmodel.alt';
+    private const FILTER_CAPTION = 'wordpressmodel.figure_caption';
+    private const FILTER_ALT = 'wordpressmodel.alt';
 
     /**
      * @var
@@ -76,15 +76,17 @@ final class AttachmentImage implements Model
          * @param array $data The data arguments for the template.
          */
         return apply_filters(self::FILTER_DATA, [
-            'caption' => $this->caption(),
-            'attributes' => [
-                'class' => $this->bem->value(),
-            ],
             'image' => [
                 'attributes' => [
                     'url' => $this->attachmentUrl(),
                     'class' => $imageAttributeClass->value(),
                     'alt' => $this->alt(),
+                ],
+            ],
+            'caption' => [
+                'text' => $this->caption(),
+                'attributes' => [
+                    'class' => $this->bem->value(),
                 ],
             ],
         ]);

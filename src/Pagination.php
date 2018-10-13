@@ -62,27 +62,31 @@ final class Pagination implements Model
          * @param array $data The pagination data.
          */
         $data = apply_filters(self::FILTER_DATA, [
-            'attributes' => [
-                'class' => $classContainer->value(),
+            'container' => [
+                'attributes' => [
+                    'class' => $classContainer->value(),
+                ],
             ],
             'list' => [
+                'links' => [
+                    'markup' => paginate_links(
+                        [
+                            'base' => $base,
+                            'format' => '?paged=%#%',
+                            'aria_current' => $this->query->get('post_type'),
+                            'current' => max(1, $this->query->get('paged')),
+                            'total' => $this->query->max_num_pages,
+                            'prev_text' => sprintf('&larr; %s', $previous),
+                            'next_text' => sprintf('%s &rarr;', $next),
+                            'type' => 'array',
+                            'before_page_number' => '<span class="screen-reader-text">' . $beforePage . ' </span>',
+                        ]
+                    ),
+                ],
                 'attributes' => [
                     'class' => $classList->value(),
                 ],
             ],
-            'links' => paginate_links(
-                [
-                    'base' => $base,
-                    'format' => '?paged=%#%',
-                    'aria_current' => $this->query->get('post_type'),
-                    'current' => max(1, $this->query->get('paged')),
-                    'total' => $this->query->max_num_pages,
-                    'prev_text' => sprintf('&larr; %s', $previous),
-                    'next_text' => sprintf('%s &rarr;', $next),
-                    'type' => 'array',
-                    'before_page_number' => '<span class="screen-reader-text">' . $beforePage . ' </span>',
-                ]
-            ),
         ]);
 
         return $data;

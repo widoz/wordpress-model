@@ -28,9 +28,7 @@ final class CommentSectionTitle implements Model
      */
     public function data(): array
     {
-        if (!in_the_loop()) {
-            return [];
-        }
+        $headingClassAttribute = new ClassAttribute(new BemPrefixed('comments', 'title'));
 
         /**
          * Comment Section Title
@@ -38,12 +36,11 @@ final class CommentSectionTitle implements Model
          * @param array $data The data arguments for the template.
          */
         return apply_filters(self::FILTER_DATA, [
-            'title' => $this->title(),
-            'attributes' => [
-                'heading' => (new ClassAttribute(new BemPrefixed('comments', 'title')))
-                    ->value(),
-                'commentsForTitle' => (new ClassAttribute(new BemPrefixed('comments-for')))
-                    ->value(),
+            'title' => [
+                'text' => $this->title(),
+                'attributes' => [
+                    'class' => $headingClassAttribute->value(),
+                ],
             ],
         ]);
     }
@@ -79,6 +76,6 @@ final class CommentSectionTitle implements Model
     private function commentsNumber(): string
     {
         // Filter is applied to the returned value, we cannot be sure a string is returned.
-        return (string)number_format_i18n(get_comments_number());
+        return number_format_i18n(get_comments_number());
     }
 }

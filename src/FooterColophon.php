@@ -28,7 +28,7 @@ final class FooterColophon implements Model
      */
     public function data(): array
     {
-        $containerClassAttribute = new ClassAttribute(new BemPrefixed('footer', 'colophon'));
+        $classAttribute = new ClassAttribute(new BemPrefixed('footer', 'colophon'));
 
         /**
          * Footer Colophon Data
@@ -36,11 +36,11 @@ final class FooterColophon implements Model
          * @param array $data The data arguments for the template.
          */
         return apply_filters(self::FILTER_DATA, [
-            'content' => $this->content(),
-            'attributes' => [
-                'class' => [
-                    'container' => $containerClassAttribute->value(),
+            'container' => [
+                'attributes' => [
+                    'class' => $classAttribute->value(),
                 ],
+                'markup' => $this->content(),
             ],
         ]);
     }
@@ -53,7 +53,7 @@ final class FooterColophon implements Model
         $theme = $this->theme();
 
         return sprintf(
-            // translators: The %s are the links to WordPress and WordPress Theme Model homepages
+        // translators: The %s are the links to WordPress and WordPress Theme Model homepages
             __('Proudly by %1$s - Theme Name: %2$s', 'wordpress-model'),
             '<a href="https://www.wordpress.org">' . __('WordPress', 'wordpress-model') . '</a>',
             '<a href="' . esc_url($theme->get('ThemeURI')) . '">' . $theme->get('Name') . '</a>'

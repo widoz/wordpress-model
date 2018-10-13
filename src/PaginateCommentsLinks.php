@@ -26,7 +26,12 @@ final class PaginateCommentsLinks implements Model
     public function data(): array
     {
         if (get_comment_pages_count() === 1) {
-            return [];
+            /**
+             * Paginate Comments Links Data
+             *
+             * @param array $data The data arguments for the template.
+             */
+            return apply_filters(self::FILTER_DATA, []);
         }
 
         /**
@@ -35,21 +40,23 @@ final class PaginateCommentsLinks implements Model
          * @param array $data The data arguments for the template.
          */
         return apply_filters(self::FILTER_DATA, [
-            'pagination' => paginate_comments_links([
-                'type' => 'list',
-                'before_page_number' => sprintf(
-                    '<span class="screen-reader-text">%s </span>',
-                    esc_html__('Page', 'wordpress-model')
-                ),
-                'prev_text' => sprintf(
-                    '&larr; <span class="screen-reader-text">%s</span>',
-                    esc_html__('Previous Comments', 'wordpress-model')
-                ),
-                'next_text' => sprintf(
-                    '<span class="screen-reader-text">%s</span> &rarr;',
-                    esc_html__('Next Comments', 'wordpress-model')
-                ),
-            ]),
+            'container' => [
+                'markup' => paginate_comments_links([
+                    'type' => 'list',
+                    'before_page_number' => sprintf(
+                        '<span class="screen-reader-text">%s </span>',
+                        esc_html__('Page', 'wordpress-model')
+                    ),
+                    'prev_text' => sprintf(
+                        '&larr; <span class="screen-reader-text">%s</span>',
+                        esc_html__('Previous Comments', 'wordpress-model')
+                    ),
+                    'next_text' => sprintf(
+                        '<span class="screen-reader-text">%s</span> &rarr;',
+                        esc_html__('Next Comments', 'wordpress-model')
+                    ),
+                ]),
+            ],
         ]);
     }
 }

@@ -36,7 +36,7 @@ final class PostTitle implements Model
     /**
      * PostTitle constructor.
      *
-     * @param \WP_Post  $post
+     * @param \WP_Post $post
      * @param \WP_Query $query
      */
     public function __construct(\WP_Post $post, \WP_Query $query)
@@ -53,20 +53,25 @@ final class PostTitle implements Model
         $isSingular = $this->query->is_singular();
         $href = $isSingular ? '' : (string)get_permalink($this->post);
 
+        $titleClassAttribute = new ClassAttribute(new BemPrefixed('article', 'title'));
+        $linkClassAttribute = new ClassAttribute(new BemPrefixed('article', 'link'));
+
         /**
          * Post Title
          *
-         * @param array     $data  The data to inject into the template.
+         * @param array $data The data to inject into the template.
          * @param \WP_Query $query The query associated with the post.
          */
         return apply_filters(self::FILTER_DATA, [
-            'title' => $this->title(),
-            'attributes' => [
-                'class' => (new ClassAttribute(new BemPrefixed('article', 'title')))->value(),
+            'title' => [
+                'text' => $this->title(),
+                'attributes' => [
+                    'class' => $titleClassAttribute->value(),
+                ],
             ],
             'link' => [
                 'attributes' => [
-                    'class' => (new ClassAttribute(new BemPrefixed('article', 'link')))->value(),
+                    'class' => $linkClassAttribute->value(),
                     'href' => $href,
                 ],
             ],

@@ -43,7 +43,7 @@ final class Terms implements Model
      *
      * @param string $taxonomy
      * @param string $filter
-     * @param array  $args
+     * @param array $args
      */
     public function __construct(string $taxonomy, string $filter = '', array $args = [])
     {
@@ -91,9 +91,9 @@ final class Terms implements Model
             'taxonomy' => $this->taxonomy,
         ]));
 
-        if (! $terms
+        if (!$terms
             || is_wp_error($terms)
-            || ! is_array($terms)
+            || !is_array($terms)
         ) {
             return [];
         }

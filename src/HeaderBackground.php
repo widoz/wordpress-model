@@ -27,7 +27,7 @@ final class HeaderBackground implements Model, NeedAsset
      */
     public function data(): array
     {
-        if (! $this->canBeShowed()) {
+        if (!$this->canBeShowed()) {
             return [];
         }
 
@@ -37,9 +37,11 @@ final class HeaderBackground implements Model, NeedAsset
          * @param array $data The data arguments for the template.
          */
         return apply_filters(self::FILTER_DATA, [
-            'video' => $this->hasVideo() ? get_custom_header_markup() : '',
-            'attributes' => [
-                'class' => (new BemPrefixed('header-thumbnail'))->value(),
+            'container' => [
+                'markup' => $this->hasVideo() ? get_custom_header_markup() : '',
+                'attributes' => [
+                    'class' => (new BemPrefixed('header-thumbnail'))->value(),
+                ],
             ],
             'link' => [
                 'attributes' => [
@@ -47,9 +49,9 @@ final class HeaderBackground implements Model, NeedAsset
                     'class' => (new BemPrefixed('header-thumbnail', 'link'))->value(),
                 ],
             ],
-            'image' => $this->hasImage() ? get_header_image_tag([
-                'class' => (new BemPrefixed('header-thumbnail', 'image'))->value(),
-            ]) : '',
+            'image' => [
+                'markup' => $this->hasImage() ? $this->headerImageMarkup() : '',
+            ],
         ]);
     }
 
@@ -98,5 +100,17 @@ final class HeaderBackground implements Model, NeedAsset
     private function hasImage(): bool
     {
         return has_header_image();
+    }
+
+    /**
+     * @return string The header image markup
+     */
+    private function headerImageMarkup(): string
+    {
+        $class = new BemPrefixed('header-thumbnail', 'image');
+
+        return get_header_image_tag([
+            'class' => $class->value(),
+        ]);
     }
 }

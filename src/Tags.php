@@ -56,11 +56,13 @@ final class Tags implements Model
         ]);
 
         return apply_filters(self::FILTER_DATA, [
-            'attributes' => [
-                'class' => $containerClass->value(),
+            'container' => [
+                'attributes' => [
+                    'class' => $containerClass->value(),
+                ],
             ],
             'title' => [
-                'label' => __('Tags: ', 'wordpress-model'),
+                'text' => __('Tags: ', 'wordpress-model'),
                 'attributes' => [
                     'class' => $titleClass->value(),
                 ],

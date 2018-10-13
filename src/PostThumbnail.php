@@ -51,25 +51,32 @@ final class PostThumbnail implements Model
      */
     public function data(): array
     {
-        if (!$this->hasSupport()
-            || !$this->hasThumbnail()
-        ) {
-            return [];
-        }
+        $data = [];
 
-        $bem = new BemPrefixed('thumbnail');
+        if ($this->hasSupport() && $this->hasThumbnail()) {
+            $bem = new BemPrefixed('thumbnail');
+
+            /**
+             * Post Thumbnail Data
+             *
+             * @param array Figure Model Data.
+             */
+            $data += [
+                'container' => [
+                    'attributes' => [
+                        'href' => $this->permalink(),
+                    ],
+                ],
+                'figure' => $this->attachmentModel($bem)->data(),
+            ];
+        }
 
         /**
          * Post Thumbnail Data
          *
          * @param array Figure Model Data.
          */
-        return apply_filters(self::FILTER_DATA, [
-            'attributes' => [
-                'href' => $this->permalink(),
-            ],
-            'figure' => $this->attachmentModel($bem)->data(),
-        ]);
+        return apply_filters(self::FILTER_DATA, $data);
     }
 
     /**

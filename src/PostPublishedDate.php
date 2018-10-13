@@ -58,9 +58,11 @@ final class PostPublishedDate implements Model
          * @param array $data The model.
          */
         return apply_filters(self::FILTER_DATA, [
-            'label' => __('Published On', 'wordpress-model'),
-            'attributes' => [
-                'class' => $containerClass->value(),
+            'container' => [
+                'text' => __('Published On', 'wordpress-model'),
+                'attributes' => [
+                    'class' => $containerClass->value(),
+                ],
             ],
             'link' => [
                 'attributes' => [
@@ -69,7 +71,7 @@ final class PostPublishedDate implements Model
                 ],
             ],
             'time' => [
-                'label' => get_the_date('', $this->post),
+                'date' => get_the_date('', $this->post),
                 'attributes' => [
                     'datetime' => get_the_time('c', $this->post),
                     'title' => get_the_date('l, F j, Y g:i a', $this->post),

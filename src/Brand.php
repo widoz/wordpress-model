@@ -64,15 +64,19 @@ final class Brand implements Model
         $linkClass = new ClassAttribute(new BemPrefixed('brand', 'link'));
         $descriptionClass = new ClassAttribute(new BemPrefixed('brand', 'description'));
 
+        $attachmentModel = $this->attachmentModel(new BemPrefixed('brand-logo'), $attachmentId);
+
         /**
          * Filter Data
          *
          * @param array $data The data for the template to filter.
          */
         return apply_filters(self::FILTER_DATA, [
-            'name' => get_bloginfo('name'),
-            'attributes' => [
-                'class' => $class->value(),
+            'container' => [
+                'name' => get_bloginfo('name'),
+                'attributes' => [
+                    'class' => $class->value(),
+                ],
             ],
             'link' => [
                 'attributes' => [
@@ -82,14 +86,14 @@ final class Brand implements Model
                 ],
             ],
             'description' => [
-                'label' => get_bloginfo('description'),
+                'text' => get_bloginfo('description'),
                 'attributes' => [
                     'class' => $descriptionClass->value(),
                 ],
             ],
             'figure' => $attachmentId
-                ? $this->attachmentModel(new BemPrefixed('brand-logo'), $attachmentId)->data()
-                : null,
+                ? $attachmentModel->data()
+                : [],
         ]);
     }
 
