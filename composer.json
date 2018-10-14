@@ -12,6 +12,8 @@
   ],
   "homepage": "https://github.com/widoz/wordpress-theme-model",
   "license": "GPL-2.0-only",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "authors": [
     {
       "name": "Guido Scialfa",
