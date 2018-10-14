@@ -115,10 +115,6 @@ class AttachmentImageTest extends TestCase
      */
     public function testInvalidAttachmentTypeExceptionIsThrownIfAttachmentIsntImage()
     {
-        Functions\expect('wp_get_attachment_caption')
-            ->once()
-            ->andReturn('Caption');
-
         Functions\expect('wp_attachment_is_image')
             ->once()
             ->andReturn(false);
