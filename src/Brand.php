@@ -71,12 +71,7 @@ final class Brand implements Model
 
         $attachmentModel = $this->attachmentModel(new BemPrefixed('brand-logo'), $attachmentId);
 
-        /**
-         * Filter Data
-         *
-         * @param array $data The data for the template to filter.
-         */
-        return apply_filters(self::FILTER_DATA, [
+        $data = [
             'name' => get_bloginfo('name'),
             'container' => [
                 'attributes' => [
@@ -96,10 +91,16 @@ final class Brand implements Model
                     'class' => $descriptionClass->value(),
                 ],
             ],
-            'image' => $attachmentId
-                ? $attachmentModel->data()
-                : [],
-        ]);
+        ];
+
+        $attachmentId and $data += $attachmentModel->data();
+
+        /**
+         * Filter Data
+         *
+         * @param array $data The data for the template to filter.
+         */
+        return apply_filters(self::FILTER_DATA, $data);
     }
 
     /**
