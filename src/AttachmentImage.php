@@ -24,7 +24,6 @@ use WordPressModel\Exception\InvalidAttachmentType;
 final class AttachmentImage implements Model
 {
     public const FILTER_DATA = 'wordpressmodel.attachment_image';
-    public const FILTER_CAPTION = 'wordpressmodel.attachment_image_caption';
     public const FILTER_ALT = 'wordpressmodel.attachment_image_alt';
 
     /**
@@ -44,6 +43,8 @@ final class AttachmentImage implements Model
 
     /**
      * FigureImage constructor
+     *
+     * TODO Use \WP_Post instead of an attachment id
      *
      * @param int $attachmentId
      * @param mixed $attachmentSize
@@ -69,10 +70,6 @@ final class AttachmentImage implements Model
             $this->bem->block(),
             'image'
         ));
-        $captionAttributeClass = new ClassAttribute(new BemPrefixed(
-            $this->bem->block(),
-            'caption'
-        ));
 
         /**
          * Figure Image Data
@@ -85,12 +82,6 @@ final class AttachmentImage implements Model
                     'url' => $this->attachmentUrl(),
                     'class' => $imageAttributeClass->value(),
                     'alt' => $this->alt(),
-                ],
-            ],
-            'caption' => [
-                'text' => $this->caption(),
-                'attributes' => [
-                    'class' => $captionAttributeClass->value(),
                 ],
             ],
         ]);
@@ -108,24 +99,6 @@ final class AttachmentImage implements Model
         }
 
         throw new InvalidAttachmentType('Attachment must be an image.');
-    }
-
-    /**
-     * @return string
-     */
-    private function caption(): string
-    {
-        $caption = (string)wp_get_attachment_caption($this->attachmentId);
-
-        /**
-         * Figure Image Caption Filter
-         *
-         * @param string $caption The caption for the image.
-         * @param int $attachmentId The id of the attachment from which the caption is retrieved.
-         */
-        $caption = apply_filters(self::FILTER_CAPTION, $caption, $this->attachmentId);
-
-        return (string)$caption;
     }
 
     /**

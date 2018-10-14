@@ -67,8 +67,9 @@ final class PostThumbnail implements Model
                         'href' => $this->permalink(),
                     ],
                 ],
-                'figure' => $this->attachmentModel($bem)->data(),
             ];
+
+            $data += $this->figureAttachmentModel($bem)->data();
         }
 
         /**
@@ -98,11 +99,11 @@ final class PostThumbnail implements Model
     /**
      * @param Bem $bem
      *
-     * @return AttachmentImage
+     * @return FigureAttachmentImage
      */
-    private function attachmentModel(Bem $bem): AttachmentImage
+    private function figureAttachmentModel(Bem $bem): FigureAttachmentImage
     {
-        return new AttachmentImage(
+        return new FigureAttachmentImage(
             get_post_thumbnail_id($this->post),
             $this->attachmentSize,
             $bem

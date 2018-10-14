@@ -96,7 +96,7 @@ final class Brand implements Model
                     'class' => $descriptionClass->value(),
                 ],
             ],
-            'figure' => $attachmentId
+            'image' => $attachmentId
                 ? $attachmentModel->data()
                 : [],
         ]);

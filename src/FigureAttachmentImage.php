@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace WordPressModel;
 
 use Widoz\Bem\Bem;
+use Widoz\Bem\BemPrefixed;
 use WordPressModel\Attribute\ClassAttribute;
 
 /**
@@ -22,7 +23,8 @@ use WordPressModel\Attribute\ClassAttribute;
  */
 class FigureAttachmentImage implements Model
 {
-    public const FILTER_DATA = 'wordpressmodel.figure';
+    public const FILTER_DATA = 'wordpressmodel.figure_attachment_image';
+    public const FILTER_CAPTION = 'wordpressmodel.figcaption';
 
     /**
      * @var mixed
@@ -63,24 +65,33 @@ class FigureAttachmentImage implements Model
     public function data(): array
     {
         $figureAttributeClass = new ClassAttribute($this->bem);
+        $captionAttributeClass = new ClassAttribute(new BemPrefixed(
+            $this->bem->block(),
+            'caption'
+        ));
 
-        list($image, $caption) = $this->imageData();
-
-        return apply_filters(self::FILTER_DATA, [
-            'figure' => [
-                'attributes' => [
-                    'class' => $figureAttributeClass->value(),
+        return apply_filters(
+            self::FILTER_DATA,
+            [
+                'figure' => [
+                    'attributes' => [
+                        'class' => $figureAttributeClass->value(),
+                    ],
                 ],
-            ],
-            'image' => $image,
-            'caption' => $caption,
-        ]);
+                'figcaption' => [
+                    'text' => $this->caption(),
+                    'attributes' => [
+                        'class' => $captionAttributeClass->value(),
+                    ],
+                ],
+            ] + $this->attachmentModel()->data()
+        );
     }
 
     /**
-     * @return array
+     * @return AttachmentImage
      */
-    private function imageData(): array
+    private function attachmentModel(): AttachmentImage
     {
         $attachmentImage = new AttachmentImage(
             $this->attachmentId,
@@ -88,11 +99,24 @@ class FigureAttachmentImage implements Model
             $this->bem
         );
 
-        $imageData = $attachmentImage->data();
+        return $attachmentImage;
+    }
 
-        return [
-            $imageData['image'] ?? '',
-            $imageData['caption'] ?? '',
-        ];
+    /**
+     * @return string
+     */
+    private function caption(): string
+    {
+        $caption = (string)wp_get_attachment_caption($this->attachmentId);
+
+        /**
+         * Figure Image Caption Filter
+         *
+         * @param string $caption The caption for the image.
+         * @param int $attachmentId The id of the attachment from which the caption is retrieved.
+         */
+        $caption = apply_filters(self::FILTER_CAPTION, $caption, $this->attachmentId);
+
+        return (string)$caption;
     }
 }

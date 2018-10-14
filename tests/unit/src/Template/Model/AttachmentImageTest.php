@@ -12,7 +12,6 @@
 namespace WordPressModel\Tests\Unit\Model;
 
 use Brain\Monkey\Functions;
-use Brain\Monkey\Filters;
 use Widoz\Bem\BemPrefixed;
 use WordPressModel\AttachmentImage;
 use WordPressModel\Exception\InvalidAttachmentType;
@@ -20,7 +19,7 @@ use WordPressModel\Tests\TestCase;
 
 class AttachmentImageTest extends TestCase
 {
-    public function testFigureImageData()
+    public function testAttachmentImageData()
     {
         $postMock = \Mockery::mock('WP_Post');
         $postMock->ID = 1;
@@ -35,10 +34,6 @@ class AttachmentImageTest extends TestCase
             ->with(1, 'post-thumbnail')
             ->andReturn('image_url');
 
-        Functions\expect('wp_get_attachment_caption')
-            ->once()
-            ->andReturn('Caption');
-
         Functions\expect('get_post_meta')
             ->once()
             ->with(1, '_wp_attachment_image_alt', true)
@@ -49,12 +44,6 @@ class AttachmentImageTest extends TestCase
         $response = $sut->data();
 
         self::assertEquals([
-            'caption' => [
-                'text' => 'Caption',
-                'attributes' => [
-                    'class' => 'block__caption',
-                ],
-            ],
             'image' => [
                 'attributes' => [
                     'url' => 'image_url',
@@ -63,50 +52,6 @@ class AttachmentImageTest extends TestCase
                 ],
             ],
         ], $response);
-    }
-
-    public function testExceptionIsThrowBecauseAttachmentIsntAnImage()
-    {
-        Functions\when('wp_attachment_is_image')
-            ->justReturn(false);
-
-        self::expectException(InvalidAttachmentType::class);
-
-        $sut = new AttachmentImage(1, 'post-thumbnail', new BemPrefixed('block'));
-        $sut->data();
-    }
-
-    public function testThatCaptionFilterIsApplied()
-    {
-        Functions\when('absint')
-            ->justReturn(1);
-
-        Functions\when('esc_html')
-            ->returnArg(1);
-
-        Functions\when('WordPressModel\\Functions\\ksesPost')
-            ->returnArg(1);
-
-        Functions\expect('wp_attachment_is_image')
-            ->once()
-            ->andReturn(true);
-
-        Functions\expect('wp_get_attachment_image_url')
-            ->once()
-            ->andReturn('image_url');
-
-        Functions\expect('get_post_meta')
-            ->once()
-            ->andReturn('');
-
-        Functions\expect('wp_get_attachment_caption')
-            ->once()
-            ->andReturn('Caption');
-
-        $sut = new AttachmentImage(1, '', new BemPrefixed('block'));
-        $sut->data();
-
-        self::assertTrue(Filters\applied(AttachmentImage::FILTER_CAPTION) > 0);
     }
 
     /**
