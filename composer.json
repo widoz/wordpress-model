@@ -1,19 +1,17 @@
 {
   "name": "widoz/wordpress-model",
   "type": "wordpress-plugin",
-  "description": "",
+  "description": "Reusable models for your themes or plugins",
   "keywords": [
     "wordpress",
     "plugin",
+    "themes",
+    "template",
     "mvc",
-    "psr",
-    "autoloader",
-    "composer"
+    "psr"
   ],
   "homepage": "https://github.com/widoz/wordpress-theme-model",
   "license": "GPL-2.0-only",
-  "minimum-stability": "dev",
-  "prefer-stable": true,
   "authors": [
     {
       "name": "Guido Scialfa",
@@ -48,5 +46,10 @@
     "phpunit/phpunit": "~6.5.5",
     "brain/monkey": "dev-master",
     "inpsyde/php-coding-standards": "^0.13.3"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-develop": "0.1.x-dev"
+    }
   }
 }

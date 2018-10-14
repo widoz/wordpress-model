@@ -5,8 +5,8 @@
  * Plugin URI: http://github.com/widoz/wordpress-model
  * Author: Guido Scialfa
  * Author URI: https://guidoscialfa.com
- * Description: Collection of Models to reuse within your themes or plugins with your favorite template engine
- * Version: 1.0.0-beta
+ * Description: Reusable models for your themes or plugins
+ * Version: 0.1.0
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: wordpress-model
