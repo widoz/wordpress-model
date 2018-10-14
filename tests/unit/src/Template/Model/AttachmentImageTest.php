@@ -52,7 +52,7 @@ class AttachmentImageTest extends TestCase
             'caption' => [
                 'text' => 'Caption',
                 'attributes' => [
-                    'class' => 'block',
+                    'class' => 'block__caption',
                 ],
             ],
             'image' => [

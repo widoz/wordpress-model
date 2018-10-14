@@ -69,6 +69,10 @@ final class AttachmentImage implements Model
             $this->bem->block(),
             'image'
         ));
+        $captionAttributeClass = new ClassAttribute(new BemPrefixed(
+            $this->bem->block(),
+            'caption'
+        ));
 
         /**
          * Figure Image Data
@@ -86,7 +90,7 @@ final class AttachmentImage implements Model
             'caption' => [
                 'text' => $this->caption(),
                 'attributes' => [
-                    'class' => $this->bem->value(),
+                    'class' => $captionAttributeClass->value(),
                 ],
             ],
         ]);
