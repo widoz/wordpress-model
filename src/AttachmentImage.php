@@ -108,6 +108,7 @@ final class AttachmentImage implements Model
                 'src' => '',
                 'width' => '',
                 'height' => '',
+                'icon' => false,
             ];
         }
 
