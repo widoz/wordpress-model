@@ -69,7 +69,7 @@ final class Brand implements Model
         $linkClass = new ClassAttribute(new BemPrefixed('brand', 'link'));
         $descriptionClass = new ClassAttribute(new BemPrefixed('brand', 'description'));
 
-        $attachmentModel = $this->attachmentModel(new BemPrefixed('brand-logo'), $attachmentId);
+        $attachmentModel = $this->attachmentModel(new BemPrefixed('brand'), $attachmentId);
 
         $data = [
             'name' => get_bloginfo('name'),
@@ -93,6 +93,7 @@ final class Brand implements Model
             ],
         ];
 
+        /** @noinspection AdditionOperationOnArraysInspection */
         $attachmentId and $data += $attachmentModel->data();
 
         /**
