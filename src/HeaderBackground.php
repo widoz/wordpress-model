@@ -43,12 +43,6 @@ final class HeaderBackground implements Model, NeedAsset
                 ],
             ],
             'markup' => $this->hasVideo() ? get_custom_header_markup() : '',
-            'link' => [
-                'attributes' => [
-                    'href' => home_url('/'),
-                    'class' => (new BemPrefixed('header-thumbnail', 'link'))->value(),
-                ],
-            ],
             'image' => [
                 'markup' => $this->hasImage() ? $this->headerImageMarkup() : '',
             ],
@@ -60,7 +54,7 @@ final class HeaderBackground implements Model, NeedAsset
      */
     public function requireAsset(): void
     {
-        if ($this->hasVideo() && wp_script_is('wp_custom-header', 'registered')) {
+        if ($this->hasVideo() && wp_script_is('wp-custom-header', 'registered')) {
             wp_enqueue_script('wp-custom-header');
             wp_localize_script(
                 'wp-custom-header',
