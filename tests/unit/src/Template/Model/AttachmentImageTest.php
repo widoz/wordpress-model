@@ -36,6 +36,7 @@ class AttachmentImageTest extends TestCase
                 'image_url',
                 100,
                 100,
+                true,
             ]);
 
         Functions\expect('get_post_meta')

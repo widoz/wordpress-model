@@ -22,10 +22,14 @@ class FigureAttachmentImageTest extends TestCase
             ->with(1)
             ->andReturn(true);
 
-        Functions\expect('wp_get_attachment_image_url')
+        Functions\expect('wp_get_attachment_image_src')
             ->once()
-            ->with(1, 'post-thumbnail')
-            ->andReturn('image_url');
+            ->andReturn([
+                'image_url',
+                50,
+                50,
+                true,
+            ]);
 
         Functions\expect('wp_get_attachment_caption')
             ->once()
@@ -57,6 +61,8 @@ class FigureAttachmentImageTest extends TestCase
                     'url' => 'image_url',
                     'class' => 'block__image',
                     'alt' => 'alt',
+                    'width' => 50,
+                    'height' => 50,
                 ],
             ],
         ], $response);
@@ -74,9 +80,14 @@ class FigureAttachmentImageTest extends TestCase
             ->once()
             ->andReturn(true);
 
-        Functions\expect('wp_get_attachment_image_url')
+        Functions\expect('wp_get_attachment_image_src')
             ->once()
-            ->andReturn('image_url');
+            ->andReturn([
+                'image_url',
+                50,
+                50,
+                true,
+            ]);
 
         Functions\expect('get_post_meta')
             ->once()
