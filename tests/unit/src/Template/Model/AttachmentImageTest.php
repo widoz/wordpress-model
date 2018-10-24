@@ -29,10 +29,14 @@ class AttachmentImageTest extends TestCase
             ->with(1)
             ->andReturn(true);
 
-        Functions\expect('wp_get_attachment_image_url')
+        Functions\expect('wp_get_attachment_image_src')
             ->once()
             ->with(1, 'post-thumbnail')
-            ->andReturn('image_url');
+            ->andReturn([
+                'image_url',
+                100,
+                100,
+            ]);
 
         Functions\expect('get_post_meta')
             ->once()
@@ -49,6 +53,8 @@ class AttachmentImageTest extends TestCase
                     'url' => 'image_url',
                     'class' => 'block__image',
                     'alt' => 'alt',
+                    'width' => 100,
+                    'height' => 100,
                 ],
             ],
         ], $response);

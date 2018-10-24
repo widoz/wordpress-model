@@ -71,6 +71,8 @@ final class AttachmentImage implements Model
             'image'
         ));
 
+        $imageSource = $this->attachmentSource();
+
         /**
          * Figure Image Data
          *
@@ -79,26 +81,42 @@ final class AttachmentImage implements Model
         return apply_filters(self::FILTER_DATA, [
             'image' => [
                 'attributes' => [
-                    'url' => $this->attachmentUrl(),
+                    'url' => $imageSource->src,
                     'class' => $imageAttributeClass->value(),
                     'alt' => $this->alt(),
+                    'width' => $imageSource->width,
+                    'height' => $imageSource->height,
                 ],
             ],
         ]);
     }
 
     /**
-     * @return string
+     * @return \stdClass
      *
      * @throws InvalidAttachmentType If the attachment isn't an image.
      */
-    private function attachmentUrl(): string
+    private function attachmentSource(): \stdClass
     {
-        if (wp_attachment_is_image($this->attachmentId)) {
-            return wp_get_attachment_image_url($this->attachmentId, $this->attachmentSize);
+        if (!wp_attachment_is_image($this->attachmentId)) {
+            throw new InvalidAttachmentType('Attachment must be an image.');
         }
 
-        throw new InvalidAttachmentType('Attachment must be an image.');
+        $imageSource = wp_get_attachment_image_src($this->attachmentId, $this->attachmentSize);
+        if (!$imageSource) {
+            return (object)[
+                'src' => '',
+                'width' => '',
+                'height' => '',
+            ];
+        }
+
+        $imageSource = array_combine(
+            ['src', 'width', 'height', 'icon'],
+            $imageSource
+        );
+
+        return (object)$imageSource;
     }
 
     /**
