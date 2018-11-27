@@ -25,7 +25,11 @@ class ArchiveHeaderDataTest extends TestCase
         Monkey\Functions\when('WordPressModel\\Functions\\stringToBool')
             ->justReturn(true);
 
+        Monkey\Functions\when('get_the_archive_title')
+            ->justReturn('');
+
         Monkey\Functions\expect('get_option')
+            ->once()
             ->with('page_for_posts')
             ->andReturn(1);
 
@@ -65,6 +69,7 @@ class ArchiveHeaderDataTest extends TestCase
 
         Monkey\Functions\expect('get_option')
             ->once()
+            ->with('page_for_posts')
             ->andReturn(1);
 
         Monkey\Functions\expect('get_the_archive_description')
