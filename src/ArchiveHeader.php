@@ -71,10 +71,9 @@ final class ArchiveHeader implements Model
      */
     private function title(): string
     {
-        // Set the title but if not home change it with the current archive title.
-        $title = get_the_title((int)get_option('page_for_posts'));
-        if (!is_home()) {
-            $title = get_the_archive_title();
+        $title = get_the_archive_title();
+        if (is_home()) {
+            $title = get_the_title((int)get_option('page_for_posts'));
         }
 
         return $title;
