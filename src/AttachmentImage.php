@@ -25,6 +25,7 @@ final class AttachmentImage implements Model
 {
     public const FILTER_DATA = 'wordpressmodel.attachment_image';
     public const FILTER_ALT = 'wordpressmodel.attachment_image_alt';
+    public const META_DATA_POST_KEY = '_wp_attachment_image_alt';
 
     /**
      * @var
@@ -125,7 +126,7 @@ final class AttachmentImage implements Model
      */
     private function alt(): string
     {
-        $alt = get_post_meta($this->attachmentId, '_wp_attachment_image_alt', true);
+        $alt = get_post_meta($this->attachmentId, self::META_DATA_POST_KEY, true);
 
         /**
          * Filter Alt Attribute Value
