@@ -25,7 +25,8 @@ final class AttachmentImage implements Model
 {
     public const FILTER_DATA = 'wordpressmodel.attachment_image';
     public const FILTER_ALT = 'wordpressmodel.attachment_image_alt';
-    public const META_DATA_POST_KEY = '_wp_attachment_image_alt';
+
+    private const META_DATA_POST_KEY = '_wp_attachment_image_alt';
 
     /**
      * @var
