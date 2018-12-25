@@ -17,17 +17,37 @@ class ImplodeArrayTest extends TestCase
 
     public function testForAttributeStyle()
     {
-        Functions\expect('wp_is_numeric_array')
-            ->once()
-            ->andReturn(false);
-
         $sut = new ImplodeArray([
             'key' => 'value',
-            'key2' => 'value2'
+            'key2' => 'value2',
         ]);
 
         $string = $sut->forAttributeStyle();
 
         self::assertSame('key:value;key2:value2', $string);
+    }
+
+    public function testForAttributeStyleProduceEmptyStringIfArrayIsNotAssociative()
+    {
+        $sut = new ImplodeArray([
+            'value',
+            'value2',
+        ]);
+
+        $string = $sut->forAttributeStyle();
+
+        self::assertSame('', $string);
+    }
+
+    public function testForAttributeStyleProduceEmptyStringIfArrayIsAssociativeButUseNumbers()
+    {
+        $sut = new ImplodeArray([
+            '1' => 'value',
+            '2' => 'value2',
+        ]);
+
+        $string = $sut->forAttributeStyle();
+
+        self::assertSame('', $string);
     }
 }

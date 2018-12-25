@@ -79,6 +79,8 @@ class ImplodeArray
      */
     private function isNumeric(array $data): bool
     {
-        return wp_is_numeric_array($data);
+        $numericArray = array_filter(array_keys($data), 'is_numeric');
+
+        return count($numericArray) > 0;
     }
 }
