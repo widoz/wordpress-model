@@ -1,7 +1,7 @@
 <?php # -*- coding: utf-8 -*-
 
 /*
- * This file is part of the WordPress Theme Model Theme package.
+ * This file is part of the WordPress Theme Model package.
  *
  * (c) Guido Scialfa <dev@guidoscialfa.com>
  *
