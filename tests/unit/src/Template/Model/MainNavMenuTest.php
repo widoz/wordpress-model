@@ -12,7 +12,7 @@
 namespace WordPressModel\Tests\Unit\Model;
 
 use Brain\Monkey\Functions;
-use WordPressModel\MainNavMenu;
+use WordPressModel\Model\MainNavMenu;
 use WordPressModel\Tests\TestCase;
 
 class MainNavMenuTest extends TestCase

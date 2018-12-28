@@ -13,7 +13,7 @@ namespace WordPressModel\Tests\Unit\Template\Model;
 
 use \Brain\Monkey\Functions;
 use \Brain\Monkey\Filters;
-use WordPressModel\Terms;
+use WordPressModel\Model\Terms;
 use WordPressModel\Tests\TestCase;
 
 class TermsTest extends TestCase

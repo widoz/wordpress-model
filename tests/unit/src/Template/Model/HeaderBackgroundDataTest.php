@@ -12,7 +12,7 @@
 namespace WordPressModel\Tests\Unit\Model;
 
 use Brain\Monkey\Functions;
-use WordPressModel\HeaderBackground;
+use WordPressModel\Model\HeaderBackground;
 use WordPressModel\Tests\TestCase;
 
 class HeaderBackgroundDataTest extends TestCase

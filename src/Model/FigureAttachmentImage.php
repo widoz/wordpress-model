@@ -1,7 +1,7 @@
 <?php # -*- coding: utf-8 -*-
 
 /*
- * This file is part of the wordpress-model package.
+ * This file is part of the WordPress Model package.
  *
  * (c) Guido Scialfa <dev@guidoscialfa.com>
  *
@@ -10,7 +10,7 @@
  */
 declare(strict_types=1);
 
-namespace WordPressModel;
+namespace WordPressModel\Model;
 
 use Widoz\Bem\Bem;
 use Widoz\Bem\BemPrefixed;

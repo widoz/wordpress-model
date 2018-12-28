@@ -11,7 +11,7 @@
 
 namespace WordPressModel\Tests\Unit\Attribute;
 
-use WordPressModel\Attribute\IdAttribute;
+use WordPressModel\Model\Attribute\IdAttribute;
 use WordPressModel\Tests\TestCase;
 
 class IdAttributeTest extends TestCase

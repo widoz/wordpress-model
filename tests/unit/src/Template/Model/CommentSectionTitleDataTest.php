@@ -13,7 +13,7 @@ namespace WordPressModel\Tests\Unit\Model;
 
 use PHPUnit\Framework\Constraint\Attribute;
 use Widoz\Bem\Bem;
-use WordPressModel\CommentSectionTitle;
+use WordPressModel\Model\CommentSectionTitle;
 use PHPUnit\Framework\TestCase;
 use \Brain\Monkey\Functions;
 

@@ -11,15 +11,17 @@
 
 declare(strict_types=1);
 
-namespace WordPressModel;
+namespace WordPressModel\Model;
 
 /**
- * Interface NeedAsset
+ * Class Model
  */
-interface NeedAsset
+interface Model
 {
     /**
-     * @return void
+     * Data
+     *
+     * @return array The list of elements to bind in the view
      */
-    public function requireAsset(): void;
+    public function data(): array;
 }

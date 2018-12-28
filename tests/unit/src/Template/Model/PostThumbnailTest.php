@@ -12,8 +12,8 @@
 namespace WordPressModel\Tests\Unit\Model;
 
 use \Brain\Monkey\Functions;
-use WordPressModel\FigureAttachmentImage;
-use WordPressModel\PostThumbnail;
+use WordPressModel\Model\FigureAttachmentImage;
+use WordPressModel\Model\PostThumbnail;
 use WordPressModel\Tests\TestCase;
 
 class PostThumbnailTest extends TestCase

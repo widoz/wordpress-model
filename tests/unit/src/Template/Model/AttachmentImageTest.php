@@ -13,8 +13,7 @@ namespace WordPressModel\Tests\Unit\Model;
 
 use Brain\Monkey\Functions;
 use Widoz\Bem\BemPrefixed;
-use WordPressModel\AttachmentImage;
-use WordPressModel\Exception\InvalidAttachmentType;
+use WordPressModel\Model\AttachmentImage;
 use WordPressModel\Tests\TestCase;
 
 class AttachmentImageTest extends TestCase

@@ -11,7 +11,7 @@
 
 namespace WordPressModel\Tests\Unit\Model;
 
-use WordPressModel\Author;
+use WordPressModel\Model\Author;
 use WordPressModel\Tests\TestCase;
 
 /**

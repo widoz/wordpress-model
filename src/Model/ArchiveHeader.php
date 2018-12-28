@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace WordPressModel;
+namespace WordPressModel\Model;
 
 use Widoz\Bem\BemPrefixed;
 use WordPressModel\Attribute\ClassAttribute;
@@ -24,6 +24,27 @@ final class ArchiveHeader implements Model
     public const FILTER_DATA = 'wordpressmodel.archive_header';
 
     /**
+     * @var Title
+     */
+    private $title;
+
+    /**
+     * @var Title
+     */
+    private $description;
+
+    /**
+     * ArchiveHeader constructor
+     * @param Title $title
+     * @param Description $description
+     */
+    public function __construct(Title $title, Description $description)
+    {
+        $this->title = $title;
+        $this->description = $description;
+    }
+
+    /**
      * @inheritdoc
      */
     public function data(): array
@@ -31,6 +52,14 @@ final class ArchiveHeader implements Model
         $headerClassAttribute = new ClassAttribute(new BemPrefixed('archive', 'header'));
         $titleClassAttribute = new ClassAttribute(new BemPrefixed('archive', 'title'));
         $descriptionClassAttribute = new ClassAttribute(new BemPrefixed('archive', 'description'));
+
+        $title = $this->title->forArchive();
+        $description = $this->description->forArchive();
+
+        if (is_home()) {
+            $title = $this->title->forHome();
+            $description = $this->description->forHome();
+        }
 
         /**
          * Archive Template Data
@@ -44,38 +73,17 @@ final class ArchiveHeader implements Model
                 ],
             ],
             'title' => [
-                'text' => $this->title(),
+                'text' => $title,
                 'attributes' => [
                     'class' => $titleClassAttribute->value(),
                 ],
             ],
             'description' => [
-                'text' => $this->description(),
+                'text' => $description,
                 'attributes' => [
                     'class' => $descriptionClassAttribute->value(),
                 ],
             ],
         ]);
-    }
-
-    /**
-     * @return string The archive description or empty string if the page is the page for posts.
-     */
-    private function description(): string
-    {
-        return is_home() ? '' : get_the_archive_description();
-    }
-
-    /**
-     * @return string The archive Title
-     */
-    private function title(): string
-    {
-        $title = get_the_archive_title();
-        if (is_home()) {
-            $title = get_the_title((int)get_option('page_for_posts'));
-        }
-
-        return $title;
     }
 }

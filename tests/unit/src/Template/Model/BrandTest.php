@@ -12,7 +12,7 @@
 namespace WordPressModel\Tests\Unit\Model;
 
 use Brain\Monkey\Functions;
-use WordPressModel\Brand;
+use WordPressModel\Model\Brand;
 use WordPressModel\Tests\TestCase;
 
 class BrandTest extends TestCase

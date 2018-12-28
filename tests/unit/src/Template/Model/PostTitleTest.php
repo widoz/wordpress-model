@@ -12,7 +12,7 @@
 namespace WordPressModel\Tests\Unit\Model;
 
 use \Brain\Monkey\Functions;
-use WordPressModel\PostTitle;
+use WordPressModel\Model\PostTitle;
 use WordPressModel\Tests\TestCase;
 
 class PostTitleTest extends TestCase

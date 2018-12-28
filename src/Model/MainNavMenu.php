@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace WordPressModel;
+namespace WordPressModel\Model;
 
 use WordPressModel\Attribute\ClassAttribute;
 use WordPressModel\Attribute\IdAttribute;

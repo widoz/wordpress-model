@@ -6,8 +6,7 @@ namespace WordPressModel\Tests\Unit\Template\Model;
 use Brain\Monkey\Functions;
 use Brain\Monkey\Filters;
 use Widoz\Bem\BemPrefixed;
-use WordPressModel\AttachmentImage;
-use WordPressModel\FigureAttachmentImage;
+use WordPressModel\Model\FigureAttachmentImage;
 use WordPressModel\Tests\TestCase;
 
 class FigureAttachmentImageTest extends TestCase
