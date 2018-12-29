@@ -6,7 +6,7 @@
  * Author: Guido Scialfa
  * Author URI: https://guidoscialfa.com
  * Description: Reusable models for your themes or plugins
- * Version: 0.1.0
+ * Version: 0.2.0
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: wordpress-model
