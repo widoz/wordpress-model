@@ -10,7 +10,7 @@ use WordPressModel\Tests\TestCase;
 
 class ArchiveDescriptionTest extends TestCase
 {
-    public function testsInstance()
+    public function testInstance()
     {
         $description = \Mockery::mock(Description::class);
         $sut = new ArchiveDescription($description);
