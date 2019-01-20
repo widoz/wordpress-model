@@ -13,13 +13,12 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
-use WordPressModel\Attribute\ClassAttribute;
-use Widoz\Bem\BemPrefixed;
+use Widoz\Bem\Factory;
 
 /**
  * Post Published Date Model
  */
-final class PostPublishedDate implements Model
+final class PostPublishedDate implements FullFilledModel
 {
     public const FILTER_DATA = 'wordpressmodel.post_published_date';
 
@@ -43,14 +42,12 @@ final class PostPublishedDate implements Model
      */
     public function data(): array
     {
+        $bem = Factory::createServiceForStandard('article-published-date');
         $archiveLink = get_day_link(
             get_the_time('Y', $this->post),
             get_the_time('m', $this->post),
             get_the_time('d', $this->post)
         );
-
-        $containerClass = new ClassAttribute(new BemPrefixed('article-published-date'));
-        $archiveLinkClass = new ClassAttribute(new BemPrefixed('article-published-date', 'link'));
 
         /**
          * Post Published Data
@@ -58,16 +55,18 @@ final class PostPublishedDate implements Model
          * @param array $data The model.
          */
         return apply_filters(self::FILTER_DATA, [
-            'text' => __('Published On', 'wordpress-model'),
             'container' => [
                 'attributes' => [
-                    'class' => $containerClass->value(),
+                    'class' => $bem,
                 ],
+            ],
+            'title' => [
+                'text' => __('Published On', 'wordpress-model'),
             ],
             'link' => [
                 'attributes' => [
                     'href' => $archiveLink,
-                    'class' => $archiveLinkClass->value(),
+                    'class' => $bem->forElement('link'),
                 ],
             ],
             'time' => [

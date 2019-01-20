@@ -13,13 +13,12 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
-use Widoz\Bem\BemPrefixed;
-use WordPressModel\Attribute\ClassAttribute;
+use Widoz\Bem\Factory;
 
 /**
  * Archive Header Model
  */
-final class ArchiveHeader implements Model
+final class ArchiveHeader implements FullFilledModel
 {
     public const FILTER_DATA = 'wordpressmodel.archive_header';
 
@@ -49,9 +48,7 @@ final class ArchiveHeader implements Model
      */
     public function data(): array
     {
-        $headerClassAttribute = new ClassAttribute(new BemPrefixed('archive', 'header'));
-        $titleClassAttribute = new ClassAttribute(new BemPrefixed('archive', 'title'));
-        $descriptionClassAttribute = new ClassAttribute(new BemPrefixed('archive', 'description'));
+        $bem = Factory::createServiceForStandard('archive-header');
 
         $title = $this->title->forArchive();
         $description = $this->description->forArchive();
@@ -69,19 +66,19 @@ final class ArchiveHeader implements Model
         return apply_filters(self::FILTER_DATA, [
             'container' => [
                 'attributes' => [
-                    'class' => $headerClassAttribute->value(),
+                    'class' => $bem,
                 ],
             ],
             'title' => [
                 'text' => $title,
                 'attributes' => [
-                    'class' => $titleClassAttribute->value(),
+                    'class' => $bem->forElement('title'),
                 ],
             ],
             'description' => [
                 'text' => $description,
                 'attributes' => [
-                    'class' => $descriptionClassAttribute->value(),
+                    'class' => $bem->forElement('description'),
                 ],
             ],
         ]);

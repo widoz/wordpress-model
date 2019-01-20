@@ -13,13 +13,12 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
-use WordPressModel\Attribute\ClassAttribute;
-use Widoz\Bem\BemPrefixed;
+use Widoz\Bem\Factory;
 
 /**
  * Author Model
  */
-final class Author implements Model
+final class Author implements FullFilledModel
 {
     public const FILTER_DATA = 'wordpressmodel.post_author';
 
@@ -44,23 +43,27 @@ final class Author implements Model
     public function data(): array
     {
         $data = [];
+        $bem = Factory::createServiceForStandard('author');
 
         if ($this->user->exists()) {
             $authorPostsUrl = get_author_posts_url($this->user->ID);
-            $classAttribute = new ClassAttribute(new BemPrefixed('author'));
-            $linkClassAttribute = new BemPrefixed('author', 'posts-page');
 
             $data += [
-                'name' => $this->user->display_name,
                 'container' => [
                     'attributes' => [
-                        'class' => $classAttribute->value(),
+                        'class' => $bem,
+                    ],
+                ],
+                'name' => [
+                    'text' => $this->user->display_name,
+                    'attributes' => [
+                        'class' => $bem->forElement('name'),
                     ],
                 ],
                 'link' => [
                     'attributes' => [
                         'href' => $authorPostsUrl,
-                        'class' => $linkClassAttribute->value(),
+                        'class' => $bem->forElement('posts-page'),
                     ],
                 ],
             ];

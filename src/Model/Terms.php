@@ -13,15 +13,19 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
-use WordPressModel\Attribute\ClassAttribute;
-use Widoz\Bem\BemPrefixed;
+use Widoz\Bem\Service as ServiceBem;
 
 /**
  * Post Terms Model
  */
-final class Terms implements Model
+final class Terms implements PartialModel
 {
     public const FILTER_DATA = 'wordpressmodel.terms';
+
+    /**
+     * @var ServiceBem
+     */
+    private $bem;
 
     /**
      * @var string
@@ -39,14 +43,20 @@ final class Terms implements Model
     private $args;
 
     /**
-     * Terms constructor.
-     *
+     * Terms constructor
+     * @param ServiceBem $bem
      * @param string $taxonomy
      * @param string $filter
      * @param array $args
      */
-    public function __construct(string $taxonomy, string $filter = '', array $args = [])
-    {
+    public function __construct(
+        ServiceBem $bem,
+        string $taxonomy,
+        string $filter = '',
+        array $args = []
+    ) {
+
+        $this->bem = $bem;
         $this->taxonomy = $taxonomy;
         $this->filter = $filter;
         $this->args = $args;
@@ -85,8 +95,6 @@ final class Terms implements Model
     private function terms(): array
     {
         $items = [];
-        $termClass = new ClassAttribute(new BemPrefixed('term'));
-        $tagLinkClass = new ClassAttribute(new BemPrefixed('term', 'link'));
         $terms = get_terms(array_merge($this->args, [
             'taxonomy' => $this->taxonomy,
         ]));
@@ -102,11 +110,11 @@ final class Terms implements Model
             $items[$term->slug] = [
                 'name' => $term->name,
                 'attributes' => [
-                    'class' => $termClass->value(),
+                    'class' => $this->bem->forElement('term'),
                 ],
                 'link' => [
                     'attributes' => [
-                        'class' => $tagLinkClass->value(),
+                        'class' => $this->bem->forElement('link'),
                         'href' => $this->termLink($term),
                     ],
                 ],

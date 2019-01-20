@@ -13,23 +13,34 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
-use WordPressModel\Attribute\ClassAttribute;
-use Widoz\Bem\BemPrefixed;
+use Widoz\Bem\Service as ServiceBem;
 
 /**
  * Comment Section Title Model
  */
-final class CommentSectionTitle implements Model
+final class CommentSectionTitle implements PartialModel
 {
     public const FILTER_DATA = 'wordpressmodel.comments_section_title';
+
+    /**
+     * @var ServiceBem
+     */
+    private $bem;
+
+    /**
+     * CommentSectionTitle constructor
+     * @param ServiceBem $bem
+     */
+    public function __construct(ServiceBem $bem)
+    {
+        $this->bem = $bem;
+    }
 
     /**
      * @return array
      */
     public function data(): array
     {
-        $headingClassAttribute = new ClassAttribute(new BemPrefixed('comments', 'title'));
-
         /**
          * Comment Section Title
          *
@@ -39,7 +50,7 @@ final class CommentSectionTitle implements Model
             'title' => [
                 'text' => $this->title(),
                 'attributes' => [
-                    'class' => $headingClassAttribute->value(),
+                    'class' => $this->bem->forElement('title'),
                 ],
             ],
         ]);

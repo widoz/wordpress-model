@@ -13,15 +13,19 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
-use WordPressModel\Attribute\ClassAttribute;
-use Widoz\Bem\BemPrefixed;
+use Widoz\Bem\Service as ServiceBem;
 
 /**
  * Post Title Model
  */
-final class PostTitle implements Model
+final class PostTitle implements PartialModel
 {
     public const FILTER_DATA = 'wordpressmodel.post_title';
+
+    /**
+     * @var ServiceBem
+     */
+    private $bem;
 
     /**
      * @var \WP_Post
@@ -39,8 +43,9 @@ final class PostTitle implements Model
      * @param \WP_Post $post
      * @param \WP_Query $query
      */
-    public function __construct(\WP_Post $post, \WP_Query $query)
+    public function __construct(ServiceBem $bem, \WP_Post $post, \WP_Query $query)
     {
+        $this->bem = $bem;
         $this->post = $post;
         $this->query = $query;
     }
@@ -53,9 +58,6 @@ final class PostTitle implements Model
         $isSingular = $this->query->is_singular();
         $href = $isSingular ? '' : (string)get_permalink($this->post);
 
-        $titleClassAttribute = new ClassAttribute(new BemPrefixed('article', 'title'));
-        $linkClassAttribute = new ClassAttribute(new BemPrefixed('article', 'link'));
-
         /**
          * Post Title
          *
@@ -66,12 +68,12 @@ final class PostTitle implements Model
             'title' => [
                 'text' => $this->title(),
                 'attributes' => [
-                    'class' => $titleClassAttribute->value(),
+                    'class' => $this->bem->forElement('title'),
                 ],
             ],
             'link' => [
                 'attributes' => [
-                    'class' => $linkClassAttribute->value(),
+                    'class' => $this->bem->forElement('link'),
                     'href' => $href,
                 ],
             ],

@@ -12,19 +12,22 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
-use Widoz\Bem\Bem;
-use Widoz\Bem\BemPrefixed;
-use WordPressModel\Attribute\ClassAttribute;
+use Widoz\Bem\Service as ServiceBem;
 
 /**
  * Class FigureAttachmentImage
  *
  * @author Guido Scialfa <dev@guidoscialfa.com>
  */
-class FigureAttachmentImage implements Model
+class FigureAttachmentImage implements PartialModel
 {
     public const FILTER_DATA = 'wordpressmodel.figure_attachment_image';
     public const FILTER_CAPTION = 'wordpressmodel.figcaption';
+
+    /**
+     * @var ServiceBem
+     */
+    private $bem;
 
     /**
      * @var mixed
@@ -37,26 +40,21 @@ class FigureAttachmentImage implements Model
     private $attachmentId;
 
     /**
-     * @var Bem
-     */
-    private $bem;
-
-    /**
      * FigureImage constructor
      *
      * @param int $attachmentId
      * @param mixed $attachmentSize
-     * @param Bem $bem
+     * @param ServiceBem $bem
      *
      * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
      */
-    public function __construct(int $attachmentId, $attachmentSize, Bem $bem)
+    public function __construct(ServiceBem $bem, int $attachmentId, $attachmentSize)
     {
         // phpcs:enable
 
+        $this->bem = $bem;
         $this->attachmentId = $attachmentId;
         $this->attachmentSize = $attachmentSize;
-        $this->bem = $bem;
     }
 
     /**
@@ -64,24 +62,18 @@ class FigureAttachmentImage implements Model
      */
     public function data(): array
     {
-        $figureAttributeClass = new ClassAttribute($this->bem);
-        $captionAttributeClass = new ClassAttribute(new BemPrefixed(
-            $this->bem->block(),
-            'caption'
-        ));
-
         return apply_filters(
             self::FILTER_DATA,
             [
                 'figure' => [
                     'attributes' => [
-                        'class' => $figureAttributeClass->value(),
+                        'class' => $this->bem->forElement('figure'),
                     ],
                 ],
                 'figcaption' => [
                     'text' => $this->caption(),
                     'attributes' => [
-                        'class' => $captionAttributeClass->value(),
+                        'class' => $this->bem->forElement('caption'),
                     ],
                 ],
             ] + $this->attachmentModel()->data()
@@ -94,9 +86,9 @@ class FigureAttachmentImage implements Model
     private function attachmentModel(): AttachmentImage
     {
         $attachmentImage = new AttachmentImage(
+            $this->bem,
             $this->attachmentId,
-            $this->attachmentSize,
-            $this->bem
+            $this->attachmentSize
         );
 
         return $attachmentImage;

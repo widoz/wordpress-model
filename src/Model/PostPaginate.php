@@ -13,12 +13,13 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
-use Widoz\Bem\BemPrefixed;
+use Widoz\Bem\Factory;
+use Widoz\Bem\Valuable;
 
 /**
  * Paginate Post Model
  */
-final class PostPaginate implements Model
+final class PostPaginate implements FullFilledModel
 {
     public const FILTER_DATA = 'wordpressmodel.post_paginate';
     public const FILTER_PAGINATE_LIST = 'wp_link_pages_link';
@@ -28,6 +29,8 @@ final class PostPaginate implements Model
      */
     public function data(): array
     {
+        $bem = Factory::createServiceForStandard('pagination');
+
         if (!$this->isMultipage()) {
             /**
              * Post Paginate Filter
@@ -49,9 +52,14 @@ final class PostPaginate implements Model
          * @param array $data The post paginate data
          */
         $data = apply_filters(self::FILTER_DATA, [
+            'container' => [
+                'attributes' => [
+                    'class' => $bem,
+                ],
+            ],
             'markup' => wp_link_pages([
                 'echo' => 0,
-                'before' => $this->before(),
+                'before' => $this->before($bem->value()),
                 'after' => $this->after(),
                 'link_before' => $this->linkBefore(),
             ]),
@@ -86,21 +94,20 @@ final class PostPaginate implements Model
      */
     public function makePaginationMarkupClassesBemLike(string $link): string
     {
-        $class = new BemPrefixed('pagination', 'item');
+        $bem = Factory::createServiceForStandard('pagination');
 
-        $link = '<li class="' . sanitize_html_class($class->value()) . '">' . $link . '</li>';
+        $link = '<li class="' . sanitize_html_class($bem->forElement('item')) . '">' . $link . '</li>';
 
         return $link;
     }
 
     /**
+     * @param Valuable $bem
      * @return string
      */
-    private function before(): string
+    private function before(Valuable $bem): string
     {
-        $class = new BemPrefixed('pagination');
-
-        return '<ul class="' . sanitize_html_class($class->value()) . '">';
+        return '<ul class="' . sanitize_html_class($bem) . '">';
     }
 
     /**

@@ -13,13 +13,12 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
-use WordPressModel\Attribute\ClassAttribute;
-use Widoz\Bem\BemPrefixed;
+use Widoz\Bem\Factory;
 
 /**
  * Post Tags Model
  */
-final class Tags implements Model
+final class Tags implements FullFilledModel
 {
     public const FILTER_DATA = 'wordpressmodel.tags';
 
@@ -48,9 +47,7 @@ final class Tags implements Model
      */
     public function data(): array
     {
-        $containerClass = new ClassAttribute(new BemPrefixed('post-tags'));
-        $titleClass = new ClassAttribute(new BemPrefixed('post-tags', 'title'));
-        $tagsClass = new ClassAttribute(new BemPrefixed('terms'));
+        $bem = Factory::createServiceForStandard('post-tags');
         $terms = new Terms(self::$taxonomy, 'get_the_tags', [
             'object_ids' => [$this->post->ID],
         ]);
@@ -58,19 +55,19 @@ final class Tags implements Model
         return apply_filters(self::FILTER_DATA, [
             'container' => [
                 'attributes' => [
-                    'class' => $containerClass->value(),
+                    'class' => $bem,
                 ],
             ],
             'title' => [
                 'text' => __('Tags: ', 'wordpress-model'),
                 'attributes' => [
-                    'class' => $titleClass->value(),
+                    'class' => $bem->forElement('title'),
                 ],
             ],
             'terms' => [
                 'items' => $terms->data(),
                 'attributes' => [
-                    'class' => $tagsClass->value(),
+                    'class' => $bem->forElement('terms'),
                 ],
             ],
         ]);

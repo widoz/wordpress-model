@@ -13,15 +13,14 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
-use WordPressModel\Attribute\ClassAttribute;
+use Widoz\Bem\Factory;
+use Widoz\Bem\Service as ServiceBem;
 use WordPressModel\Utils\ImplodeArray;
-use Widoz\Bem\BemPrefixed;
-use Widoz\Bem\Bem;
 
 /**
  * Brand Model
  */
-final class Brand implements Model
+final class Brand implements FullFilledModel
 {
     public const FILTER_DATA = 'wordpressmodel.brand_logo';
 
@@ -60,35 +59,33 @@ final class Brand implements Model
             return apply_filters(self::FILTER_DATA, []);
         }
 
+        $bem = Factory::createServiceForStandard('brand');
         $attachmentId = $this->attachmentId();
         $style = $this->style([
             'color' => $this->headerTextColor(),
         ]);
-
-        $class = new ClassAttribute(new BemPrefixed('brand'));
-        $linkClass = new ClassAttribute(new BemPrefixed('brand', 'link'));
-        $descriptionClass = new ClassAttribute(new BemPrefixed('brand', 'description'));
-
-        $attachmentModel = $this->attachmentModel(new BemPrefixed('brand'), $attachmentId);
+        $attachmentModel = $this->attachmentModel($bem, $attachmentId);
 
         $data = [
-            'name' => get_bloginfo('name'),
             'container' => [
                 'attributes' => [
-                    'class' => $class->value(),
+                    'class' => $bem,
                 ],
+            ],
+            'name' => [
+                'text' => get_bloginfo('name'),
             ],
             'link' => [
                 'attributes' => [
                     'href' => $this->siteUrl(),
-                    'class' => $linkClass->value(),
+                    'class' => $bem->forElement('link'),
                     'style' => $style,
                 ],
             ],
             'description' => [
                 'text' => get_bloginfo('description'),
                 'attributes' => [
-                    'class' => $descriptionClass->value(),
+                    'class' => $bem->forElement('description'),
                 ],
             ],
         ];
@@ -113,20 +110,20 @@ final class Brand implements Model
     }
 
     /**
-     * @param Bem $bem
+     * @param ServiceBem $bemService
      * @param int $attachmentId
      * @return AttachmentImage
      *
      * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
      */
-    private function attachmentModel(Bem $bem, int $attachmentId): AttachmentImage
+    private function attachmentModel(ServiceBem $bemService, int $attachmentId): AttachmentImage
     {
         // phpcs:enable
 
         return new AttachmentImage(
+            $bemService,
             $attachmentId,
-            $this->attachmentSize,
-            $bem
+            $this->attachmentSize
         );
     }
 

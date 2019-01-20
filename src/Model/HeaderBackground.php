@@ -13,12 +13,13 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
-use Widoz\Bem\BemPrefixed;
+use Widoz\Bem\Factory;
+use Widoz\Bem\Service as ServiceBem;
 
 /**
  * Header Background Model
  */
-final class HeaderBackground implements Model, NeedAsset
+final class HeaderBackground implements FullFilledModel, NeedAsset
 {
     public const FILTER_DATA = 'wordpressmodel.header_background';
 
@@ -31,6 +32,8 @@ final class HeaderBackground implements Model, NeedAsset
             return [];
         }
 
+        $bem = Factory::createServiceForStandard('header-thumbnail');
+
         /**
          * Header Background Data
          *
@@ -39,12 +42,12 @@ final class HeaderBackground implements Model, NeedAsset
         return apply_filters(self::FILTER_DATA, [
             'container' => [
                 'attributes' => [
-                    'class' => (new BemPrefixed('header-thumbnail'))->value(),
+                    'class' => $bem,
                 ],
             ],
             'markup' => $this->hasVideo() ? get_custom_header_markup() : '',
             'image' => [
-                'markup' => $this->hasImage() ? $this->headerImageMarkup() : '',
+                'markup' => $this->hasImage() ? $this->headerImageMarkup($bem) : '',
             ],
         ]);
     }
@@ -99,12 +102,10 @@ final class HeaderBackground implements Model, NeedAsset
     /**
      * @return string The header image markup
      */
-    private function headerImageMarkup(): string
+    private function headerImageMarkup(ServiceBem $bem): string
     {
-        $class = new BemPrefixed('header-thumbnail', 'image');
-
         return get_header_image_tag([
-            'class' => $class->value(),
+            'class' => $bem->forElement('image'),
         ]);
     }
 }

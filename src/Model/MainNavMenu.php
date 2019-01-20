@@ -13,14 +13,12 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
-use WordPressModel\Attribute\ClassAttribute;
-use WordPressModel\Attribute\IdAttribute;
-use Widoz\Bem\BemPrefixed;
+use Widoz\Bem\Factory;
 
 /**
  * Main Nav Menu Model
  */
-final class MainNavMenu implements Model
+final class MainNavMenu implements FullFilledModel
 {
     public const FILTER_DATA = 'wordpressmodel.main_nav_menu';
     public const FILTER_JUMP_TO_CONTENT_HREF = 'wordpressmodel.menu_jump_to_content_href';
@@ -82,25 +80,20 @@ final class MainNavMenu implements Model
         $data = [];
 
         if ($this->hasNavMenu()) {
-            $id = new IdAttribute('main-menu');
-            $class = new ClassAttribute(new BemPrefixed('nav-main'));
-            $linkId = new IdAttribute('jump_to_content');
-            $linkClass = new ClassAttribute(new BemPrefixed('nav-main', 'to-content'));
-            $navMenuClass = new ClassAttribute(new BemPrefixed('nav-main', 'items'));
-
+            $bem = Factory::createServiceForStandard('nav-main');
             $data = [
-                'nav' => [
+                'container' => [
                     'attributes' => [
-                        'id' => $id->value(),
-                        'class' => $class->value(),
+                        'id' => 'main-menu',
+                        'class' => $bem,
                     ],
                 ],
                 'link' => [
                     'text' => __('Jump To Content', 'wordpress-model'),
                     'attributes' => [
                         'href' => apply_filters(self::FILTER_JUMP_TO_CONTENT_HREF, '#content'),
-                        'id' => $linkId->value(),
-                        'class' => $linkClass->value(),
+                        'id' => 'jump_to_content',
+                        'class' => $bem->forElement('to-content'),
                     ],
                 ],
                 'arguments' => [
@@ -109,7 +102,7 @@ final class MainNavMenu implements Model
                     'container' => '',
                     'depth' => $this->depth,
                     'fallback_cb' => $this->fallback,
-                    'menu_class' => $navMenuClass->value(),
+                    'menu_class' => $bem->forElement('items'),
                     'items_wrap' => '<ul class="%2$s">%3$s</ul>',
                     'walker' => $this->walker,
                 ],

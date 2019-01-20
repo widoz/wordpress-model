@@ -13,20 +13,23 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
-use Widoz\Bem\Bem;
-use Widoz\Bem\BemPrefixed;
-use WordPressModel\Attribute\ClassAttribute;
+use Widoz\Bem\Service as ServiceBem;
 use WordPressModel\Exception\InvalidAttachmentType;
 
 /**
  * Attachment Image Model
  */
-final class AttachmentImage implements Model
+final class AttachmentImage implements PartialModel
 {
     public const FILTER_DATA = 'wordpressmodel.attachment_image';
     public const FILTER_ALT = 'wordpressmodel.attachment_image_alt';
 
     private const META_DATA_POST_KEY = '_wp_attachment_image_alt';
+
+    /**
+     * @var ServiceBem
+     */
+    private $bem;
 
     /**
      * @var
@@ -39,28 +42,23 @@ final class AttachmentImage implements Model
     private $attachmentId;
 
     /**
-     * @var Bem
-     */
-    private $bem;
-
-    /**
      * FigureImage constructor
      *
      * TODO Use \WP_Post instead of an attachment id
      *
+     * @param ServiceBem $bem
      * @param int $attachmentId
      * @param mixed $attachmentSize
-     * @param Bem $bem
      *
      * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
      */
-    public function __construct(int $attachmentId, $attachmentSize, Bem $bem)
+    public function __construct(ServiceBem $bem, int $attachmentId, $attachmentSize)
     {
         // phpcs:enable
 
+        $this->bem = $bem;
         $this->attachmentId = $attachmentId;
         $this->attachmentSize = $attachmentSize;
-        $this->bem = $bem;
     }
 
     /**
@@ -68,11 +66,6 @@ final class AttachmentImage implements Model
      */
     public function data(): array
     {
-        $imageAttributeClass = new ClassAttribute(new BemPrefixed(
-            $this->bem->block(),
-            'image'
-        ));
-
         $imageSource = $this->attachmentSource();
 
         /**
@@ -84,7 +77,7 @@ final class AttachmentImage implements Model
             'image' => [
                 'attributes' => [
                     'url' => $imageSource->src,
-                    'class' => $imageAttributeClass->value(),
+                    'class' => $this->bem->forElement('image'),
                     'alt' => $this->alt(),
                     'width' => $imageSource->width,
                     'height' => $imageSource->height,

@@ -13,16 +13,20 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
-use Widoz\Bem\Bem;
-use Widoz\Bem\BemPrefixed;
+use Widoz\Bem\Service as ServiceBem;
 
 /**
  * Post Thumbnail Model
  */
-final class PostThumbnail implements Model
+final class PostThumbnail implements PartialModel
 {
     public const FILTER_DATA = 'wordpressmodel.template_post_thumbnail_data';
     public const FILTER_PERMALINK = 'wordpressmodel.template_post_thumbnail_permalink';
+
+    /**
+     * @var ServiceBem
+     */
+    private $bem;
 
     /**
      * @var \WP_Post
@@ -35,13 +39,18 @@ final class PostThumbnail implements Model
     private $attachmentSize;
 
     /**
-     * PostThumbnail constructor.
-     *
+     * PostThumbnail constructor
+     * @param ServiceBem $bem
      * @param \WP_Post $post
      * @param string $attachmentSize
      */
-    public function __construct(\WP_Post $post, string $attachmentSize = 'post-thumbnail')
-    {
+    public function __construct(
+        ServiceBem $bem,
+        \WP_Post $post,
+        string $attachmentSize = 'post-thumbnail'
+    ) {
+
+        $this->bem = $bem;
         $this->post = $post;
         $this->attachmentSize = $attachmentSize;
     }
@@ -54,8 +63,6 @@ final class PostThumbnail implements Model
         $data = [];
 
         if ($this->hasSupport() && $this->hasThumbnail()) {
-            $bem = new BemPrefixed('thumbnail');
-
             /**
              * Post Thumbnail Data
              *
@@ -69,7 +76,7 @@ final class PostThumbnail implements Model
                 ],
             ];
 
-            $data += $this->figureAttachmentModel($bem)->data();
+            $data += $this->figureAttachmentModel()->data();
         }
 
         /**
@@ -97,16 +104,14 @@ final class PostThumbnail implements Model
     }
 
     /**
-     * @param Bem $bem
-     *
      * @return FigureAttachmentImage
      */
-    private function figureAttachmentModel(Bem $bem): FigureAttachmentImage
+    private function figureAttachmentModel(): FigureAttachmentImage
     {
         return new FigureAttachmentImage(
+            $this->bem,
             get_post_thumbnail_id($this->post),
-            $this->attachmentSize,
-            $bem
+            $this->attachmentSize
         );
     }
 

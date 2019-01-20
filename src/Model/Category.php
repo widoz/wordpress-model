@@ -13,13 +13,12 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
-use WordPressModel\Attribute\ClassAttribute;
-use Widoz\Bem\BemPrefixed;
+use Widoz\Bem\Factory;
 
 /**
  * Taxonomy Category Model
  */
-final class Category implements Model
+final class Category implements FullFilledModel
 {
     public const FILTER_DATA = 'wordpressmodel.post_category';
 
@@ -48,9 +47,7 @@ final class Category implements Model
      */
     public function data(): array
     {
-        $taxonomyClassAttribute = new ClassAttribute(new BemPrefixed('post-category'));
-        $titleClassAttribute = new ClassAttribute(new BemPrefixed('post-category', 'title'));
-        $categoryClassAttribute = new ClassAttribute(new BemPrefixed('terms'));
+        $bem = Factory::createServiceForStandard('category');
 
         /**
          * Category Filter
@@ -60,19 +57,19 @@ final class Category implements Model
         return apply_filters(self::FILTER_DATA, [
             'container' => [
                 'attributes' => [
-                    'class' => $taxonomyClassAttribute->value(),
+                    'class' => $bem->value(),
                 ],
             ],
             'title' => [
                 'text' => __('Posted In: ', 'wordpress-model'),
                 'attributes' => [
-                    'class' => $titleClassAttribute->value(),
+                    'class' => $bem->forElement('title'),
                 ],
             ],
             'terms' => [
                 'items' => $this->terms()->data(),
                 'attributes' => [
-                    'class' => $categoryClassAttribute->value(),
+                    'class' => $bem->forElement('terms'),
                 ],
             ],
         ]);

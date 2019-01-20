@@ -13,13 +13,12 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
-use WordPressModel\Attribute\ClassAttribute;
-use Widoz\Bem\BemPrefixed;
+use Widoz\Bem\Factory;
 
 /**
  * Footer Colophon Model
  */
-final class FooterColophon implements Model
+final class FooterColophon implements FullFilledModel
 {
     public const FILTER_DATA = 'wordpressmodel.footer_colophon';
 
@@ -28,7 +27,7 @@ final class FooterColophon implements Model
      */
     public function data(): array
     {
-        $classAttribute = new ClassAttribute(new BemPrefixed('footer', 'colophon'));
+        $bem = Factory::createServiceForStandard('footer-colophon');
 
         /**
          * Footer Colophon Data
@@ -38,7 +37,7 @@ final class FooterColophon implements Model
         return apply_filters(self::FILTER_DATA, [
             'container' => [
                 'attributes' => [
-                    'class' => $classAttribute->value(),
+                    'class' => $bem,
                 ],
             ],
             'markup' => $this->content(),
