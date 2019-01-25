@@ -19,6 +19,7 @@ namespace WordPressModel\Model;
  */
 class Description
 {
+    public const FILTER_HOME_PAGE_DESCRIPTION = 'wordpressmodel.home_page_description';
     private const OPTION_PAGE_FOR_POSTS = 'page_for_posts';
 
     /**
@@ -34,7 +35,12 @@ class Description
             $description = $homePost->post_excerpt;
         }
 
-        return $description;
+        $description = apply_filters(
+            self::FILTER_HOME_PAGE_DESCRIPTION,
+            $description
+        );
+
+        return (string)$description;
     }
 
     /**
