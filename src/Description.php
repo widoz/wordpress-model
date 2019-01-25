@@ -19,7 +19,7 @@ namespace WordPressModel\Model;
  */
 class Description
 {
-    public const FILTER_HOME_PAGE_DESCRIPTION = 'wordpressmodel.home_page_description';
+    public const FILTER_HOME_DESCRIPTION = 'wordpressmodel.home_page_description';
     private const OPTION_PAGE_FOR_POSTS = 'page_for_posts';
 
     /**
@@ -36,12 +36,12 @@ class Description
         }
 
         /**
-         * Filter Home Page Description
+         * Filter Home Description
          *
          * @param string $description
          */
         $description = apply_filters(
-            self::FILTER_HOME_PAGE_DESCRIPTION,
+            self::FILTER_HOME_DESCRIPTION,
             $description
         );
 
