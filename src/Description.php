@@ -35,6 +35,11 @@ class Description
             $description = $homePost->post_excerpt;
         }
 
+        /**
+         * Filter Home Page Description
+         *
+         * @param string $description
+         */
         $description = apply_filters(
             self::FILTER_HOME_PAGE_DESCRIPTION,
             $description
