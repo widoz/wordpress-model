@@ -14,7 +14,8 @@ declare(strict_types=1);
 namespace WordPressModel\Model;
 
 use Widoz\Bem\Service as ServiceBem;
-use WordPressModel\Exception\InvalidAttachmentType;
+use WordPressModel\Attachment\Image\AlternativeText;
+use WordPressModel\Attachment\Image\Source;
 
 /**
  * Attachment Image Model
@@ -22,9 +23,6 @@ use WordPressModel\Exception\InvalidAttachmentType;
 final class AttachmentImage implements PartialModel
 {
     public const FILTER_DATA = 'wordpressmodel.attachment_image';
-    public const FILTER_ALT = 'wordpressmodel.attachment_image_alt';
-
-    private const META_DATA_POST_KEY = '_wp_attachment_image_alt';
 
     /**
      * @var ServiceBem
@@ -32,33 +30,30 @@ final class AttachmentImage implements PartialModel
     private $bem;
 
     /**
-     * @var
+     * @var Source
      */
-    private $attachmentSize;
+    private $attachmentImageSource;
 
     /**
-     * @var int
+     * @var AlternativeText
      */
-    private $attachmentId;
+    private $attachmentImageAltText;
 
     /**
-     * FigureImage constructor
-     *
-     * TODO Use \WP_Post instead of an attachment id
-     *
+     * AttachmentImage constructor
      * @param ServiceBem $bem
-     * @param int $attachmentId
-     * @param mixed $attachmentSize
-     *
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * @param Source $attachmentImageSource
+     * @param AlternativeText $attachmentImageAltText
      */
-    public function __construct(ServiceBem $bem, int $attachmentId, $attachmentSize)
-    {
-        // phpcs:enable
+    public function __construct(
+        ServiceBem $bem,
+        Source $attachmentImageSource,
+        AlternativeText $attachmentImageAltText
+    ) {
 
         $this->bem = $bem;
-        $this->attachmentId = $attachmentId;
-        $this->attachmentSize = $attachmentSize;
+        $this->attachmentImageSource = $attachmentImageSource;
+        $this->attachmentImageAltText = $attachmentImageAltText;
     }
 
     /**
@@ -66,8 +61,6 @@ final class AttachmentImage implements PartialModel
      */
     public function data(): array
     {
-        $imageSource = $this->attachmentSource();
-
         /**
          * Figure Image Data
          *
@@ -76,60 +69,13 @@ final class AttachmentImage implements PartialModel
         return apply_filters(self::FILTER_DATA, [
             'image' => [
                 'attributes' => [
-                    'url' => $imageSource->src,
+                    'url' => $this->attachmentImageSource->source,
+                    'width' => $this->attachmentImageSource->width,
+                    'height' => $this->attachmentImageSource->height,
+                    'alt' => $this->attachmentImageAltText->text(),
                     'class' => $this->bem->forElement('image'),
-                    'alt' => $this->alt(),
-                    'width' => $imageSource->width,
-                    'height' => $imageSource->height,
                 ],
             ],
         ]);
-    }
-
-    /**
-     * @return \stdClass
-     *
-     * @throws InvalidAttachmentType If the attachment isn't an image.
-     */
-    private function attachmentSource(): \stdClass
-    {
-        if (!wp_attachment_is_image($this->attachmentId)) {
-            throw new InvalidAttachmentType('Attachment must be an image.');
-        }
-
-        $imageSource = wp_get_attachment_image_src($this->attachmentId, $this->attachmentSize);
-        if (!$imageSource) {
-            return (object)[
-                'src' => '',
-                'width' => '',
-                'height' => '',
-                'icon' => false,
-            ];
-        }
-
-        $imageSource = array_combine(
-            ['src', 'width', 'height', 'icon'],
-            $imageSource
-        );
-
-        return (object)$imageSource;
-    }
-
-    /**
-     * @return string
-     */
-    private function alt(): string
-    {
-        $alt = get_post_meta($this->attachmentId, self::META_DATA_POST_KEY, true);
-
-        /**
-         * Filter Alt Attribute Value
-         *
-         * @param string $alt The alternative text.
-         * @param int $attachmentId The id of the attachment from which the alt text is retrieved.
-         */
-        $alt = apply_filters(self::FILTER_ALT, $alt, $this->attachmentId);
-
-        return (string)$alt;
     }
 }

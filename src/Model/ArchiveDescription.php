@@ -12,12 +12,14 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
+use Widoz\Bem;
+
 /**
  * Class Description
  *
  * @author Guido Scialfa <dev@guidoscialfa.com>
  */
-final class ArchiveDescription implements Model
+final class ArchiveDescription implements PartialModel
 {
     public const FILTER_DATA = 'wordpressmodel.archive_description';
 
@@ -27,11 +29,18 @@ final class ArchiveDescription implements Model
     private $description;
 
     /**
+     * @var Bem\Service
+     */
+    private $bem;
+
+    /**
      * ArchiveDescription constructor
+     * @param Bem\Service $bem
      * @param Description $description
      */
-    public function __construct(Description $description)
+    public function __construct(Bem\Service $bem, Description $description)
     {
+        $this->bem = $bem;
         $this->description = $description;
     }
 
@@ -46,7 +55,12 @@ final class ArchiveDescription implements Model
          * @param array $data The data arguments for the template.
          */
         return apply_filters(self::FILTER_DATA, [
-            'value' => is_home() ? $this->description->forHome() : $this->description->forArchive(),
+            'description' => [
+                'text' => is_home() ? $this->description->forHome() : $this->description->forArchive(),
+                'attributes' => [
+                    'class' => $this->bem->forElement('description'),
+                ],
+            ],
         ]);
     }
 }

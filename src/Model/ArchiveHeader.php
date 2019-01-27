@@ -23,6 +23,11 @@ final class ArchiveHeader implements FullFilledModel
     public const FILTER_DATA = 'wordpressmodel.archive_header';
 
     /**
+     * @var Factory
+     */
+    private $bemFactory;
+
+    /**
      * @var Title
      */
     private $title;
@@ -37,8 +42,9 @@ final class ArchiveHeader implements FullFilledModel
      * @param Title $title
      * @param Description $description
      */
-    public function __construct(Title $title, Description $description)
+    public function __construct(Factory $bemFactory, Title $title, Description $description)
     {
+        $this->bemFactory = $bemFactory;
         $this->title = $title;
         $this->description = $description;
     }
@@ -48,7 +54,7 @@ final class ArchiveHeader implements FullFilledModel
      */
     public function data(): array
     {
-        $bem = Factory::createServiceForStandard('archive-header');
+        $bem = $this->bemFactory->createService('archive-header');
 
         $title = $this->title->forArchive();
         $description = $this->description->forArchive();

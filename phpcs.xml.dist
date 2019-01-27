@@ -2,15 +2,12 @@
 <ruleset name="WordPressModel">
     <description>WordPress Model Coding Standard</description>
 
-    <!--
-    PHP 7.0 and higher.
-    -->
     <config name="testVersion" value="7.1-"/>
     <config name="ignore_warnings_on_exit" value="1"/>
+    <config name="text_domain" value="wordpress-model"/>
 
     <file>./src</file>
-
-    <config name="text_domain" value="wordpress-model"/>
+    <exclude-pattern>tests/*</exclude-pattern>
 
     <rule ref="Inpsyde"/>
 </ruleset>

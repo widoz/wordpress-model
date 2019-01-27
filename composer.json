@@ -34,8 +34,7 @@
   "autoload-dev": {
     "psr-4": {
       "WordPressModel\\": "src",
-      "WordPressModel\\Tests\\": "tests",
-      "WordPressModel\\Tests\\Unit\\": "tests/unit/src"
+      "WordPressModel\\Tests\\": "tests"
     }
   },
   "require": {
