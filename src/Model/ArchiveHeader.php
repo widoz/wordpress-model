@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
-use Widoz\Bem\Factory;
+use Widoz\Bem\Service as BemService;
 
 /**
  * Archive Header Model
@@ -23,9 +23,9 @@ final class ArchiveHeader implements FullFilledModel
     public const FILTER_DATA = 'wordpressmodel.archive_header';
 
     /**
-     * @var Factory
+     * @var BemService
      */
-    private $bemFactory;
+    private $bem;
 
     /**
      * @var Title
@@ -39,12 +39,13 @@ final class ArchiveHeader implements FullFilledModel
 
     /**
      * ArchiveHeader constructor
+     * @param BemService $bem
      * @param Title $title
      * @param Description $description
      */
-    public function __construct(Factory $bemFactory, Title $title, Description $description)
+    public function __construct(BemService $bem, Title $title, Description $description)
     {
-        $this->bemFactory = $bemFactory;
+        $this->bem = $bem;
         $this->title = $title;
         $this->description = $description;
     }
@@ -54,8 +55,6 @@ final class ArchiveHeader implements FullFilledModel
      */
     public function data(): array
     {
-        $bem = $this->bemFactory->createService('archive-header');
-
         $title = $this->title->forArchive();
         $description = $this->description->forArchive();
 
@@ -72,19 +71,19 @@ final class ArchiveHeader implements FullFilledModel
         return apply_filters(self::FILTER_DATA, [
             'container' => [
                 'attributes' => [
-                    'class' => $bem,
+                    'class' => $this->bem,
                 ],
             ],
             'title' => [
                 'text' => $title,
                 'attributes' => [
-                    'class' => $bem->forElement('title'),
+                    'class' => $this->bem->forElement('title'),
                 ],
             ],
             'description' => [
                 'text' => $description,
                 'attributes' => [
-                    'class' => $bem->forElement('description'),
+                    'class' => $this->bem->forElement('description'),
                 ],
             ],
         ]);

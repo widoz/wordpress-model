@@ -13,6 +13,7 @@ namespace WordPressModel\Tests\Unit\Model;
 
 use Widoz\Bem\Factory;
 use Widoz\Bem\Service;
+use Widoz\Bem\Valuable;
 use WordPressModel\Model\ArchiveHeader as Testee;
 use WordPressModel\Model\Title;
 use WordPressModel\Model\Description;
@@ -24,61 +25,71 @@ class ArchiveHeaderTest extends TestCase
     public function testArchiveHeaderData()
     {
         $bem = $this->createMock(Service::class);
-        $bemFactory = $this->createMock(Factory::class);
         $title = $this->createMock(Title::class);
         $description = $this->createMock(Description::class);
-        $testee = new Testee($bemFactory, $title, $description);
+        $testee = new Testee($bem, $title, $description);
 
         Monkey\Functions\expect('is_home')
             ->once()
             ->andReturn(false);
 
-        Monkey\Filters\expectApplied(Testee::FILTER_DATA)
-            ->once();
-
-        $bemFactory
-            ->expects($this->once())
-            ->method('createService')
-            ->willReturn($bem);
-
         $title
             ->expects($this->once())
-            ->method('forArchive');
+            ->method('forArchive')
+            ->willReturn('Title for Archive');
 
         $description
             ->expects($this->once())
-            ->method('forArchive');
+            ->method('forArchive')
+            ->willReturn('Description for Archive');
 
+        $titleValue = $this->createMock(Valuable::class);
+        $descriptionValue = $this->createMock(Valuable::class);
         $bem
             ->expects($this->exactly(2))
             ->method('forElement')
-            ->withConsecutive(['title'], ['description']);
+            ->withConsecutive(['title'], ['description'])
+            ->willReturnOnConsecutiveCalls(
+                $titleValue,
+                $descriptionValue
+            );
+
+        Monkey\Filters\expectApplied(Testee::FILTER_DATA)
+            ->once()
+            ->with([
+                'container' => [
+                    'attributes' => [
+                        'class' => $bem,
+                    ],
+                ],
+                'title' => [
+                    'text' => 'Title for Archive',
+                    'attributes' => [
+                        'class' => $titleValue,
+                    ],
+                ],
+                'description' => [
+                    'text' => 'Description for Archive',
+                    'attributes' => [
+                        'class' => $descriptionValue,
+                    ],
+                ],
+            ]);
 
         $testee->data();
-
-        self::assertTrue(true);
     }
 
     public function testArchiveHeaderDataForPageForPosts()
     {
         $bem = $this->createMock(Service::class);
-        $bemFactory = $this->createMock(Factory::class);
         $title = $this->createMock(Title::class);
         $description = $this->createMock(Description::class);
-        $testee = new Testee($bemFactory, $title, $description);
+        $testee = new Testee($bem, $title, $description);
 
         Monkey\Functions\expect('is_home')
             ->once()
             ->andReturn(true);
 
-        Monkey\Filters\expectApplied(Testee::FILTER_DATA)
-            ->once();
-
-        $bemFactory
-            ->expects($this->once())
-            ->method('createService')
-            ->willReturn($bem);
-
         $title
             ->expects($this->once())
             ->method('forArchive');
@@ -89,19 +100,47 @@ class ArchiveHeaderTest extends TestCase
 
         $title
             ->expects($this->once())
-            ->method('forHome');
+            ->method('forHome')
+            ->willReturn('Title for Home');
 
         $description
             ->expects($this->once())
-            ->method('forHome');
+            ->method('forHome')
+            ->willReturn('Description for Home');
 
+        $titleValue = $this->createMock(Valuable::class);
+        $descriptionValue = $this->createMock(Valuable::class);
         $bem
             ->expects($this->exactly(2))
             ->method('forElement')
-            ->withConsecutive(['title'], ['description']);
+            ->withConsecutive(['title'], ['description'])
+            ->willReturnOnConsecutiveCalls(
+                $titleValue,
+                $descriptionValue
+            );
+
+        Monkey\Filters\expectApplied(Testee::FILTER_DATA)
+            ->once()
+            ->with([
+                'container' => [
+                    'attributes' => [
+                        'class' => $bem,
+                    ],
+                ],
+                'title' => [
+                    'text' => 'Title for Home',
+                    'attributes' => [
+                        'class' => $titleValue,
+                    ],
+                ],
+                'description' => [
+                    'text' => 'Description for Home',
+                    'attributes' => [
+                        'class' => $descriptionValue,
+                    ],
+                ],
+            ]);
 
         $testee->data();
-
-        self::assertTrue(true);
     }
 }

@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
-use Widoz\Bem;
+use Widoz\Bem\Service as BemService;
 
 /**
  * Class Description
@@ -29,16 +29,16 @@ final class ArchiveDescription implements PartialModel
     private $description;
 
     /**
-     * @var Bem\Service
+     * @var BemService
      */
     private $bem;
 
     /**
      * ArchiveDescription constructor
-     * @param Bem\Service $bem
+     * @param BemService $bem
      * @param Description $description
      */
-    public function __construct(Bem\Service $bem, Description $description)
+    public function __construct(BemService $bem, Description $description)
     {
         $this->bem = $bem;
         $this->description = $description;

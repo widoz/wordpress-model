@@ -27,12 +27,16 @@ class ArchiveTitleTest extends TestCase
             ->once()
             ->andReturn(true);
 
-        Monkey\Filters\expectApplied(Testee::FILTER_DATA)
-            ->once();
-
         $title
             ->expects($this->once())
-            ->method('forHome');
+            ->method('forHome')
+            ->willReturn('Title for Home');
+
+        Monkey\Filters\expectApplied(Testee::FILTER_DATA)
+            ->once()
+            ->with([
+                'value' => 'Title for Home',
+            ]);
 
         $testee->data();
     }
@@ -46,12 +50,16 @@ class ArchiveTitleTest extends TestCase
             ->once()
             ->andReturn(false);
 
-        Monkey\Filters\expectApplied(Testee::FILTER_DATA)
-            ->once();
-
         $title
             ->expects($this->once())
-            ->method('forArchive');
+            ->method('forArchive')
+            ->willReturn('Title for Archive');
+
+        Monkey\Filters\expectApplied(Testee::FILTER_DATA)
+            ->once()
+            ->with([
+                'value' => 'Title for Archive',
+            ]);
 
         $testee->data();
     }

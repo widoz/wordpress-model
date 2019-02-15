@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
-use Widoz\Bem\Factory;
+use Widoz\Bem\Service as BemService;
 
 /**
  * Author Model
@@ -28,12 +28,19 @@ final class Author implements FullFilledModel
     private $user;
 
     /**
+     * @var BemService
+     */
+    private $bem;
+
+    /**
      * Author constructor.
      *
+     * @param BemService $bem
      * @param \WP_User $user
      */
-    public function __construct(\WP_User $user)
+    public function __construct(BemService $bem, \WP_User $user)
     {
+        $this->bem = $bem;
         $this->user = $user;
     }
 
@@ -43,7 +50,6 @@ final class Author implements FullFilledModel
     public function data(): array
     {
         $data = [];
-        $bem = Factory::createServiceForStandard('author');
 
         if ($this->user->exists()) {
             $authorPostsUrl = get_author_posts_url($this->user->ID);
@@ -51,19 +57,19 @@ final class Author implements FullFilledModel
             $data += [
                 'container' => [
                     'attributes' => [
-                        'class' => $bem,
+                        'class' => $this->bem,
                     ],
                 ],
                 'name' => [
                     'text' => $this->user->display_name,
                     'attributes' => [
-                        'class' => $bem->forElement('name'),
+                        'class' => $this->bem->forElement('name'),
                     ],
                 ],
                 'link' => [
                     'attributes' => [
                         'href' => $authorPostsUrl,
-                        'class' => $bem->forElement('posts-page'),
+                        'class' => $this->bem->forElement('posts-page'),
                     ],
                 ],
             ];
