@@ -111,15 +111,4 @@ class SourceTest extends TestCase
             [['', 0, 0, false]],
         ];
     }
-
-    protected function setUp()
-    {
-        parent::setUp();
-
-        class_alias(
-            \WordPressModel\Exception\InvalidAttachmentType::class,
-            \WordPressModel\Tests\Stubs\InvalidAttachmentType::class,
-            true
-        );
-    }
 }
