@@ -17,7 +17,7 @@ namespace WordPressModel\Model;
  *
  * @author Guido Scialfa <dev@guidoscialfa.com>
  */
-class ArchiveTitle implements Model
+final class ArchiveTitle implements Model
 {
     public const FILTER_DATA = 'wordpressmodel.archive_title';
 
