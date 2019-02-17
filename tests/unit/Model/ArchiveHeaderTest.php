@@ -94,14 +94,6 @@ class ArchiveHeaderTest extends TestCase
 
         $title
             ->expects($this->once())
-            ->method('forArchive');
-
-        $description
-            ->expects($this->once())
-            ->method('forArchive');
-
-        $title
-            ->expects($this->once())
             ->method('forHome')
             ->willReturn('Title for Home');
 
