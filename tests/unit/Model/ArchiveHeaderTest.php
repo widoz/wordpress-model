@@ -13,9 +13,7 @@ declare(strict_types=1);
 
 namespace WordPressModel\Tests\Unit\Model;
 
-use Widoz\Bem\Factory;
-use Widoz\Bem\Service;
-use Widoz\Bem\Valuable;
+use Widoz\Bem;
 use WordPressModel\Model\ArchiveHeader as Testee;
 use WordPressModel\Model\Title;
 use WordPressModel\Model\Description;
@@ -26,7 +24,7 @@ class ArchiveHeaderTest extends TestCase
 {
     public function testArchiveHeaderData()
     {
-        $bem = $this->createMock(Service::class);
+        $bem = $this->createMock(Bem\Service::class);
         $title = $this->createMock(Title::class);
         $description = $this->createMock(Description::class);
         $testee = new Testee($bem, $title, $description);
@@ -45,8 +43,8 @@ class ArchiveHeaderTest extends TestCase
             ->method('forArchive')
             ->willReturn('Description for Archive');
 
-        $titleValue = $this->createMock(Valuable::class);
-        $descriptionValue = $this->createMock(Valuable::class);
+        $titleValue = $this->createMock(Bem\Valuable::class);
+        $descriptionValue = $this->createMock(Bem\Valuable::class);
         $bem
             ->expects($this->exactly(2))
             ->method('forElement')
@@ -83,7 +81,7 @@ class ArchiveHeaderTest extends TestCase
 
     public function testArchiveHeaderDataForPageForPosts()
     {
-        $bem = $this->createMock(Service::class);
+        $bem = $this->createMock(Bem\Service::class);
         $title = $this->createMock(Title::class);
         $description = $this->createMock(Description::class);
         $testee = new Testee($bem, $title, $description);
@@ -102,8 +100,8 @@ class ArchiveHeaderTest extends TestCase
             ->method('forHome')
             ->willReturn('Description for Home');
 
-        $titleValue = $this->createMock(Valuable::class);
-        $descriptionValue = $this->createMock(Valuable::class);
+        $titleValue = $this->createMock(Bem\Valuable::class);
+        $descriptionValue = $this->createMock(Bem\Valuable::class);
         $bem
             ->expects($this->exactly(2))
             ->method('forElement')
