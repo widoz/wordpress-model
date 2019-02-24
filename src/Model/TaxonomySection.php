@@ -13,33 +13,41 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
-use Widoz\Bem\Factory;
+use Widoz\Bem;
 
 /**
- * Taxonomy Category Model
+ * TaxonomySection Model
  */
-final class Category implements FullFilledModel
+final class TaxonomySection implements FullFilledModel
 {
     public const FILTER_DATA = 'wordpressmodel.post_category';
 
     /**
-     * @var \WP_Post
+     * @var Bem\Service
      */
-    private $post;
+    private $bem;
+
+    /**
+     * @var Terms
+     */
+    private $terms;
 
     /**
      * @var string
      */
-    private static $taxonomy = 'category';
+    private $title;
 
     /**
-     * Category constructor.
-     *
-     * @param \WP_Post $post
+     * Category constructor
+     * @param Bem\Service $bem
+     * @param Model $terms
+     * @param string $title
      */
-    public function __construct(\WP_Post $post)
+    public function __construct(Bem\Service $bem, Model $terms, string $title)
     {
-        $this->post = $post;
+        $this->bem = $bem;
+        $this->terms = $terms;
+        $this->title = $title;
     }
 
     /**
@@ -47,8 +55,6 @@ final class Category implements FullFilledModel
      */
     public function data(): array
     {
-        $bem = Factory::createServiceForStandard('category');
-
         /**
          * Category Filter
          *
@@ -57,31 +63,21 @@ final class Category implements FullFilledModel
         return apply_filters(self::FILTER_DATA, [
             'container' => [
                 'attributes' => [
-                    'class' => $bem->value(),
+                    'class' => $this->bem,
                 ],
             ],
             'title' => [
-                'text' => __('Posted In: ', 'wordpress-model'),
+                'text' => $this->title,
                 'attributes' => [
-                    'class' => $bem->forElement('title'),
+                    'class' => $this->bem->forElement('title'),
                 ],
             ],
             'terms' => [
-                'items' => $this->terms()->data(),
+                'items' => $this->terms->data(),
                 'attributes' => [
-                    'class' => $bem->forElement('terms'),
+                    'class' => $this->bem->forElement('terms'),
                 ],
             ],
-        ]);
-    }
-
-    /**
-     * @return Terms
-     */
-    private function terms(): Terms
-    {
-        return new Terms(self::$taxonomy, 'get_the_categories', [
-            'object_ids' => [$this->post->ID],
         ]);
     }
 }
