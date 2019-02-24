@@ -7,8 +7,8 @@
  * Author URI: https://guidoscialfa.com
  * Description: Reusable models for your themes or plugins
  * Version: 0.2.0
- * License: GPL2
- * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * License: MIT
+ * License URI: https://opensource.org/licenses/MIT
  * Text Domain: wordpress-model
  */
 
