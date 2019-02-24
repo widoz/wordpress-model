@@ -16,50 +16,25 @@ namespace WordPressModel\Utils;
 /**
  * Implode Array Elements Utility
  */
-class ImplodeArray
+class ArrayImplode
 {
-    /**
-     * @var array
-     */
-    private $array;
-
-    /**
-     * ImplodeArray constructor.
-     *
-     * @param array $array
-     */
-    public function __construct(array $array)
-    {
-        $this->array = $array;
-    }
-
-    /**
-     * Implode an array to be used for the `style` attribute markup.
-     * Where key is the attribute name.
-     *
-     * @return string
-     */
-    public function forAttributeStyle(): string
-    {
-        return $this->byGlue(';', ':');
-    }
-
     /**
      * Implode associative array by passing the glue to separate key/value group
      * and assGlue to separate key from value.
      *
+     * @param array $properties
      * @param string $glue
      * @param string $assGlue
      * @return string
      */
-    private function byGlue(string $glue, string $assGlue): string
+    public function byGlue(array $properties, string $glue, string $assGlue): string
     {
-        if ($this->isNumeric($this->array)) {
+        if ($this->isNumeric($properties)) {
             return '';
         }
 
         $string = '';
-        foreach ($this->array as $key => $value) {
+        foreach ($properties as $key => $value) {
             if (!$value) {
                 continue;
             }

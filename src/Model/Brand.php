@@ -13,9 +13,8 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
-use Widoz\Bem\Factory;
-use Widoz\Bem\Service as ServiceBem;
-use WordPressModel\Utils\ImplodeArray;
+use Widoz\Bem\Service as BemService;
+use WordPressModel\Utils\CssProperties;
 
 /**
  * Brand Model
@@ -25,28 +24,28 @@ final class Brand implements FullFilledModel
     public const FILTER_DATA = 'wordpressmodel.brand_logo';
 
     /**
-     * @var array|string
+     * @var BemService
      */
-    private $attachmentSize;
+    private $bem;
 
     /**
-     * Brand constructor.
-     *
-     * @param $attachmentSize
-     *
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * @var CssProperties
      */
-    public function __construct($attachmentSize)
-    {
-        // phpcs:enable
+    private $cssProperties;
 
-        $this->attachmentSize = $attachmentSize;
+    /**
+     * Brand constructor
+     * @param BemService $bem
+     * @param CssProperties $cssProperties
+     */
+    public function __construct(BemService $bem, CssProperties $cssProperties)
+    {
+        $this->bem = $bem;
+        $this->cssProperties = $cssProperties;
     }
 
     /**
      * @return array
-     *
-     * @todo Get rid of Figure and use custom logo without the anchor tag?
      */
     public function data(): array
     {
@@ -59,17 +58,14 @@ final class Brand implements FullFilledModel
             return apply_filters(self::FILTER_DATA, []);
         }
 
-        $bem = Factory::createServiceForStandard('brand');
-        $attachmentId = $this->attachmentId();
-        $style = $this->style([
-            'color' => $this->headerTextColor(),
+        $style = $this->cssProperties->flat([
+            'color' => '#' . sanitize_hex_color_no_hash(get_header_textcolor()),
         ]);
-        $attachmentModel = $this->attachmentModel($bem, $attachmentId);
 
         $data = [
             'container' => [
                 'attributes' => [
-                    'class' => $bem,
+                    'class' => $this->bem,
                 ],
             ],
             'name' => [
@@ -77,21 +73,18 @@ final class Brand implements FullFilledModel
             ],
             'link' => [
                 'attributes' => [
-                    'href' => $this->siteUrl(),
-                    'class' => $bem->forElement('link'),
+                    'href' => home_url('/'),
+                    'class' => $this->bem->forElement('link'),
                     'style' => $style,
                 ],
             ],
             'description' => [
                 'text' => get_bloginfo('description'),
                 'attributes' => [
-                    'class' => $bem->forElement('description'),
+                    'class' => $this->bem->forElement('description'),
                 ],
             ],
         ];
-
-        /** @noinspection AdditionOperationOnArraysInspection */
-        $attachmentId and $data += $attachmentModel->data();
 
         /**
          * Filter Data
@@ -107,58 +100,5 @@ final class Brand implements FullFilledModel
     private function mayBeDisplayed(): bool
     {
         return (bool)trim(get_bloginfo('name'));
-    }
-
-    /**
-     * @param ServiceBem $bemService
-     * @param int $attachmentId
-     * @return AttachmentImage
-     *
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-     */
-    private function attachmentModel(ServiceBem $bemService, int $attachmentId): AttachmentImage
-    {
-        // phpcs:enable
-
-        return new AttachmentImage(
-            $bemService,
-            $attachmentId,
-            $this->attachmentSize
-        );
-    }
-
-    /**
-     * @param array $attributes
-     * @return string
-     */
-    private function style(array $attributes): string
-    {
-        $implode = new ImplodeArray($attributes);
-
-        return $implode->forAttributeStyle();
-    }
-
-    /**
-     * @return string
-     */
-    private function headerTextColor(): string
-    {
-        return '#' . sanitize_hex_color_no_hash(get_header_textcolor());
-    }
-
-    /**
-     * @return string
-     */
-    private function siteUrl(): string
-    {
-        return home_url('/');
-    }
-
-    /**
-     * @return int
-     */
-    private function attachmentId(): int
-    {
-        return (int)get_theme_mod('custom_logo', 0);
     }
 }
