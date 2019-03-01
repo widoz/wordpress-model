@@ -56,7 +56,7 @@ final class ArchiveDescription implements PartialModel
          */
         return apply_filters(self::FILTER_DATA, [
             'description' => [
-                'text' => is_home() ? $this->description->forHome() : $this->description->forArchive(),
+                'text' => \is_home() ? $this->description->forHome() : $this->description->forArchive(),
                 'attributes' => [
                     'class' => $this->bem->forElement('description'),
                 ],

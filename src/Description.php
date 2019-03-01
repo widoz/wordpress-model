@@ -28,7 +28,7 @@ class Description
     public function forHome(): string
     {
         $description = '';
-        $homePost = get_post((int)get_option(self::OPTION_PAGE_FOR_POSTS, 0));
+        $homePost = \get_post((int)get_option(self::OPTION_PAGE_FOR_POSTS, 0));
 
         if ($homePost instanceof \WP_Post) {
             /** @var \WP_Post $homePost */
@@ -53,6 +53,6 @@ class Description
      */
     public function forArchive(): string
     {
-        return get_the_archive_description();
+        return \get_the_archive_description();
     }
 }

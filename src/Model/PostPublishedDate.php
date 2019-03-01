@@ -43,10 +43,10 @@ final class PostPublishedDate implements FullFilledModel
     public function data(): array
     {
         $bem = Factory::createServiceForStandard('article-published-date');
-        $archiveLink = get_day_link(
-            get_the_time('Y', $this->post),
-            get_the_time('m', $this->post),
-            get_the_time('d', $this->post)
+        $archiveLink = \get_day_link(
+            \get_the_time('Y', $this->post),
+            \get_the_time('m', $this->post),
+            \get_the_time('d', $this->post)
         );
 
         /**
@@ -70,10 +70,10 @@ final class PostPublishedDate implements FullFilledModel
                 ],
             ],
             'time' => [
-                'date' => get_the_date('', $this->post),
+                'date' => \get_the_date('', $this->post),
                 'attributes' => [
-                    'datetime' => get_the_time('c', $this->post),
-                    'title' => get_the_date('l, F j, Y g:i a', $this->post),
+                    'datetime' => \get_the_time('c', $this->post),
+                    'title' => \get_the_date('l, F j, Y g:i a', $this->post),
                 ],
             ],
         ]);

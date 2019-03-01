@@ -58,7 +58,7 @@ final class ArchiveHeader implements FullFilledModel
         $title = $this->title->forArchive();
         $description = $this->description->forArchive();
 
-        if (is_home()) {
+        if (\is_home()) {
             $title = $this->title->forHome();
             $description = $this->description->forHome();
         }

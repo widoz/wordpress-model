@@ -52,7 +52,7 @@ final class Author implements FullFilledModel
         $data = [];
 
         if ($this->user->exists()) {
-            $authorPostsUrl = get_author_posts_url($this->user->ID);
+            $authorPostsUrl = \get_author_posts_url($this->user->ID);
 
             $data += [
                 'container' => [

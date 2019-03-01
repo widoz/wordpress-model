@@ -131,6 +131,6 @@ final class MainNavMenu implements FullFilledModel
      */
     private function hasNavMenu(): bool
     {
-        return has_nav_menu($this->themeLocation);
+        return \has_nav_menu($this->themeLocation);
     }
 }

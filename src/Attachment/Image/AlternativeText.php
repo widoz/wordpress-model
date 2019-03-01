@@ -41,7 +41,7 @@ class AlternativeText
      */
     public function text(): string
     {
-        $alt = get_post_meta($this->attachment->ID, self::META_DATA_POST_KEY, true);
+        $alt = \get_post_meta($this->attachment->ID, self::META_DATA_POST_KEY, true);
 
         /**
          * Filter Alt Attribute Value

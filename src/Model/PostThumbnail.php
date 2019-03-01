@@ -92,7 +92,7 @@ final class PostThumbnail implements PartialModel
      */
     private function hasSupport(): bool
     {
-        return current_theme_supports('post-thumbnails');
+        return \current_theme_supports('post-thumbnails');
     }
 
     /**
@@ -100,7 +100,7 @@ final class PostThumbnail implements PartialModel
      */
     private function hasThumbnail(): bool
     {
-        return has_post_thumbnail($this->post);
+        return \has_post_thumbnail($this->post);
     }
 
     /**
@@ -110,7 +110,7 @@ final class PostThumbnail implements PartialModel
     {
         return new FigureAttachmentImage(
             $this->bem,
-            get_post_thumbnail_id($this->post),
+            \get_post_thumbnail_id($this->post),
             $this->attachmentSize
         );
     }
@@ -120,7 +120,7 @@ final class PostThumbnail implements PartialModel
      */
     private function permalink(): string
     {
-        $permalink = get_permalink($this->post);
+        $permalink = \get_permalink($this->post);
 
         /**
          * Filter Post Thumbnail Permalink

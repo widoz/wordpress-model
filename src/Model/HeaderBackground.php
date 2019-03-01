@@ -45,7 +45,7 @@ final class HeaderBackground implements FullFilledModel, NeedAsset
                     'class' => $bem,
                 ],
             ],
-            'markup' => $this->hasVideo() ? get_custom_header_markup() : '',
+            'markup' => $this->hasVideo() ? \get_custom_header_markup() : '',
             'image' => [
                 'markup' => $this->hasImage() ? $this->headerImageMarkup($bem) : '',
             ],
@@ -57,12 +57,12 @@ final class HeaderBackground implements FullFilledModel, NeedAsset
      */
     public function requireAsset(): void
     {
-        if ($this->hasVideo() && wp_script_is('wp-custom-header', 'registered')) {
-            wp_enqueue_script('wp-custom-header');
-            wp_localize_script(
+        if ($this->hasVideo() && \wp_script_is('wp-custom-header', 'registered')) {
+            \wp_enqueue_script('wp-custom-header');
+            \wp_localize_script(
                 'wp-custom-header',
                 '_wpCustomHeaderSettings',
-                get_header_video_settings()
+                \get_header_video_settings()
             );
         }
     }
@@ -80,7 +80,7 @@ final class HeaderBackground implements FullFilledModel, NeedAsset
      */
     private function hasSupport(): bool
     {
-        return current_theme_supports('custom-header');
+        return \current_theme_supports('custom-header');
     }
 
     /**
@@ -88,7 +88,7 @@ final class HeaderBackground implements FullFilledModel, NeedAsset
      */
     private function hasVideo(): bool
     {
-        return is_header_video_active() && has_header_video();
+        return \is_header_video_active() && \has_header_video();
     }
 
     /**
@@ -96,7 +96,7 @@ final class HeaderBackground implements FullFilledModel, NeedAsset
      */
     private function hasImage(): bool
     {
-        return has_header_image();
+        return \has_header_image();
     }
 
     /**
@@ -104,7 +104,7 @@ final class HeaderBackground implements FullFilledModel, NeedAsset
      */
     private function headerImageMarkup(ServiceBem $bem): string
     {
-        return get_header_image_tag([
+        return \get_header_image_tag([
             'class' => $bem->forElement('image'),
         ]);
     }
