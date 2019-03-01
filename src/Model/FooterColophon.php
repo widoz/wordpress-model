@@ -51,11 +51,11 @@ final class FooterColophon implements FullFilledModel
     {
         $theme = $this->theme();
 
-        return sprintf(
+        return \sprintf(
             // translators: The %s are the links to WordPress and WordPress Theme Model homepages
             __('Proudly by %1$s - Theme Name: %2$s', 'wordpress-model'),
             '<a href="https://www.wordpress.org">' . __('WordPress', 'wordpress-model') . '</a>',
-            '<a href="' . esc_url($theme->get('ThemeURI')) . '">' . $theme->get('Name') . '</a>'
+            '<a href="' . \esc_url($theme->get('ThemeURI')) . '">' . $theme->get('Name') . '</a>'
         );
     }
 
@@ -70,6 +70,6 @@ final class FooterColophon implements FullFilledModel
             return $theme;
         }
 
-        return wp_get_theme();
+        return \wp_get_theme();
     }
 }

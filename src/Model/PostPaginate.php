@@ -57,7 +57,7 @@ final class PostPaginate implements FullFilledModel
                     'class' => $bem,
                 ],
             ],
-            'markup' => wp_link_pages([
+            'markup' => \wp_link_pages([
                 'echo' => 0,
                 'before' => $this->before($bem->value()),
                 'after' => $this->after(),
@@ -96,7 +96,7 @@ final class PostPaginate implements FullFilledModel
     {
         $bem = Factory::createServiceForStandard('pagination');
 
-        $link = '<li class="' . sanitize_html_class($bem->forElement('item')) . '">' . $link . '</li>';
+        $link = '<li class="' . \sanitize_html_class($bem->forElement('item')) . '">' . $link . '</li>';
 
         return $link;
     }
@@ -107,7 +107,7 @@ final class PostPaginate implements FullFilledModel
      */
     private function before(Valuable $bem): string
     {
-        return '<ul class="' . sanitize_html_class($bem) . '">';
+        return '<ul class="' . \sanitize_html_class($bem) . '">';
     }
 
     /**
@@ -123,9 +123,9 @@ final class PostPaginate implements FullFilledModel
      */
     private function linkBefore(): string
     {
-        return sprintf(
+        return \sprintf(
             '<span class="screen-reader-text">%s</span>',
-            esc_html_x('Page', 'pagination', 'wordpress-model')
+            \esc_html_x('Page', 'pagination', 'wordpress-model')
         );
     }
 }

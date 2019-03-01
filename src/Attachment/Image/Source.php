@@ -95,12 +95,12 @@ class Source
     {
         $this->ensureAttachmentIsImage($attachment);
 
-        $imageSource = (array)wp_get_attachment_image_src($attachment->ID, $size->value());
-        $imageSource = array_filter($imageSource);
+        $imageSource = (array)\wp_get_attachment_image_src($attachment->ID, $size->value());
+        $imageSource = \array_filter($imageSource);
 
         if (!$imageSource) {
             throw new \DomainException(
-                sprintf('Image with ID: %d, no longer exists', $attachment->ID)
+                \sprintf('Image with ID: %d, no longer exists', $attachment->ID)
             );
         }
 
@@ -116,7 +116,7 @@ class Source
      */
     private function ensureAttachmentIsImage(\WP_Post $attachment): void
     {
-        if (!wp_attachment_is_image($attachment)) {
+        if (!\wp_attachment_is_image($attachment)) {
             throw new InvalidAttachmentType('Attachment must be a type of image.');
         }
     }

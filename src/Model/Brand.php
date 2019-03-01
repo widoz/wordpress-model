@@ -59,7 +59,7 @@ final class Brand implements FullFilledModel
         }
 
         $style = $this->cssProperties->flat([
-            'color' => '#' . sanitize_hex_color_no_hash(get_header_textcolor()),
+            'color' => '#' . \sanitize_hex_color_no_hash(\get_header_textcolor()),
         ]);
 
         $data = [
@@ -99,6 +99,6 @@ final class Brand implements FullFilledModel
      */
     private function mayBeDisplayed(): bool
     {
-        return (bool)trim(get_bloginfo('name'));
+        return (bool)\trim(get_bloginfo('name'));
     }
 }

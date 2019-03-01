@@ -24,7 +24,7 @@ class InvalidPostException extends PostException
     public function __construct()
     {
         parent::__construct(
-            sprintf(
+            \sprintf(
                 '%s cannot retrieve post.',
                 $this->__toString()
             )

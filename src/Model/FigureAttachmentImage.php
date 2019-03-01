@@ -99,7 +99,7 @@ class FigureAttachmentImage implements PartialModel
      */
     private function caption(): string
     {
-        $caption = (string)wp_get_attachment_caption($this->attachmentId);
+        $caption = (string)\wp_get_attachment_caption($this->attachmentId);
 
         /**
          * Figure Image Caption Filter

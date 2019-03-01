@@ -56,7 +56,7 @@ final class PostTitle implements PartialModel
     public function data(): array
     {
         $isSingular = $this->query->is_singular();
-        $href = $isSingular ? '' : (string)get_permalink($this->post);
+        $href = $isSingular ? '' : (string)\get_permalink($this->post);
 
         /**
          * Post Title
@@ -85,6 +85,6 @@ final class PostTitle implements PartialModel
      */
     private function title(): string
     {
-        return get_the_title($this->post);
+        return \get_the_title($this->post);
     }
 }

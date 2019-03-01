@@ -95,13 +95,13 @@ final class Terms implements PartialModel
     private function terms(): array
     {
         $items = [];
-        $terms = get_terms(array_merge($this->args, [
+        $terms = \get_terms(\array_merge($this->args, [
             'taxonomy' => $this->taxonomy,
         ]));
 
         if (!$terms
             || !\is_array($terms)
-            || is_wp_error($terms)
+            || \is_wp_error($terms)
         ) {
             return [];
         }
@@ -131,9 +131,9 @@ final class Terms implements PartialModel
      */
     private function termLink(\WP_Term $term): string
     {
-        $link = get_term_link($term, $this->taxonomy);
+        $link = \get_term_link($term, $this->taxonomy);
 
-        if (is_wp_error($link)) {
+        if (\is_wp_error($link)) {
             $link = '';
         }
 

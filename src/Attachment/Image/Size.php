@@ -51,10 +51,11 @@ class Size
         if (count($this->sizes) === 1) {
             $size = $this->sizes[0];
 
-            return is_numeric($size) ? $this->toInteger($size, $size) : (string)$size;
+            return \is_numeric($size) ? $this->toInteger($size, $size) : (string)$size;
         }
 
-        $sizes = array_filter($this->sizes, 'is_numeric');
+        /** @noinspection UnqualifiedReferenceInspection */
+        $sizes = \array_filter($this->sizes, 'is_numeric');
 
         if (count($sizes) !== 2) {
             throw new \DomainException('All sizes values must be numeric');
@@ -69,6 +70,7 @@ class Size
      */
     private function toInteger(...$numbers): array
     {
-        return array_map('intval', $numbers);
+        /** @noinspection UnqualifiedReferenceInspection */
+        return \array_map('intval', $numbers);
     }
 }

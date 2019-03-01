@@ -41,7 +41,7 @@ class ArrayImplode
 
             $string .= $key . $assGlue . $value . $glue;
         }
-        $string = rtrim($string, $glue);
+        $string = \rtrim($string, $glue);
 
         return $string;
     }
@@ -54,7 +54,7 @@ class ArrayImplode
      */
     private function isNumeric(array $data): bool
     {
-        $numericArray = array_filter(array_keys($data), 'is_numeric');
+        $numericArray = \array_filter(\array_keys($data), \'is_numeric');
 
         return count($numericArray) > 0;
     }
