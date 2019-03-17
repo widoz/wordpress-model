@@ -39,9 +39,12 @@ class CssProperties
      * @uses ArrayImplode::byGlue to flat the array.
      * @param array $properties
      * @return string
+     * @throws \InvalidArgumentException
      */
     public function flat(array $properties): string
     {
+        Assert::isStringValueMap($properties);
+
         return $this->arrayImploder->byGlue($properties, ';', ':');
     }
 }
