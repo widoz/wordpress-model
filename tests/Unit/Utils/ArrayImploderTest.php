@@ -10,7 +10,7 @@
  */
 declare(strict_types=1);
 
-namespace WordPressModel\Utils;
+namespace WordPressModel\Tests\Unit\Utils;
 
 use WordPressModel\Utils\ArrayImplode as Testee;
 use ProjectTestsHelper\Phpunit\TestCase;
