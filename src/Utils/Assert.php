@@ -26,14 +26,11 @@ final class Assert extends WebMozartAssert
      * @param string|null $message
      * @throws \InvalidArgumentException
      */
-    public static function isStringValueMap(array $array, string $message = null)
+    public static function isStringValueMap(array $array, string $message = null): void
     {
         static::isMap($array, $message);
 
-        // phpcs:ignore Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-        $isString = array_filter($array, function ($value): bool {
-            return is_string($value);
-        });
+        $isString = \array_filter($array, '\is_string');
 
         if (!$isString) {
             static::reportInvalidArgument(
