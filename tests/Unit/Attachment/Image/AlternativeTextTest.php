@@ -19,7 +19,7 @@ class AlternativeTextTest extends TestCase
      * @throws \PHPUnit\Framework\ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    public function testInstance()
+    public function testInstance(): void
     {
         $attachment = $this
             ->getMockBuilder('WP_Post')
@@ -37,7 +37,7 @@ class AlternativeTextTest extends TestCase
      * @throws \PHPUnit\Framework\ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    public function testText()
+    public function testText(): void
     {
         $stringValue = '';
         $attachment = $this
