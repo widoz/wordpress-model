@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace WordPressModel\Attachment\Image;
 
+use InvalidArgumentException;
+use WordPressModel\Utils\Assert;
+
 /**
  * Attachment Image Size
  *
@@ -20,57 +23,93 @@ namespace WordPressModel\Attachment\Image;
 class Size
 {
     /**
-     * @var array
+     * @var int
      */
-    private $sizes;
+    private $width;
 
     /**
-     * AttachmentImageSize constructor
-     * @param int|string[] $sizes
+     * @var int
      */
-    public function __construct(...$sizes)
+    private $height;
+
+    /**
+     * Create a Size Instance by string WordPress style
+     *
+     * @param string $name
+     * @return Size
+     * @throws InvalidArgumentException
+     */
+    public static function createBySizeName(string $name): self
     {
-        $this->sizes = $sizes;
+        $registeredWordPressImageSizes = \get_intermediate_image_sizes();
+        $additionalImageSizes = \wp_get_additional_image_sizes();
+
+        Assert::arrayContains(
+            $name,
+            $registeredWordPressImageSizes,
+            "{$name} size not found on WordPress registered sizes."
+        );
+
+        if ($additionalImageSizes[$name] ?? false) {
+            return new self(
+                (int)$additionalImageSizes[$name]['width'],
+                (int)$additionalImageSizes[$name]['height']
+            );
+        }
+
+        return new self(
+            (int)get_option("{$name}_size_w", null),
+            (int)get_option("{$name}_size_h", null)
+        );
     }
 
     /**
-     * @return array|string
-     * @throws \InvalidArgumentException If size is empty
-     * @throws \LengthException If size contains more than 2 values
-     * @throws \DomainException If size is an array with 2 elements but one of them isn't an integer
+     * Create a Size Instance by Width and Height values
+     *
+     * @param int $width
+     * @param int $height
+     * @return Size
+     * @throws InvalidArgumentException
      */
-    public function value()
+    public static function createByValues(int $width, int $height): self
     {
-        if (!$this->sizes) {
-            throw new \InvalidArgumentException('Size cannot be an empty array');
-        }
-        if (count($this->sizes) > 2) {
-            throw new \LengthException('Size cannot contains more than 2 elements');
-        }
-
-        if (count($this->sizes) === 1) {
-            $size = $this->sizes[0];
-
-            return \is_numeric($size) ? $this->toInteger($size, $size) : (string)$size;
-        }
-
-        /** @noinspection UnqualifiedReferenceInspection */
-        $sizes = \array_filter($this->sizes, 'is_numeric');
-
-        if (count($sizes) !== 2) {
-            throw new \DomainException('All sizes values must be numeric');
-        }
-
-        return $this->toInteger(...$sizes);
+        return new self($width, $height);
     }
 
     /**
-     * @param mixed ...$numbers
-     * @return int[]
+     * Retrieve the Width
+     *
+     * @return int
      */
-    private function toInteger(...$numbers): array
+    public function width(): int
     {
-        /** @noinspection UnqualifiedReferenceInspection */
-        return \array_map('intval', $numbers);
+        return $this->width;
+    }
+
+    /**
+     * Retrieve the Height
+     *
+     * @return int
+     */
+    public function height(): int
+    {
+        return $this->height;
+    }
+
+    /**
+     * Size constructor
+     * @param int $width
+     * @param int $height
+     * @throws InvalidArgumentException
+     */
+    private function __construct(int $width, int $height)
+    {
+        $sizes = \array_filter([$width, $height], function (int $value): bool {
+            return $value > 0;
+        });
+
+        Assert::count($sizes, 2, 'Width and Height must be greater than zero');
+
+        [$this->width, $this->height] = $sizes;
     }
 }

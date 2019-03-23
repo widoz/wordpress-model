@@ -40,4 +40,21 @@ final class Assert extends WebMozartAssert
             );
         }
     }
+
+    /**
+     * Assert Given Array Contains give Item
+     *
+     * @param $needle
+     * @param array $haystack
+     * @param string|null $message
+     * @throws \InvalidArgumentException
+     */
+    public static function arrayContains($needle, array $haystack, string $message = null): void
+    {
+        if (!\in_array($needle, $haystack, true)) {
+            static::reportInvalidArgument(
+                $message ?: 'Expect item in array.'
+            );
+        }
+    }
 }

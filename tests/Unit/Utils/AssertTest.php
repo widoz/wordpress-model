@@ -14,6 +14,7 @@ namespace WordPressModel\Utils;
 
 use ProjectTestsHelper\Phpunit\TestCase;
 use WordPressModel\Utils\Assert as Testee;
+use InvalidArgumentException;
 
 /**
  * Class AssertTest
@@ -23,7 +24,9 @@ use WordPressModel\Utils\Assert as Testee;
 class AssertTest extends TestCase
 {
     /**
-     * @throws \InvalidArgumentException
+     * Test Array Contains Only Strings
+     *
+     * @throws InvalidArgumentException
      * @throws \PHPUnit\Framework\ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
@@ -35,12 +38,42 @@ class AssertTest extends TestCase
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * Test Array Throw Exception Because Given Array Does not Contains Only Strings
+     *
+     * @throws InvalidArgumentException
      */
     public function testInvalidStringValueMap(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Expect map of strings - All values of map are strings.');
 
         Testee::isStringValueMap(['key_1' => 1]);
+    }
+
+    /**
+     * Test Array Contains Given Element
+     *
+     * @throws InvalidArgumentException
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    public function testArrayContains(): void
+    {
+        Testee::arrayContains('element', ['element']);
+
+        self::assertTrue(true);
+    }
+
+    /**
+     * Test ArrayContains Assertion Throw Exception
+     *
+     * @throws InvalidArgumentException
+     */
+    public function testInvalidArrayContains(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Expect item in array.');
+
+        Testee::arrayContains('element', ['item']);
     }
 }
