@@ -12,15 +12,10 @@ declare(strict_types=1);
 
 namespace WordPressModel\Attachment\Image;
 
-use WordPressModel\Exception\InvalidAttachmentType;
+use \InvalidArgumentException;
 
 /**
  * Attachment Image Source
- *
- * @property $source
- * @property $width
- * @property $height
- * @property $intermediate
  *
  * @author Guido Scialfa <dev@guidoscialfa.com>
  */
@@ -29,95 +24,92 @@ class Source
     /**
      * @var string
      */
-    private $source = '';
+    private $source;
 
     /**
      * @var int
      */
-    private $width = 0;
+    private $width;
 
     /**
      * @var int
      */
-    private $height = 0;
+    private $height;
 
     /**
      * @var bool
      */
-    private $intermediate = false;
+    private $intermediate;
 
     /**
-     * AttachmentImageSource constructor
-     * @param \WP_Post $attachment
-     * @param Size $size
+     * Source constructor
+     *
+     * @param string $source
+     * @param int $width
+     * @param int $height
+     * @param bool $intermediate
+     * @throws InvalidArgumentException
      */
-    public function __construct(\WP_Post $attachment, Size $size)
+    public function __construct(string $source, int $width, int $height, bool $intermediate)
     {
-        $this->attachmentImageSource($attachment, $size);
+        $this->bailIfConstructArguments($source, $width, $height);
+
+        $this->source = $source;
+        $this->width = $width;
+        $this->height = $height;
+        $this->intermediate = $intermediate;
     }
 
     /**
-     * @param string $name
+     * @return string
+     */
+    public function source(): string
+    {
+        return $this->source;
+    }
+
+    /**
+     * @return int
+     */
+    public function width(): int
+    {
+        return $this->width;
+    }
+
+    /**
+     * @return int
+     */
+    public function height(): int
+    {
+        return $this->height;
+    }
+
+    /**
      * @return bool
      */
-    public function __isset(string $name): bool
+    public function intermediate(): bool
     {
-        return isset($this->{$name});
+        return $this->intermediate;
     }
 
     /**
-     * @param string $name
-     * @param $value
-     * @throws \BadMethodCallException
+     * Validate Arguments for Constructor
+     *
+     * @param string $source
+     * @param int $width
+     * @param int $height
+     * @throws InvalidArgumentException
      */
-    public function __set(string $name, $value)
+    private function bailIfConstructArguments(string $source, int $width, int $height): void
     {
-        throw new \BadMethodCallException(
-            'Properties of class AttachmentImageSource cannot be set.'
-        );
-    }
-
-    /**
-     * @param string $name
-     * @return mixed
-     */
-    public function __get(string $name)
-    {
-        return $this->{$name};
-    }
-
-    /**
-     * @param \WP_Post $attachment
-     * @param Size $size
-     * @throws \DomainException
-     */
-    private function attachmentImageSource(\WP_Post $attachment, Size $size): void
-    {
-        $this->ensureAttachmentIsImage($attachment);
-
-        $imageSource = (array)\wp_get_attachment_image_src($attachment->ID, $size->value());
-        $imageSource = \array_filter($imageSource);
-
-        if (!$imageSource) {
-            throw new \DomainException(
-                \sprintf('Image with ID: %d, no longer exists', $attachment->ID)
-            );
+        if ($width <= 0) {
+            throw new InvalidArgumentException('Width cannot be less or equal than zero.');
         }
-
-        $this->source = $imageSource[0];
-        $this->width = $imageSource[1];
-        $this->height = $imageSource[2];
-        $this->intermediate = $imageSource[3] ?? false;
-    }
-
-    /**
-     * @param \WP_Post $attachment
-     * @throws InvalidAttachmentType
-     */
-    private function ensureAttachmentIsImage(\WP_Post $attachment): void
-    {
-        if (!\wp_attachment_is_image($attachment)) {
-            throw new InvalidAttachmentType('Attachment must be a type of image.');
+        if ($height <= 0) {
+            throw new InvalidArgumentException('Height cannot be less or equal than zero.');
+        }
+        if (!\file_exists($source)) {
+            throw new InvalidArgumentException('Source file does not exists.');
         }
     }
 }
