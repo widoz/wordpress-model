@@ -22,6 +22,8 @@ use Webmozart\Assert\Assert as WebMozartAssert;
 final class Assert extends WebMozartAssert
 {
     /**
+     * Assert all Values Within the Given map are string types
+     *
      * @param array $array
      * @param string|null $message
      * @throws \InvalidArgumentException
