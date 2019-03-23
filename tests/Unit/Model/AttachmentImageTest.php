@@ -29,9 +29,13 @@ class AttachmentImageTest extends TestCase
         $bem = $this->createMock(Service::class);
         $source = $this->createMock(Source::class);
         $alternativeText = $this->createMock(AlternativeText::class);
+        $attachment = $this
+            ->getMockBuilder('WP_Post')
+            ->getMock();
 
         $testee = new Testee(
             $bem,
+            $attachment,
             $source,
             $alternativeText
         );
@@ -44,6 +48,9 @@ class AttachmentImageTest extends TestCase
         $bem = $this->createMock(Service::class);
         $source = $this->createMock(Source::class);
         $alternativeText = $this->createMock(AlternativeText::class);
+        $attachment = $this
+            ->getMockBuilder('WP_Post')
+            ->getMock();
 
         $alternativeText
             ->expects($this->once())
@@ -59,6 +66,7 @@ class AttachmentImageTest extends TestCase
 
         $testee = new Testee(
             $bem,
+            $attachment,
             $source,
             $alternativeText
         );

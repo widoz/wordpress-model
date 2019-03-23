@@ -38,7 +38,10 @@ class SourceFactory
             throw new InvalidArgumentException('Attachment must be an image.');
         }
 
-        $imageSource = (array)\wp_get_attachment_image_src($attachment->ID, $size->value());
+        $imageSource = (array)\wp_get_attachment_image_src(
+            $attachment->ID,
+            [$size->width(), $size->height()]
+        );
         $imageSource = \array_filter($imageSource);
 
         if (!$imageSource) {

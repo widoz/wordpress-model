@@ -16,6 +16,7 @@ namespace WordPressModel\Model;
 use Widoz\Bem\Service as ServiceBem;
 use WordPressModel\Attachment\Image\AlternativeText;
 use WordPressModel\Attachment\Image\Source;
+use WP_Post;
 
 /**
  * Attachment Image Model
@@ -40,24 +41,33 @@ final class AttachmentImage implements PartialModel
     private $attachmentImageAltText;
 
     /**
+     * @var WP_Post
+     */
+    private $attachment;
+
+    /**
      * AttachmentImage constructor
      * @param ServiceBem $bem
+     * @param WP_Post $attachment
      * @param Source $attachmentImageSource
      * @param AlternativeText $attachmentImageAltText
      */
     public function __construct(
         ServiceBem $bem,
+        WP_Post $attachment,
         Source $attachmentImageSource,
         AlternativeText $attachmentImageAltText
     ) {
 
         $this->bem = $bem;
+        $this->attachment = $attachment;
         $this->attachmentImageSource = $attachmentImageSource;
         $this->attachmentImageAltText = $attachmentImageAltText;
     }
 
     /**
      * @return array
+     * @throws \InvalidArgumentException
      */
     public function data(): array
     {
@@ -69,10 +79,10 @@ final class AttachmentImage implements PartialModel
         return apply_filters(self::FILTER_DATA, [
             'image' => [
                 'attributes' => [
-                    'url' => $this->attachmentImageSource->source,
-                    'width' => $this->attachmentImageSource->width,
-                    'height' => $this->attachmentImageSource->height,
-                    'alt' => $this->attachmentImageAltText->text(),
+                    'url' => $this->attachmentImageSource->source(),
+                    'width' => $this->attachmentImageSource->width(),
+                    'height' => $this->attachmentImageSource->height(),
+                    'alt' => $this->attachmentImageAltText->text($this->attachment),
                     'class' => $this->bem->forElement('image'),
                 ],
             ],
