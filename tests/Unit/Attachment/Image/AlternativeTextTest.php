@@ -26,7 +26,7 @@ class AlternativeTextTest extends TestCase
             ->getMock();
         $attachment->ID = 1;
 
-        $testee = new Testee($attachment);
+        $testee = new Testee();
 
         self::assertInstanceOf(Testee::class, $testee);
     }
@@ -45,7 +45,7 @@ class AlternativeTextTest extends TestCase
             ->getMock();
         $attachment->ID = 1;
 
-        $testee = $this->createTestee($attachment);
+        $testee = $this->createTestee();
 
         Monkey\Functions\expect('get_post_meta')
             ->once()
@@ -57,20 +57,18 @@ class AlternativeTextTest extends TestCase
             ->once()
             ->with($stringValue, $attachment);
 
-        $testee->text();
+        $testee->text($attachment);
 
         self::assertTrue(true);
     }
 
     /**
-     * @param \WP_Post $attachment
      * @return \PHPUnit\Framework\MockObject\MockObject
      */
-    private function createTestee(\WP_Post $attachment)
+    private function createTestee()
     {
         $testee = $this->getMockBuilder(Testee::class)
             ->setMethods(null)
-            ->setConstructorArgs([$attachment])
             ->getMock();
 
         return $testee;

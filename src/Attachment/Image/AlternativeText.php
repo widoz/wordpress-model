@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace WordPressModel\Attachment\Image;
 
+use WP_Post;
+
 /**
  * Attachment Image AlternativeText
  *
@@ -23,25 +25,13 @@ class AlternativeText
     private const META_DATA_POST_KEY = '_wp_attachment_image_alt';
 
     /**
-     * @var \WP_Post
-     */
-    private $attachment;
-
-    /**
-     * AttachmentImageAlternativeDescription constructor
      * @param \WP_Post $attachment
-     */
-    public function __construct(\WP_Post $attachment)
-    {
-        $this->attachment = $attachment;
-    }
-
-    /**
      * @return string
+     * @throws \InvalidArgumentException
      */
-    public function text(): string
+    public function text(WP_Post $attachment): string
     {
-        $alt = \get_post_meta($this->attachment->ID, self::META_DATA_POST_KEY, true);
+        $alt = \get_post_meta($attachment->ID, self::META_DATA_POST_KEY, true);
 
         /**
          * Filter Alt Attribute Value
@@ -49,7 +39,7 @@ class AlternativeText
          * @param string $alt The alternative text.
          * @param \WP_Post $attachment The attachment object
          */
-        $alt = apply_filters(self::FILTER_ALT, $alt, $this->attachment);
+        $alt = apply_filters(self::FILTER_ALT, $alt, $attachment);
 
         return (string)$alt;
     }
