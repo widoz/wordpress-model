@@ -40,23 +40,6 @@ class BrandTest extends TestCase
     {
         $bem = $this->createMock(Bem\Service::class);
         $cssProperties = $this->createMock(CssProperties::class);
-
-        Functions\expect('get_bloginfo')
-            ->once()
-            ->with('name')
-            ->andReturn('');
-
-        $testee = new Testee($bem, $cssProperties);
-
-        $data = $testee->data();
-
-        self::assertEmpty($data);
-    }
-
-    public function testFilterDataAppliedEvenIfBlogNameIsEmptyString()
-    {
-        $bem = $this->createMock(Bem\Service::class);
-        $cssProperties = $this->createMock(CssProperties::class);
         $testee = new Testee($bem, $cssProperties);
 
         Functions\expect('get_bloginfo')
@@ -69,26 +52,19 @@ class BrandTest extends TestCase
             ->with([]);
 
         $testee->data();
-
-        self::assertTrue(true);
     }
 
     public function testFilterGetAppliedWithCorrectData()
     {
         $bem = $this->createMock(Bem\Service::class);
         $cssProperties = $this->createMock(CssProperties::class);
+        $linkValue = $this->createMock(Bem\Valuable::class);
+        $descriptionValue = $this->createMock(Bem\Valuable::class);
+
         $testee = new Testee($bem, $cssProperties);
 
-        Functions\expect('get_header_textcolor')
-            ->once()
-            ->andReturn('ffffff');
-
-        Functions\expect('sanitize_hex_color_no_hash')
-            ->once()
-            ->with('ffffff')
-            ->andReturnFirstArg();
-
         Functions\expect('get_bloginfo')
+            ->once()
             ->with('name')
             ->andReturn('blog_name');
 
@@ -97,12 +73,25 @@ class BrandTest extends TestCase
             ->with('/')
             ->andReturn('home_url');
 
+        Functions\expect('get_header_textcolor')
+            ->once()
+            ->andReturn('header_color');
+
+        Functions\expect('sanitize_hex_color_no_hash')
+            ->once()
+            ->with('header_color')
+            ->andReturnFirstArg();
+
         Functions\expect('get_bloginfo')
+            ->once()
             ->with('description')
             ->andReturn('blog_description');
 
-        $linkValue = $this->createMock(Bem\Valuable::class);
-        $descriptionValue = $this->createMock(Bem\Valuable::class);
+        $cssProperties
+            ->expects($this->once())
+            ->method('flat')
+            ->with(['color' => '#header_color'])
+            ->willReturn('color:#header_color');
 
         $bem
             ->expects($this->exactly(2))
@@ -112,14 +101,6 @@ class BrandTest extends TestCase
                 $linkValue,
                 $descriptionValue
             );
-
-        $cssProperties
-            ->expects($this->once())
-            ->method('flat')
-            ->with([
-                'color' => '#ffffff',
-            ])
-            ->willReturn('color:#ffffff');
 
         Filters\expectApplied(Testee::FILTER_DATA)
             ->once()
@@ -136,7 +117,7 @@ class BrandTest extends TestCase
                     'attributes' => [
                         'href' => 'home_url',
                         'class' => $linkValue,
-                        'style' => 'color:#ffffff',
+                        'style' => 'color:#header_color',
                     ],
                 ],
                 'description' => [

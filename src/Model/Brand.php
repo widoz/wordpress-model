@@ -13,6 +13,10 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
+use function get_header_textcolor;
+use function sanitize_hex_color_no_hash;
+use function trim;
+use InvalidArgumentException;
 use Widoz\Bem\Service as BemService;
 use WordPressModel\Utils\CssProperties;
 
@@ -45,11 +49,14 @@ final class Brand implements FullFilledModel
     }
 
     /**
-     * @return array
+     * @inheritDoc
+     * @throws InvalidArgumentException
      */
     public function data(): array
     {
-        if (!$this->mayBeDisplayed()) {
+        $blogName = trim(get_bloginfo('name'));
+
+        if (!$blogName) {
             /**
              * Filter Data
              *
@@ -58,8 +65,8 @@ final class Brand implements FullFilledModel
             return apply_filters(self::FILTER_DATA, []);
         }
 
-        $style = $this->cssProperties->flat([
-            'color' => '#' . \sanitize_hex_color_no_hash(\get_header_textcolor()),
+        $headerTextColor = $this->cssProperties->flat([
+            'color' => '#' . sanitize_hex_color_no_hash(get_header_textcolor()),
         ]);
 
         $data = [
@@ -69,13 +76,13 @@ final class Brand implements FullFilledModel
                 ],
             ],
             'name' => [
-                'text' => get_bloginfo('name'),
+                'text' => $blogName,
             ],
             'link' => [
                 'attributes' => [
                     'href' => home_url('/'),
                     'class' => $this->bem->forElement('link'),
-                    'style' => $style,
+                    'style' => $headerTextColor,
                 ],
             ],
             'description' => [
@@ -92,13 +99,5 @@ final class Brand implements FullFilledModel
          * @param array $data The data for the template to filter.
          */
         return apply_filters(self::FILTER_DATA, $data);
-    }
-
-    /**
-     * @return bool
-     */
-    private function mayBeDisplayed(): bool
-    {
-        return (bool)\trim(get_bloginfo('name'));
     }
 }
