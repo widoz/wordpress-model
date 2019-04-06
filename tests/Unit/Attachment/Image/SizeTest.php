@@ -26,11 +26,6 @@ class SizeTest extends TestCase
 {
     /**
      * Test Create Size by Name
-     *
-     * @throws \InvalidArgumentException
-     * @throws \PHPUnit\Framework\ExpectationFailedException
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
-     * @throws \UnexpectedValueException
      */
     public function testCreateBySizeName(): void
     {
@@ -65,8 +60,6 @@ class SizeTest extends TestCase
     /**
      * Test Create Size by Name Throw Exception if Name is not a Valid item in the List
      * of the Registered sizes.
-     *
-     * @throws InvalidArgumentException
      */
     public function testCreateBySizeNameThrowInvalidArgumentException(): void
     {
@@ -95,10 +88,6 @@ class SizeTest extends TestCase
 
     /**
      * Test Create by Values
-     *
-     * @throws InvalidArgumentException
-     * @throws \PHPUnit\Framework\ExpectationFailedException
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
     public function testCreateByValues(): void
     {
@@ -110,8 +99,6 @@ class SizeTest extends TestCase
 
     /**
      * Test Create by Values Throw Exception if Given Width and Height are Less or Equal than Zero
-     *
-     * @throws InvalidArgumentException
      */
     public function testCreateByValuesThrowInvalidArgumentException(): void
     {

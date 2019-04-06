@@ -15,9 +15,6 @@ class AlternativeTextTest extends TestCase
 {
     /**
      * Test instance of Testee is created without errors
-     *
-     * @throws \PHPUnit\Framework\ExpectationFailedException
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
     public function testInstance(): void
     {
@@ -33,9 +30,6 @@ class AlternativeTextTest extends TestCase
 
     /**
      * Test text method get the alternate text from post meta and apply filter on it
-     *
-     * @throws \PHPUnit\Framework\ExpectationFailedException
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
     public function testText(): void
     {
@@ -45,7 +39,7 @@ class AlternativeTextTest extends TestCase
             ->getMock();
         $attachment->ID = 1;
 
-        $testee = $this->createTestee();
+        $testee = new Testee();
 
         Monkey\Functions\expect('get_post_meta')
             ->once()
@@ -60,17 +54,5 @@ class AlternativeTextTest extends TestCase
         $testee->text($attachment);
 
         self::assertTrue(true);
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject
-     */
-    private function createTestee()
-    {
-        $testee = $this->getMockBuilder(Testee::class)
-            ->setMethods(null)
-            ->getMock();
-
-        return $testee;
     }
 }

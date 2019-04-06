@@ -22,6 +22,9 @@ use Widoz\Bem;
 
 class ArchiveDescriptionTest extends TestCase
 {
+    /**
+     * Test Testee Instance
+     */
     public function testInstance()
     {
         $bem = $this->createMock(Bem\Service::class);
@@ -31,6 +34,9 @@ class ArchiveDescriptionTest extends TestCase
         self::assertInstanceOf(Testee::class, $testee);
     }
 
+    /**
+     * Test the Page for Posts Description it's in the Model Data when `is_home` return true
+     */
     public function testDescriptionForPageForPosts()
     {
         $valuable = $this->createMock(Bem\Valuable::class);
@@ -68,6 +74,9 @@ class ArchiveDescriptionTest extends TestCase
         $testee->data();
     }
 
+    /**
+     * Test the Description for Archive it's in the Model data when `is_home` return false.
+     */
     public function testDescriptionForArchive()
     {
         $valuable = $this->createMock(Bem\Valuable::class);

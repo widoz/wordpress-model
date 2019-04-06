@@ -25,6 +25,9 @@ use ProjectTestsHelper\Phpunit\TestCase;
  */
 class CommentSectionTitleTest extends TestCase
 {
+    /**
+     * Test Instance
+     */
     public function testInstance()
     {
         $bem = $this->createMock(Service::class);
@@ -33,6 +36,9 @@ class CommentSectionTitleTest extends TestCase
         self::assertInstanceOf(Testee::class, $testee);
     }
 
+    /**
+     * Test Data Model Contains Correct Values and Filter is Applied
+     */
     public function testFilterGetAppliedWithCorrectData()
     {
         $bem = $this->createMock(Service::class);

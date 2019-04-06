@@ -22,6 +22,9 @@ use ProjectTestsHelper\Phpunit\TestCase;
 
 class ArchiveHeaderTest extends TestCase
 {
+    /**
+     * Test Archive Header Data Model Contains the Proper Values
+     */
     public function testArchiveHeaderData()
     {
         $bem = $this->createMock(Bem\Service::class);
@@ -79,6 +82,9 @@ class ArchiveHeaderTest extends TestCase
         $testee->data();
     }
 
+    /**
+     * Test Archive Header for Page for Posts Data Model Contains the Proper Values
+     */
     public function testArchiveHeaderDataForPageForPosts()
     {
         $bem = $this->createMock(Bem\Service::class);

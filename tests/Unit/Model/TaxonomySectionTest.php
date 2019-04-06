@@ -24,6 +24,9 @@ use WordPressModel\Model\TaxonomySection as Testee;
  */
 class TaxonomySectionTest extends TestCase
 {
+    /**
+     * Test Instance
+     */
     public function testInstance()
     {
         $bem = $this->createMock(Bem\Service::class);
@@ -34,6 +37,9 @@ class TaxonomySectionTest extends TestCase
         self::assertInstanceOf(Testee::class, $testee);
     }
 
+    /**
+     * Test Data Model Contains the Correct Values and Filter is Applied
+     */
     public function testFilterDataIsAppliedCorrectly()
     {
         $bem = $this->createMock(Bem\Service::class);

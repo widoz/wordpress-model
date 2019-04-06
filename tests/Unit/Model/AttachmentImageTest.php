@@ -24,6 +24,9 @@ use WordPressModel\Model\AttachmentImage;
 
 class AttachmentImageTest extends TestCase
 {
+    /**
+     * Test Instance
+     */
     public function testInstance()
     {
         $bem = $this->createMock(Service::class);
@@ -43,7 +46,10 @@ class AttachmentImageTest extends TestCase
         self::assertInstanceOf(Testee::class, $testee);
     }
 
-    public function testFilterGetAppliedWithCorrectData()
+    /**
+     * Test Data Model Filter is Applied with the correct Values
+     */
+    public function testFilterGetAppliedWithCorrectValue()
     {
         $bem = $this->createMock(Service::class);
         $source = $this->createMock(Source::class);

@@ -28,9 +28,6 @@ class SourceFactoryTest extends TestCase
 {
     /**
      * Test SourceFactory Instance
-     *
-     * @throws \PHPUnit\Framework\ExpectationFailedException
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
     public function testInstance()
     {
@@ -39,11 +36,6 @@ class SourceFactoryTest extends TestCase
 
     /**
      * Test Source Instantiation
-     *
-     * @throws InvalidArgumentException
-     * @throws \PHPUnit\Framework\Exception
-     * @throws \PHPUnit\Framework\ExpectationFailedException
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
     public function testSourceInstance()
     {

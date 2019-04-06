@@ -20,6 +20,9 @@ use Brain\Monkey;
 
 class ArchiveTitleTest extends TestCase
 {
+    /**
+     * Test Instance
+     */
     public function testsInstance()
     {
         $title = $this->createMock(Title::class);
@@ -28,7 +31,10 @@ class ArchiveTitleTest extends TestCase
         self::assertInstanceOf(Testee::class, $sut);
     }
 
-    public function testDescriptionForPageForPosts()
+    /**
+     * Test Title for Page for Posts Data Model Contains the Proper Value
+     */
+    public function testTitleForPageForPosts()
     {
         $title = $this->createMock(Title::class);
         $testee = new Testee($title);
@@ -51,7 +57,10 @@ class ArchiveTitleTest extends TestCase
         $testee->data();
     }
 
-    public function testDescriptionForArchive()
+    /**
+     * Test Title for Archive Data Model Contains the Proper Value
+     */
+    public function testTitleForArchive()
     {
         $title = $this->createMock(Title::class);
         $testee = new Testee($title);

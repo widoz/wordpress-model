@@ -27,6 +27,9 @@ use WordPressModel\Model\Brand as Testee;
  */
 class BrandTest extends TestCase
 {
+    /**
+     * Test Instance
+     */
     public function testInstance()
     {
         $bem = $this->createMock(Bem\Service::class);
@@ -36,7 +39,10 @@ class BrandTest extends TestCase
         self::assertInstanceOf(Testee::class, $testee);
     }
 
-    public function testMayBeDisplayedReturnEmptyData()
+    /**
+     * Test Data Model is Empty if Blog Name is Empty String
+     */
+    public function testDataModelIsEmptyIfBlogNameIsEmptyString()
     {
         $bem = $this->createMock(Bem\Service::class);
         $cssProperties = $this->createMock(CssProperties::class);
@@ -54,6 +60,9 @@ class BrandTest extends TestCase
         $testee->data();
     }
 
+    /**
+     * Test Data Model Contains Correct Values and Data Filter is applied
+     */
     public function testFilterGetAppliedWithCorrectData()
     {
         $bem = $this->createMock(Bem\Service::class);

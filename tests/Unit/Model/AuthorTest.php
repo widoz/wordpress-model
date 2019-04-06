@@ -22,6 +22,9 @@ use ProjectTestsHelper\Phpunit\TestCase;
 
 class AuthorTest extends TestCase
 {
+    /**
+     * Test Instance
+     */
     public function testInstance()
     {
         $bem = $this->createMock(Service::class);
@@ -34,6 +37,9 @@ class AuthorTest extends TestCase
         self::assertInstanceOf(Testee::class, $testee);
     }
 
+    /**
+     * Test Empty Data is Returned if User does not Exists
+     */
     public function testEmptyDataIfUserDoesNotExists()
     {
         $bem = $this->createMock(Service::class);
@@ -54,6 +60,9 @@ class AuthorTest extends TestCase
         self::assertEmpty($data);
     }
 
+    /**
+     * Test Author Data Model Contains the Correct Values
+     */
     public function testAuthorData()
     {
         $bem = $this->createMock(Service::class);
