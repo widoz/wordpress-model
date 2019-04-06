@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
+use DomainException;
 use Widoz\Bem\Service as ServiceBem;
 
 /**
@@ -28,16 +29,24 @@ final class CommentSectionTitle implements PartialModel
     private $bem;
 
     /**
+     * @var string
+     */
+    private $title;
+
+    /**
      * CommentSectionTitle constructor
      * @param ServiceBem $bem
+     * @param string $title
      */
-    public function __construct(ServiceBem $bem)
+    public function __construct(ServiceBem $bem, string $title)
     {
         $this->bem = $bem;
+        $this->title = $title;
     }
 
     /**
      * @return array
+     * @throws DomainException
      */
     public function data(): array
     {
@@ -48,45 +57,11 @@ final class CommentSectionTitle implements PartialModel
          */
         return apply_filters(self::FILTER_DATA, [
             'title' => [
-                'text' => $this->title(),
+                'text' => $this->title,
                 'attributes' => [
                     'class' => $this->bem->forElement('title'),
                 ],
             ],
         ]);
-    }
-
-    /**
-     * @return string
-     */
-    private function title(): string
-    {
-        $commentsNumber = $this->commentsNumber();
-        $postTitle = get_the_title();
-
-        $title = sprintf(
-            '%1$s %2$s',
-            esc_html(
-                // translators: %d is the number of responses
-                _n('%d response to', '%d responses to', $commentsNumber, 'wordpress-model')
-            ),
-            $postTitle
-        );
-
-        !$postTitle and $title = esc_html(
-            // translators: %d is the number of responses for the post
-            _n('%d response', '%d responses', $commentsNumber, 'wordpress-model')
-        );
-
-        return $title;
-    }
-
-    /**
-     * @return string
-     */
-    private function commentsNumber(): string
-    {
-        // Filter is applied to the returned value, we cannot be sure a string is returned.
-        return number_format_i18n(get_comments_number());
     }
 }
