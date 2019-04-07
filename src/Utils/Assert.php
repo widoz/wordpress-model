@@ -12,7 +12,9 @@ declare(strict_types=1);
 
 namespace WordPressModel\Utils;
 
+use function is_attachment;
 use Webmozart\Assert\Assert as WebMozartAssert;
+use WP_Post;
 
 /**
  * Class Assert
@@ -56,5 +58,19 @@ final class Assert extends WebMozartAssert
                 $message ?: 'Expect item in array.'
             );
         }
+    }
+
+    /**
+     * Assert a WP_Post Entity is an Attachment
+     *
+     * @param WP_Post $post
+     * @param string|null $message
+     * @throws \InvalidArgumentException
+     */
+    public static function isAttachment(WP_Post $post, string $message = null): void
+    {
+        'attachment' === $post->post_type or static::reportInvalidArgument(
+            $message ?: 'Expected Post be an Attachment.'
+        );
     }
 }

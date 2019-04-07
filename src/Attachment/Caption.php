@@ -1,7 +1,7 @@
 <?php # -*- coding: utf-8 -*-
 
 /*
- * This file is part of the wordpress-model package.
+ * This file is part of the WordPress Model package.
  *
  * (c) Guido Scialfa <dev@guidoscialfa.com>
  *
@@ -10,22 +10,21 @@
  */
 declare(strict_types=1);
 
-namespace WordPressModel\Attachment\Image;
+namespace WordPressModel\Attachment;
 
-use function get_post_meta;
 use InvalidArgumentException;
 use WordPressModel\Utils\Assert;
 use WP_Post;
+use function wp_get_attachment_caption;
 
 /**
- * Attachment Image AlternativeText
+ * Class Caption
  *
  * @author Guido Scialfa <dev@guidoscialfa.com>
  */
-class AlternativeText
+class Caption
 {
-    public const FILTER_ALT = 'wordpressmodel.attachment_image_alt';
-    private const META_DATA_POST_KEY = '_wp_attachment_image_alt';
+    public const FILTER = 'wordpressmodel.caption_text';
 
     /**
      * @param WP_Post $attachment
@@ -36,16 +35,16 @@ class AlternativeText
     {
         Assert::isAttachment($attachment);
 
-        $alt = get_post_meta($attachment->ID, self::META_DATA_POST_KEY, true);
+        $caption = (string)wp_get_attachment_caption($attachment->ID);
 
         /**
-         * Filter Alt Attribute Value
+         * Filter Caption
          *
-         * @param string $alt The alternative text.
-         * @param WP_Post $attachment The attachment object
+         * @param string $caption The caption for the image.
+         * @param WP_Post $attachment The attachment post.
          */
-        $alt = apply_filters(self::FILTER_ALT, $alt, $attachment);
+        $caption = apply_filters(self::FILTER, $caption, $attachment);
 
-        return (string)$alt;
+        return (string)$caption;
     }
 }

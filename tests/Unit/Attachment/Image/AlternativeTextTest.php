@@ -38,6 +38,7 @@ class AlternativeTextTest extends TestCase
             ->getMockBuilder('WP_Post')
             ->getMock();
         $attachment->ID = 1;
+        $attachment->post_type = 'attachment';
 
         $testee = new Testee();
 
@@ -51,7 +52,7 @@ class AlternativeTextTest extends TestCase
             ->once()
             ->with($stringValue, $attachment);
 
-        $testee->text($attachment);
+        $testee->__invoke($attachment);
 
         self::assertTrue(true);
     }

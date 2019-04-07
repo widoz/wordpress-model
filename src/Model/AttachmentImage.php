@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
+use InvalidArgumentException;
 use Widoz\Bem\Service as ServiceBem;
 use WordPressModel\Attachment\Image\AlternativeText;
 use WordPressModel\Attachment\Image\Source;
@@ -67,22 +68,22 @@ final class AttachmentImage implements PartialModel
 
     /**
      * @return array
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function data(): array
     {
         /**
-         * Figure Image Data
+         * Attachment Image Data
          *
          * @param array $data The data arguments for the template.
          */
         return apply_filters(self::FILTER_DATA, [
             'image' => [
                 'attributes' => [
-                    'url' => $this->attachmentImageSource->source(),
+                    'src' => $this->attachmentImageSource->source(),
                     'width' => $this->attachmentImageSource->width(),
                     'height' => $this->attachmentImageSource->height(),
-                    'alt' => $this->attachmentImageAltText->text($this->attachment),
+                    'alt' => $this->attachmentImageAltText->__invoke($this->attachment),
                     'class' => $this->bem->forElement('image'),
                 ],
             ],

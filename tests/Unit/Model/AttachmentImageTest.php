@@ -60,7 +60,7 @@ class AttachmentImageTest extends TestCase
 
         $alternativeText
             ->expects($this->once())
-            ->method('text')
+            ->method('__invoke')
             ->willReturn('alt text');
 
         $imageBemValue = $this->createMock(Valuable::class);
@@ -82,7 +82,7 @@ class AttachmentImageTest extends TestCase
             ->with([
                 'image' => [
                     'attributes' => [
-                        'url' => '',
+                        'src' => '',
                         'width' => '',
                         'height' => '',
                         'alt' => 'alt text',
