@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
-use Widoz\Bem\Factory;
+use function has_nav_menu;
+use Walker;
+use Widoz\Bem\Service as BemService;
 
 /**
  * Main Nav Menu Model
@@ -44,27 +46,35 @@ final class MainNavMenu implements FullFilledModel
     private $id;
 
     /**
-     * @var \Walker
+     * @var Walker
      */
     private $walker;
 
     /**
+     * @var BemService
+     */
+    private $bem;
+
+    /**
      * MainNavMenu constructor.
      *
+     * @param BemService $bem
      * @param string $themeLocation
      * @param string $id
      * @param int $depth
      * @param callable|null $fallback
-     * @param \Walker|null $walker
+     * @param Walker|null $walker
      */
     public function __construct(
+        BemService $bem,
         string $themeLocation,
         string $id = '',
         int $depth = 2,
         callable $fallback = null,
-        \Walker $walker = null
+        Walker $walker = null
     ) {
 
+        $this->bem = $bem;
         $this->themeLocation = $themeLocation;
         $this->id = $id;
         $this->depth = $depth;
@@ -77,37 +87,36 @@ final class MainNavMenu implements FullFilledModel
      */
     public function data(): array
     {
-        $data = [];
-
-        if ($this->hasNavMenu()) {
-            $bem = Factory::createServiceForStandard('nav-main');
-            $data = [
-                'container' => [
-                    'attributes' => [
-                        'id' => 'main-menu',
-                        'class' => $bem,
-                    ],
-                ],
-                'link' => [
-                    'text' => __('Jump To Content', 'wordpress-model'),
-                    'attributes' => [
-                        'href' => apply_filters(self::FILTER_JUMP_TO_CONTENT_HREF, '#content'),
-                        'id' => 'jump_to_content',
-                        'class' => $bem->forElement('to-content'),
-                    ],
-                ],
-                'arguments' => [
-                    'theme_location' => $this->themeLocation,
-                    'menu_id' => $this->id,
-                    'container' => '',
-                    'depth' => $this->depth,
-                    'fallback_cb' => $this->fallback,
-                    'menu_class' => $bem->forElement('items'),
-                    'items_wrap' => '<ul class="%2$s">%3$s</ul>',
-                    'walker' => $this->walker,
-                ],
-            ];
+        if (!has_nav_menu($this->themeLocation)) {
+            return [];
         }
+
+        $data = [
+            'container' => [
+                'attributes' => [
+                    'id' => 'main-menu',
+                    'class' => $this->bem,
+                ],
+            ],
+            'link' => [
+                'text' => __('Jump To Content', 'wordpress-model'),
+                'attributes' => [
+                    'href' => apply_filters(self::FILTER_JUMP_TO_CONTENT_HREF, '#content'),
+                    'id' => 'jump_to_content',
+                    'class' => $this->bem->forElement('to-content'),
+                ],
+            ],
+            'arguments' => [
+                'theme_location' => $this->themeLocation,
+                'menu_id' => $this->id,
+                'container' => '',
+                'depth' => $this->depth,
+                'fallback_cb' => $this->fallback,
+                'menu_class' => $this->bem->forElement('items'),
+                'items_wrap' => '<ul class="%2$s">%3$s</ul>',
+                'walker' => $this->walker,
+            ],
+        ];
 
         /**
          * Menu Data Filter
@@ -124,13 +133,5 @@ final class MainNavMenu implements FullFilledModel
         $data = apply_filters(self::FILTER_DATA . "_{$this->id}", $data);
 
         return $data;
-    }
-
-    /**
-     * @return bool
-     */
-    private function hasNavMenu(): bool
-    {
-        return \has_nav_menu($this->themeLocation);
     }
 }
