@@ -12,6 +12,10 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
+use function get_post;
+use function get_the_archive_title;
+use WP_Post;
+
 /**
  * Class Title
  *
@@ -27,10 +31,10 @@ class Title
     public function forHome(): string
     {
         $title = '';
-        $homePost = \get_post((int)get_option(self::OPTION_PAGE_FOR_POSTS, 0));
+        $homePost = get_post((int)get_option(self::OPTION_PAGE_FOR_POSTS, 0));
 
-        if ($homePost instanceof \WP_Post) {
-            /** @var \WP_Post $homePost */
+        if ($homePost instanceof WP_Post) {
+            /** @var WP_Post $homePost */
             $title = $homePost->post_title;
         }
 
@@ -42,6 +46,6 @@ class Title
      */
     public function forArchive(): string
     {
-        return \get_the_archive_description();
+        return get_the_archive_title();
     }
 }
