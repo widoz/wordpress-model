@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace WordPressModel\Utils;
 
-use function is_attachment;
 use Webmozart\Assert\Assert as WebMozartAssert;
 use WP_Post;
 
