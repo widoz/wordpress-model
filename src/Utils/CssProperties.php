@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace WordPressModel\Utils;
 
+use InvalidArgumentException;
+
 /**
  * Class Style
  *
@@ -39,11 +41,11 @@ class CssProperties
      * @uses ArrayImplode::byGlue to flat the array.
      * @param array $properties
      * @return string
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function flat(array $properties): string
     {
-        Assert::isStringValueMap($properties);
+        Assert::isMap($properties);
 
         return $this->arrayImploder->byGlue($properties, ';', ':');
     }

@@ -24,47 +24,6 @@ use InvalidArgumentException;
 class AssertTest extends TestCase
 {
     /**
-     * Test Array Contains Only Strings
-     *
-     * @throws InvalidArgumentException
-     * @throws \PHPUnit\Framework\ExpectationFailedException
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
-     */
-    public function testIsStringValueMap(): void
-    {
-        Testee::isStringValueMap(['key_1' => 'value_1']);
-
-        self::assertTrue(true);
-    }
-
-    /**
-     * Test Array Throw Exception Because Given Array Does not Contains Only Strings
-     *
-     * @throws InvalidArgumentException
-     */
-    public function testInvalidStringValueMap(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Expect map of strings - All values of map are strings.');
-
-        Testee::isStringValueMap(['key_1' => 1]);
-    }
-
-    /**
-     * Test Array Contains Given Element
-     *
-     * @throws InvalidArgumentException
-     * @throws \PHPUnit\Framework\ExpectationFailedException
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
-     */
-    public function testArrayContains(): void
-    {
-        Testee::arrayContains('element', ['element']);
-
-        self::assertTrue(true);
-    }
-
-    /**
      * Test ArrayContains Assertion Throw Exception
      *
      * @throws InvalidArgumentException

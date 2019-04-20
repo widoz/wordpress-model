@@ -44,7 +44,7 @@ class Size
         $registeredWordPressImageSizes = \get_intermediate_image_sizes();
         $additionalImageSizes = \wp_get_additional_image_sizes();
 
-        Assert::arrayContains(
+        Assert::oneOf(
             $name,
             $registeredWordPressImageSizes,
             "{$name} size not found on WordPress registered sizes."
