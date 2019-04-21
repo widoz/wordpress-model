@@ -18,16 +18,5 @@ namespace WordPressModel\Exception;
  */
 class InvalidPostException extends PostException
 {
-    /**
-     * InvalidPostException constructor
-     */
-    public function __construct()
-    {
-        parent::__construct(
-            \sprintf(
-                '%s cannot retrieve post.',
-                $this->__toString()
-            )
-        );
-    }
+
 }
