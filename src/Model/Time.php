@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
+use InvalidArgumentException;
 use WordPressModel\Exception\InvalidPostDateException;
 use WP_Post;
 
@@ -39,6 +40,12 @@ class Time implements Model
      */
     private $dateTimeFormat;
 
+    /**
+     * Time constructor
+     * @param WP_Post $post
+     * @param PostDateTime $postDateTime
+     * @param string $dateTimeFormat
+     */
     public function __construct(WP_Post $post, PostDateTime $postDateTime, string $dateTimeFormat)
     {
         $this->postDateTime = $postDateTime;
@@ -46,6 +53,10 @@ class Time implements Model
         $this->dateTimeFormat = $dateTimeFormat;
     }
 
+    /**
+     * @inheritDoc
+     * @throws InvalidArgumentException
+     */
     public function data(): array
     {
         try {
