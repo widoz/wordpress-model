@@ -34,11 +34,9 @@ class PostPublishedDateTest extends TestCase
     public function testInstance()
     {
         $bem = $this->createMock(Service::class);
-        $post = $this->getMockBuilder('WP_Post')->getMock();
         $dayArchiveLink = $this->createMock(DayArchiveLink::class);
-        $postDateTime = $this->createMock(PostDateTime::class);
         $time = $this->createMock(Time::class);
-        $testee = new Testee($bem, $post, $dayArchiveLink, $postDateTime, $time, 'Y-m-d');
+        $testee = new Testee($bem, $dayArchiveLink, $time);
 
         self::assertInstanceOf(Testee::class, $testee);
     }
@@ -51,12 +49,9 @@ class PostPublishedDateTest extends TestCase
         $expectedDayArchiveLinkData = ['Expected DayArchiveLink Data'];
 
         $bem = $this->createMock(Service::class);
-        $post = $this->getMockBuilder('WP_Post')->getMock();
         $dayArchiveLink = $this->createMock(DayArchiveLink::class);
-        $postDateTime = $this->createMock(PostDateTime::class);
         $time = $this->createMock(Time::class);
-        $dateTimeFormat = 'Y-m-d';
-        $testee = new Testee($bem, $post, $dayArchiveLink, $postDateTime, $time, $dateTimeFormat);
+        $testee = new Testee($bem, $dayArchiveLink, $time);
 
         $dayArchiveLink
             ->expects($this->once())

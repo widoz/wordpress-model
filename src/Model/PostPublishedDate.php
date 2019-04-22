@@ -60,29 +60,18 @@ final class PostPublishedDate implements FullFilledModel
      * PostPublishedDate constructor.
      *
      * @param BemService $bem
-     * @param WP_Post $post
      * @param DayArchiveLink $dayArchiveLink
-     * @param PostDateTime $postDateTime
      * @param Time $time
-     * @param string $dateTimeFormat
      */
     public function __construct(
         BemService $bem,
-        WP_Post $post,
         DayArchiveLink $dayArchiveLink,
-        PostDateTime $postDateTime,
-        Time $time,
-        string $dateTimeFormat
+        Time $time
     ) {
 
-        Assert::stringNotEmpty($dateTimeFormat);
-
         $this->bem = $bem;
-        $this->post = $post;
         $this->dayArchiveLink = $dayArchiveLink;
-        $this->postDateTime = $postDateTime;
         $this->time = $time;
-        $this->dateTimeFormat = $dateTimeFormat;
     }
 
     /**
