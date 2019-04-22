@@ -15,6 +15,7 @@ namespace WordPressModel\Tests\Unit\Model;
 
 use Brain\Monkey\Functions;
 use Brain\Monkey\Filters;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use ProjectTestsHelper\Phpunit\TestCase;
 use Widoz\Bem;
 use WordPressModel\Utils\CssProperties;
@@ -27,6 +28,8 @@ use WordPressModel\Model\Brand as Testee;
  */
 class BrandTest extends TestCase
 {
+    use MockeryPHPUnitIntegration;
+
     /**
      * Test Instance
      */

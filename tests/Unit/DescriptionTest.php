@@ -45,7 +45,7 @@ class DescriptionTest extends TestCase
             ->with(1)
             ->andReturn($post);
 
-        Monkey\Filters\expectApplied(Description::FILTER_HOME_DESCRIPTION)
+        Monkey\Filters\expectApplied(Testee::FILTER_HOME_DESCRIPTION)
             ->once()
             ->with('post_excerpt');
 

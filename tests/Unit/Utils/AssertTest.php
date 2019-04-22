@@ -24,15 +24,18 @@ use InvalidArgumentException;
 class AssertTest extends TestCase
 {
     /**
-     * Test ArrayContains Assertion Throw Exception
-     *
-     * @throws InvalidArgumentException
+     * Test WP_Post Instance is an Attachment Throw InvalidArgumentException
      */
-    public function testInvalidArrayContains(): void
+    public function testIsAttachmentThrowInvalidArgumentException()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Expect item in array.');
+        $post = $this->getMockBuilder('WP_Post')->getMock();
+        $post->post_type = 'non_attachment_post_type';
 
-        Testee::arrayContains('element', ['item']);
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            "Expected Post be an Attachment. Type of {$post->post_type} Given."
+        );
+
+        Testee::isAttachment($post);
     }
 }

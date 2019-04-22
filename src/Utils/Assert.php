@@ -32,8 +32,9 @@ final class Assert extends WebMozartAssert
      */
     public static function isAttachment(WP_Post $post, string $message = null): void
     {
-        'attachment' === $post->post_type or static::reportInvalidArgument(
-            $message ?: 'Expected Post be an Attachment.'
+        $postType = $post->post_type;
+        'attachment' === $postType or static::reportInvalidArgument(
+            $message ?: "Expected Post be an Attachment. Type of {$postType} Given."
         );
     }
 }

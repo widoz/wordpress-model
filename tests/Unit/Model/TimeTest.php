@@ -62,7 +62,7 @@ class TimeTest extends TestCase
                 $expectedTimeValue
             );
 
-        Filters\expectApplied(Time::FILTER_DATA)
+        Filters\expectApplied(Testee::FILTER_DATA)
             ->once()
             ->with([
                 'text' => $expectedTimeValue,
