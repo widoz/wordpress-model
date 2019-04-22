@@ -26,7 +26,7 @@ final class ArchiveDescription implements PartialModel
     public const FILTER_DATA = 'wordpressmodel.archive_description';
 
     /**
-     * @var Title
+     * @var Description
      */
     private $description;
 
