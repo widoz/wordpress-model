@@ -27,24 +27,9 @@ final class PostPublishedDate implements FullFilledModel
     public const FILTER_DATA = 'wordpressmodel.post_published_date';
 
     /**
-     * @var WP_Post
-     */
-    private $post;
-
-    /**
      * @var BemService
      */
     private $bem;
-
-    /**
-     * @var PostDateTime
-     */
-    private $postDateTime;
-
-    /**
-     * @var string
-     */
-    private $dateTimeFormat;
 
     /**
      * @var DayArchiveLink
