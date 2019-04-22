@@ -17,6 +17,7 @@ use function get_day_link;
 use InvalidArgumentException;
 use Widoz\Bem\Service as BemService;
 use WordPressModel\Exception\InvalidPostDateException;
+use WordPressModel\Utils\Assert;
 use WP_Post;
 
 /**
@@ -61,6 +62,8 @@ class DayArchiveLink implements Model
         string $text,
         PostDateTime $postDateTime
     ) {
+
+        Assert::stringNotEmpty($text);
 
         $this->postDateTime = $postDateTime;
         $this->post = $post;
