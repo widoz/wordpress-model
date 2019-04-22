@@ -52,12 +52,18 @@ final class PostPublishedDate implements FullFilledModel
     private $dayArchiveLink;
 
     /**
+     * @var Time
+     */
+    private $time;
+
+    /**
      * PostPublishedDate constructor.
      *
      * @param BemService $bem
      * @param WP_Post $post
      * @param DayArchiveLink $dayArchiveLink
      * @param PostDateTime $postDateTime
+     * @param Time $time
      * @param string $dateTimeFormat
      */
     public function __construct(
@@ -65,16 +71,18 @@ final class PostPublishedDate implements FullFilledModel
         WP_Post $post,
         DayArchiveLink $dayArchiveLink,
         PostDateTime $postDateTime,
+        Time $time,
         string $dateTimeFormat
     ) {
 
         Assert::stringNotEmpty($dateTimeFormat);
 
-        $this->post = $post;
         $this->bem = $bem;
-        $this->postDateTime = $postDateTime;
-        $this->dateTimeFormat = $dateTimeFormat;
+        $this->post = $post;
         $this->dayArchiveLink = $dayArchiveLink;
+        $this->postDateTime = $postDateTime;
+        $this->time = $time;
+        $this->dateTimeFormat = $dateTimeFormat;
     }
 
     /**
@@ -84,18 +92,6 @@ final class PostPublishedDate implements FullFilledModel
      */
     public function data(): array
     {
-        try {
-            $postDateTime = $this->postDateTime->date($this->post, $this->dateTimeFormat);
-            $timeValue = $this->postDateTime->date($this->post, 'l, F j, Y g:i a');
-        } catch (InvalidPostDateException $exc) {
-            $postDateTime = '';
-            $timeValue = '';
-        }
-
-        if (!$postDateTime || !$timeValue) {
-            return [];
-        }
-
         /**
          * Post Published Data
          *
@@ -108,12 +104,7 @@ final class PostPublishedDate implements FullFilledModel
                 ],
             ],
             'link' => $this->dayArchiveLink->data(),
-            'time' => [
-                'value' => $timeValue,
-                'attributes' => [
-                    'datetime' => $postDateTime,
-                ],
-            ],
+            'time' => $this->time->data(),
         ]);
     }
 }

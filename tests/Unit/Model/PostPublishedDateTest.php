@@ -19,6 +19,7 @@ use WordPressModel\Model\PostDateTime;
 use WordPressModel\Model\PostPublishedDate as Testee;
 use Brain\Monkey\Filters;
 use WordPressModel\Model\PostPublishedDate;
+use WordPressModel\Model\Time;
 
 /**
  * Class PostPublishedDateTest
@@ -36,7 +37,8 @@ class PostPublishedDateTest extends TestCase
         $post = $this->getMockBuilder('WP_Post')->getMock();
         $dayArchiveLink = $this->createMock(DayArchiveLink::class);
         $postDateTime = $this->createMock(PostDateTime::class);
-        $testee = new Testee($bem, $post, $dayArchiveLink, $postDateTime, 'Y-m-d');
+        $time = $this->createMock(Time::class);
+        $testee = new Testee($bem, $post, $dayArchiveLink, $postDateTime, $time, 'Y-m-d');
 
         self::assertInstanceOf(Testee::class, $testee);
     }
@@ -46,28 +48,15 @@ class PostPublishedDateTest extends TestCase
      */
     public function testFilterGetAppliedWithCorrectData()
     {
-        $expectedPostDateTimeValue = 'Expected Post Date Time Value';
-        $expectedTimeValue = 'Expected Time Value';
         $expectedDayArchiveLinkData = ['Expected DayArchiveLink Data'];
 
         $bem = $this->createMock(Service::class);
         $post = $this->getMockBuilder('WP_Post')->getMock();
         $dayArchiveLink = $this->createMock(DayArchiveLink::class);
         $postDateTime = $this->createMock(PostDateTime::class);
+        $time = $this->createMock(Time::class);
         $dateTimeFormat = 'Y-m-d';
-        $testee = new Testee($bem, $post, $dayArchiveLink, $postDateTime, $dateTimeFormat);
-
-        $postDateTime
-            ->expects($this->exactly(2))
-            ->method('date')
-            ->withConsecutive(
-                [$post, $dateTimeFormat],
-                [$post, 'l, F j, Y g:i a']
-            )
-            ->willReturnOnConsecutiveCalls(
-                $expectedPostDateTimeValue,
-                $expectedTimeValue
-            );
+        $testee = new Testee($bem, $post, $dayArchiveLink, $postDateTime, $time, $dateTimeFormat);
 
         $dayArchiveLink
             ->expects($this->once())
@@ -81,12 +70,7 @@ class PostPublishedDateTest extends TestCase
                     ],
                 ],
                 'link' => $expectedDayArchiveLinkData,
-                'time' => [
-                    'value' => $expectedTimeValue,
-                    'attributes' => [
-                        'datetime' => $expectedPostDateTimeValue,
-                    ],
-                ],
+                'time' => $time,
             ]
         );
 
