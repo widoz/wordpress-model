@@ -15,8 +15,8 @@ namespace WordPressModel\Tests\Unit\Model;
 
 use Widoz\Bem;
 use WordPressModel\Model\ArchiveHeader as Testee;
-use WordPressModel\Model\Title;
-use WordPressModel\Model\Description;
+use WordPressModel\Title;
+use WordPressModel\Description;
 use \Brain\Monkey;
 use ProjectTestsHelper\Phpunit\TestCase;
 

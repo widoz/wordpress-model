@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace WordPressModel\Model;
 
 use Widoz\Bem\Service as BemService;
+use WordPressModel\Description;
 
 /**
  * Class Description

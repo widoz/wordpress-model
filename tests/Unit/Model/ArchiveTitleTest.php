@@ -15,7 +15,7 @@ namespace WordPressModel\Tests\Unit\Model;
 
 use ProjectTestsHelper\Phpunit\TestCase;
 use WordPressModel\Model\ArchiveTitle as Testee;
-use WordPressModel\Model\Title;
+use WordPressModel\Title;
 use Brain\Monkey;
 
 class ArchiveTitleTest extends TestCase

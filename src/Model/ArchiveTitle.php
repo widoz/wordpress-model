@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
+use WordPressModel\Title;
+
 /**
  * Class ArchiveTitle
  *

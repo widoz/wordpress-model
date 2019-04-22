@@ -10,7 +10,7 @@
  */
 declare(strict_types=1);
 
-namespace WordPressModel\Model;
+namespace WordPressModel;
 
 use function get_post;
 use function get_the_archive_title;

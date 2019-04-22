@@ -15,7 +15,6 @@ namespace WordPressModel\Tests\Unit\Model;
 use ProjectTestsHelper\Phpunit\TestCase;
 use Widoz\Bem\Service;
 use WordPressModel\Model\DayArchiveLink;
-use WordPressModel\Model\PostDateTime;
 use WordPressModel\Model\PostPublishedDate as Testee;
 use Brain\Monkey\Filters;
 use WordPressModel\Model\PostPublishedDate;

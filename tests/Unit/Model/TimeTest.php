@@ -16,7 +16,6 @@ use ProjectTestsHelper\Phpunit\TestCase;
 use WordPressModel\Model\PostDateTime;
 use WordPressModel\Model\Time as Testee;
 use Brain\Monkey\Filters;
-use WordPressModel\Model\Time;
 
 /**
  * Class TimeTest
