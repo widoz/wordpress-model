@@ -16,8 +16,6 @@ namespace WordPressModel\Model;
 use InvalidArgumentException;
 use Widoz\Bem\Service as BemService;
 use WordPressModel\Exception\InvalidPostDateException;
-use WordPressModel\Utils\Assert;
-use WP_Post;
 
 /**
  * Post Published Date Model

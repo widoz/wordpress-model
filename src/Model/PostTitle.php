@@ -44,6 +44,7 @@ final class PostTitle implements PartialModel
     /**
      * PostTitle constructor.
      *
+     * @param ServiceBem $bem
      * @param WP_Post $post
      * @param WP_Query $query
      */

@@ -34,12 +34,12 @@ final class AttachmentImage implements PartialModel
     /**
      * @var Source
      */
-    private $attachmentImageSource;
+    private $attachImageSource;
 
     /**
      * @var AlternativeText
      */
-    private $attachmentImageAltText;
+    private $attachImageAltText;
 
     /**
      * @var WP_Post
@@ -62,8 +62,8 @@ final class AttachmentImage implements PartialModel
 
         $this->bem = $bem;
         $this->attachment = $attachment;
-        $this->attachmentImageSource = $attachmentImageSource;
-        $this->attachmentImageAltText = $attachmentImageAltText;
+        $this->attachImageSource = $attachmentImageSource;
+        $this->attachImageAltText = $attachmentImageAltText;
     }
 
     /**
@@ -80,10 +80,10 @@ final class AttachmentImage implements PartialModel
         return apply_filters(self::FILTER_DATA, [
             'image' => [
                 'attributes' => [
-                    'src' => $this->attachmentImageSource->source(),
-                    'width' => $this->attachmentImageSource->width(),
-                    'height' => $this->attachmentImageSource->height(),
-                    'alt' => $this->attachmentImageAltText->__invoke($this->attachment),
+                    'src' => $this->attachImageSource->source(),
+                    'width' => $this->attachImageSource->width(),
+                    'height' => $this->attachImageSource->height(),
+                    'alt' => $this->attachImageAltText->__invoke($this->attachment),
                     'class' => $this->bem->forElement('image'),
                 ],
             ],

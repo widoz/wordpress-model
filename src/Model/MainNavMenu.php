@@ -43,7 +43,7 @@ final class MainNavMenu implements FullFilledModel
     /**
      * @var string
      */
-    private $id;
+    private $menuId;
 
     /**
      * @var Walker
@@ -76,7 +76,7 @@ final class MainNavMenu implements FullFilledModel
 
         $this->bem = $bem;
         $this->themeLocation = $themeLocation;
-        $this->id = $id;
+        $this->menuId = $id;
         $this->depth = $depth;
         $this->fallback = $fallback;
         $this->walker = $walker;
@@ -108,7 +108,7 @@ final class MainNavMenu implements FullFilledModel
             ],
             'arguments' => [
                 'theme_location' => $this->themeLocation,
-                'menu_id' => $this->id,
+                'menu_id' => $this->menuId,
                 'container' => '',
                 'depth' => $this->depth,
                 'fallback_cb' => $this->fallback,
@@ -130,7 +130,7 @@ final class MainNavMenu implements FullFilledModel
          *
          * @param array $menu The menu data view and wp_nav_menu args to filter for a specific nav.
          */
-        $data = apply_filters(self::FILTER_DATA . "_{$this->id}", $data);
+        $data = apply_filters(self::FILTER_DATA . "_{$this->menuId}", $data);
 
         return $data;
     }
