@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace WordPressModel\Model;
 
 use Widoz\Bem\Factory;
+use WP_Post;
 
 /**
  * Post Tags Model
@@ -23,7 +24,7 @@ final class Tags implements FullFilledModel
     public const FILTER_DATA = 'wordpressmodel.tags';
 
     /**
-     * @var \WP_Post
+     * @var WP_Post
      */
     private $post;
 
@@ -35,9 +36,9 @@ final class Tags implements FullFilledModel
     /**
      * Tags constructor.
      *
-     * @param \WP_Post $post
+     * @param WP_Post $post
      */
-    public function __construct(\WP_Post $post)
+    public function __construct(WP_Post $post)
     {
         $this->post = $post;
     }

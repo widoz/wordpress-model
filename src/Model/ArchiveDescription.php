@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
+use function is_home;
 use Widoz\Bem\Service as BemService;
 use WordPressModel\Description;
 
@@ -57,7 +58,7 @@ final class ArchiveDescription implements PartialModel
          */
         return apply_filters(self::FILTER_DATA, [
             'description' => [
-                'text' => \is_home() ? $this->description->forHome() : $this->description->forArchive(),
+                'text' => is_home() ? $this->description->forHome() : $this->description->forArchive(),
                 'attributes' => [
                     'class' => $this->bem->forElement('description'),
                 ],

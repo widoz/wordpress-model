@@ -13,7 +13,12 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
+use function current_theme_supports;
+use function get_permalink;
+use function get_post_thumbnail_id;
+use function has_post_thumbnail;
 use Widoz\Bem\Service as ServiceBem;
+use WP_Post;
 
 /**
  * Post Thumbnail Model
@@ -29,7 +34,7 @@ final class PostThumbnail implements PartialModel
     private $bem;
 
     /**
-     * @var \WP_Post
+     * @var WP_Post
      */
     private $post;
 
@@ -41,12 +46,12 @@ final class PostThumbnail implements PartialModel
     /**
      * PostThumbnail constructor
      * @param ServiceBem $bem
-     * @param \WP_Post $post
+     * @param WP_Post $post
      * @param string $attachmentSize
      */
     public function __construct(
         ServiceBem $bem,
-        \WP_Post $post,
+        WP_Post $post,
         string $attachmentSize = 'post-thumbnail'
     ) {
 
@@ -92,7 +97,7 @@ final class PostThumbnail implements PartialModel
      */
     private function hasSupport(): bool
     {
-        return \current_theme_supports('post-thumbnails');
+        return current_theme_supports('post-thumbnails');
     }
 
     /**
@@ -100,7 +105,7 @@ final class PostThumbnail implements PartialModel
      */
     private function hasThumbnail(): bool
     {
-        return \has_post_thumbnail($this->post);
+        return has_post_thumbnail($this->post);
     }
 
     /**
@@ -110,7 +115,7 @@ final class PostThumbnail implements PartialModel
     {
         return new FigureAttachmentImage(
             $this->bem,
-            \get_post_thumbnail_id($this->post),
+            get_post_thumbnail_id($this->post),
             $this->attachmentSize
         );
     }
@@ -120,7 +125,7 @@ final class PostThumbnail implements PartialModel
      */
     private function permalink(): string
     {
-        $permalink = \get_permalink($this->post);
+        $permalink = get_permalink($this->post);
 
         /**
          * Filter Post Thumbnail Permalink

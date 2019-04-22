@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
+use function is_home;
 use WordPressModel\Title;
 
 /**
@@ -48,7 +49,7 @@ final class ArchiveTitle implements Model
          * @param array $data The data arguments for the template.
          */
         return apply_filters(self::FILTER_DATA, [
-            'value' => \is_home() ? $this->title->forHome() : $this->title->forArchive(),
+            'value' => is_home() ? $this->title->forHome() : $this->title->forArchive(),
         ]);
     }
 }

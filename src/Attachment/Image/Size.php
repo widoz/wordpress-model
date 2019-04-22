@@ -12,8 +12,11 @@ declare(strict_types=1);
 
 namespace WordPressModel\Attachment\Image;
 
+use function array_filter;
+use function get_intermediate_image_sizes;
 use InvalidArgumentException;
 use WordPressModel\Utils\Assert;
+use function wp_get_additional_image_sizes;
 
 /**
  * Attachment Image Size
@@ -41,8 +44,8 @@ class Size
      */
     public static function createBySizeName(string $name): self
     {
-        $registeredWordPressImageSizes = \get_intermediate_image_sizes();
-        $additionalImageSizes = \wp_get_additional_image_sizes();
+        $registeredWordPressImageSizes = get_intermediate_image_sizes();
+        $additionalImageSizes = wp_get_additional_image_sizes();
 
         Assert::oneOf(
             $name,
@@ -104,7 +107,7 @@ class Size
      */
     private function __construct(int $width, int $height)
     {
-        $sizes = \array_filter([$width, $height], function (int $value): bool {
+        $sizes = array_filter([$width, $height], function (int $value): bool {
             return $value > 0;
         });
 

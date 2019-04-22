@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace WordPressModel\Attachment\Image;
 
+use function file_exists;
 use \InvalidArgumentException;
 
 /**
@@ -108,7 +109,7 @@ class Source
         if ($height <= 0) {
             throw new InvalidArgumentException('Height cannot be less or equal than zero.');
         }
-        if (!\file_exists($source)) {
+        if (!file_exists($source)) {
             throw new InvalidArgumentException('Source file does not exists.');
         }
     }

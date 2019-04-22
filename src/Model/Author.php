@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
+use function get_author_posts_url;
 use Widoz\Bem\Service as BemService;
+use WP_User;
 
 /**
  * Author Model
@@ -23,7 +25,7 @@ final class Author implements FullFilledModel
     public const FILTER_DATA = 'wordpressmodel.post_author';
 
     /**
-     * @var \WP_User
+     * @var WP_User
      */
     private $user;
 
@@ -36,9 +38,9 @@ final class Author implements FullFilledModel
      * Author constructor.
      *
      * @param BemService $bem
-     * @param \WP_User $user
+     * @param WP_User $user
      */
-    public function __construct(BemService $bem, \WP_User $user)
+    public function __construct(BemService $bem, WP_User $user)
     {
         $this->bem = $bem;
         $this->user = $user;
@@ -52,7 +54,7 @@ final class Author implements FullFilledModel
         $data = [];
 
         if ($this->user->exists()) {
-            $authorPostsUrl = \get_author_posts_url($this->user->ID);
+            $authorPostsUrl = get_author_posts_url($this->user->ID);
 
             $data += [
                 'container' => [

@@ -13,7 +13,13 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
+use function array_merge;
+use function get_term_link;
+use function get_terms;
+use function is_array;
+use function is_wp_error;
 use Widoz\Bem\Service as ServiceBem;
+use WP_Term;
 
 /**
  * Post Terms Model
@@ -95,13 +101,13 @@ final class Terms implements PartialModel
     private function terms(): array
     {
         $items = [];
-        $terms = \get_terms(\array_merge($this->args, [
+        $terms = get_terms(array_merge($this->args, [
             'taxonomy' => $this->taxonomy,
         ]));
 
         if (!$terms
-            || !\is_array($terms)
-            || \is_wp_error($terms)
+            || !is_array($terms)
+            || is_wp_error($terms)
         ) {
             return [];
         }
@@ -125,15 +131,15 @@ final class Terms implements PartialModel
     }
 
     /**
-     * @param \WP_Term $term
+     * @param WP_Term $term
      *
      * @return string
      */
-    private function termLink(\WP_Term $term): string
+    private function termLink(WP_Term $term): string
     {
-        $link = \get_term_link($term, $this->taxonomy);
+        $link = get_term_link($term, $this->taxonomy);
 
-        if (\is_wp_error($link)) {
+        if (is_wp_error($link)) {
             $link = '';
         }
 

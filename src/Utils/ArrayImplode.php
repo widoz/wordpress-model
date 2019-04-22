@@ -13,6 +13,10 @@ declare(strict_types=1);
 
 namespace WordPressModel\Utils;
 
+use function array_filter;
+use function array_keys;
+use function rtrim;
+
 /**
  * Implode Array Elements Utility
  */
@@ -41,7 +45,7 @@ class ArrayImplode
 
             $string .= $key . $assGlue . $value . $glue;
         }
-        $string = \rtrim($string, $glue);
+        $string = rtrim($string, $glue);
 
         return $string;
     }
@@ -55,7 +59,7 @@ class ArrayImplode
     private function isNumeric(array $data): bool
     {
         /** @noinspection UnqualifiedReferenceInspection */
-        $numericArray = \array_filter(\array_keys($data), 'is_numeric');
+        $numericArray = array_filter(array_keys($data), 'is_numeric');
 
         return count($numericArray) > 0;
     }

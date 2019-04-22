@@ -13,10 +13,12 @@ declare(strict_types=1);
 
 namespace WordPressModel\Exception;
 
+use Exception;
+
 /**
  * Post Exception
  */
-class PostException extends \Exception
+class PostException extends Exception
 {
 
 }

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace WordPressModel\Utils;
 
+use InvalidArgumentException;
 use Webmozart\Assert\Assert as WebMozartAssert;
 use WP_Post;
 
@@ -27,7 +28,7 @@ final class Assert extends WebMozartAssert
      *
      * @param WP_Post $post
      * @param string|null $message
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public static function isAttachment(WP_Post $post, string $message = null): void
     {

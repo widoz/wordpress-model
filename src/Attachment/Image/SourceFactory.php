@@ -12,6 +12,12 @@ declare(strict_types=1);
 
 namespace WordPressModel\Attachment\Image;
 
+use function array_filter;
+use DomainException;
+use LengthException;
+use function sprintf;
+use function wp_attachment_is_image;
+use function wp_get_attachment_image_src;
 use WP_Post;
 use InvalidArgumentException;
 
@@ -29,24 +35,24 @@ class SourceFactory
      * @param Size $size
      * @return Source
      * @throws InvalidArgumentException
-     * @throws \DomainException
-     * @throws \LengthException
+     * @throws DomainException
+     * @throws LengthException
      */
     public function create(WP_Post $attachment, Size $size): Source
     {
-        if (!\wp_attachment_is_image($attachment)) {
+        if (!wp_attachment_is_image($attachment)) {
             throw new InvalidArgumentException('Attachment must be an image.');
         }
 
-        $imageSource = (array)\wp_get_attachment_image_src(
+        $imageSource = (array)wp_get_attachment_image_src(
             $attachment->ID,
             [$size->width(), $size->height()]
         );
-        $imageSource = \array_filter($imageSource);
+        $imageSource = array_filter($imageSource);
 
         if (!$imageSource) {
-            throw new \DomainException(
-                \sprintf('Image with ID: %d, no longer exists', $attachment->ID)
+            throw new DomainException(
+                sprintf('Image with ID: %d, no longer exists', $attachment->ID)
             );
         }
 

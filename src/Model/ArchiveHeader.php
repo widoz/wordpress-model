@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
+use function is_home;
 use Widoz\Bem\Service as BemService;
 use WordPressModel\Description;
 use WordPressModel\Title;
@@ -60,7 +61,7 @@ final class ArchiveHeader implements FullFilledModel
         $title = $this->title->forArchive();
         $description = $this->description->forArchive();
 
-        if (\is_home()) {
+        if (is_home()) {
             $title = $this->title->forHome();
             $description = $this->description->forHome();
         }
