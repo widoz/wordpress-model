@@ -13,7 +13,11 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
-use Widoz\Bem\Factory;
+use InvalidArgumentException;
+use Widoz\Bem\Service as BemService;
+use WordPressModel\Exception\InvalidPostDateException;
+use WordPressModel\Utils\Assert;
+use WP_Post;
 
 /**
  * Post Published Date Model
@@ -23,31 +27,74 @@ final class PostPublishedDate implements FullFilledModel
     public const FILTER_DATA = 'wordpressmodel.post_published_date';
 
     /**
-     * @var \WP_Post
+     * @var WP_Post
      */
     private $post;
 
     /**
+     * @var BemService
+     */
+    private $bem;
+
+    /**
+     * @var PostDateTime
+     */
+    private $postDateTime;
+
+    /**
+     * @var string
+     */
+    private $dateTimeFormat;
+
+    /**
+     * @var DayArchiveLink
+     */
+    private $dayArchiveLink;
+
+    /**
      * PostPublishedDate constructor.
      *
-     * @param \WP_Post $post
+     * @param BemService $bem
+     * @param WP_Post $post
+     * @param DayArchiveLink $dayArchiveLink
+     * @param PostDateTime $postDateTime
+     * @param string $dateTimeFormat
      */
-    public function __construct(\WP_Post $post)
-    {
+    public function __construct(
+        BemService $bem,
+        WP_Post $post,
+        DayArchiveLink $dayArchiveLink,
+        PostDateTime $postDateTime,
+        string $dateTimeFormat
+    ) {
+
+        Assert::stringNotEmpty($dateTimeFormat);
+
         $this->post = $post;
+        $this->bem = $bem;
+        $this->postDateTime = $postDateTime;
+        $this->dateTimeFormat = $dateTimeFormat;
+        $this->dayArchiveLink = $dayArchiveLink;
     }
 
     /**
-     * @return array
+     * @inheritDoc
+     * @throws InvalidArgumentException
+     * @throws InvalidPostDateException
      */
     public function data(): array
     {
-        $bem = Factory::createServiceForStandard('article-published-date');
-        $archiveLink = \get_day_link(
-            \get_the_time('Y', $this->post),
-            \get_the_time('m', $this->post),
-            \get_the_time('d', $this->post)
-        );
+        try {
+            $postDateTime = $this->postDateTime->date($this->post, $this->dateTimeFormat);
+            $timeValue = $this->postDateTime->date($this->post, 'l, F j, Y g:i a');
+        } catch (InvalidPostDateException $exc) {
+            $postDateTime = '';
+            $timeValue = '';
+        }
+
+        if (!$postDateTime || !$timeValue) {
+            return [];
+        }
 
         /**
          * Post Published Data
@@ -57,23 +104,14 @@ final class PostPublishedDate implements FullFilledModel
         return apply_filters(self::FILTER_DATA, [
             'container' => [
                 'attributes' => [
-                    'class' => $bem,
+                    'class' => $this->bem,
                 ],
             ],
-            'title' => [
-                'text' => __('Published On', 'wordpress-model'),
-            ],
-            'link' => [
-                'attributes' => [
-                    'href' => $archiveLink,
-                    'class' => $bem->forElement('link'),
-                ],
-            ],
+            'link' => $this->dayArchiveLink->data(),
             'time' => [
-                'date' => \get_the_date('', $this->post),
+                'value' => $timeValue,
                 'attributes' => [
-                    'datetime' => \get_the_time('c', $this->post),
-                    'title' => \get_the_date('l, F j, Y g:i a', $this->post),
+                    'datetime' => $postDateTime,
                 ],
             ],
         ]);
