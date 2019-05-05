@@ -20,6 +20,8 @@
       "role": "Developer"
     }
   ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "support": {
     "issues": "https://github.com/widoz/wordpress-theme-model/issues"
   },
@@ -33,7 +35,6 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "WordPressModel\\": "src",
       "WordPressModel\\Tests\\": "tests"
     }
   },
@@ -46,11 +47,17 @@
     "phpunit/phpunit": "^7",
     "brain/monkey": "dev-master",
     "inpsyde/php-coding-standards": "^0.13.3",
-    "widoz/project-tests-helper": "dev-master"
+    "widoz/project-tests-helper": "dev-master",
+    "vimeo/psalm": "^3.0@dev"
   },
   "extra": {
     "branch-alias": {
       "dev-develop": "0.1.x-dev"
+    }
+  },
+  "config": {
+    "platform": {
+      "php": "7.1"
     }
   }
 }
