@@ -210,9 +210,4 @@ class DateTimeTest extends TestCase
         $date = $testee->dateTime($post, self::$validDateFormat, ' : ');
         self::assertSame('Date : Time', $date);
     }
-
-    /**
-     * Test Date Time Throw Exception and Empty Data is Returned
-     */
-
 }
