@@ -14,6 +14,7 @@ namespace WordPressModel\Tests\Unit\Model;
 
 use ProjectTestsHelper\Phpunit\TestCase;
 use WordPressModel\DateTime;
+use WordPressModel\Exception\InvalidPostDateException;
 use WordPressModel\Model\PostDateTime as Testee;
 use Brain\Monkey\Filters;
 
@@ -72,5 +73,31 @@ class PostDateTimeTest extends TestCase
             ]);
 
         $testee->data();
+    }
+
+    /**
+     * Test Data Empty is Returned Because DateTime Throw Exception
+     */
+    public function testDataEmptyBecauseIsNotPossibleToRetrieveDateValues()
+    {
+        $post = $this->getMockBuilder('WP_Post')->getMock();
+        $post->ID = 1;
+        $postDateTime = $this
+            ->getMockBuilder(DateTime::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['date'])
+            ->getMock();
+        $dateTimeFormat = 'Y-m-d';
+        $testee = new Testee($post, $postDateTime, $dateTimeFormat);
+
+        $postDateTime
+            ->expects($this->once())
+            ->method('date')
+            ->with($post, $dateTimeFormat)
+            ->willThrowException(InvalidPostDateException::create($post));
+
+        $data = $testee->data();
+
+        self::assertSame([], $data);
     }
 }
