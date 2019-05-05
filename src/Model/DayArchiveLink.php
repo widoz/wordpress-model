@@ -33,7 +33,7 @@ class DayArchiveLink implements Model
     /**
      * @var DateTime
      */
-    private $postDateTime;
+    private $dateTime;
 
     /**
      * @var WP_Post
@@ -55,18 +55,18 @@ class DayArchiveLink implements Model
      * @param BemService $bem
      * @param WP_Post $post
      * @param string $text
-     * @param DateTime $postDateTime
+     * @param DateTime $dateTime
      */
     public function __construct(
         BemService $bem,
         WP_Post $post,
         string $text,
-        DateTime $postDateTime
+        DateTime $dateTime
     ) {
 
         Assert::stringNotEmpty($text);
 
-        $this->postDateTime = $postDateTime;
+        $this->dateTime = $dateTime;
         $this->post = $post;
         $this->bem = $bem;
         $this->text = $text;
@@ -82,7 +82,7 @@ class DayArchiveLink implements Model
         $archiveLink = '';
 
         try {
-            $linkDate = $this->postDateTime->date($this->post, 'Y m d');
+            $linkDate = $this->dateTime->date($this->post, 'Y m d');
             $linkDate = explode(' ', $linkDate);
         } catch (InvalidPostDateException $exc) {
             $linkDate = null;

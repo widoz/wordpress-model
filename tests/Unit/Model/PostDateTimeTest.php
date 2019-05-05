@@ -31,9 +31,9 @@ class PostDateTimeTest extends TestCase
     public function testInstance()
     {
         $post = $this->getMockBuilder('WP_Post')->getMock();
-        $postDateTime = $this->createMock(DateTime::class);
+        $dateTime = $this->createMock(DateTime::class);
         $dateTimeFormat = 'Y-m-d';
-        $testee = new Testee($post, $postDateTime, $dateTimeFormat);
+        $testee = new Testee($post, $dateTime, $dateTimeFormat);
 
         self::assertInstanceOf(Testee::class, $testee);
     }
@@ -47,11 +47,11 @@ class PostDateTimeTest extends TestCase
         $expectedTimeValue = 'Expected Time Value';
 
         $post = $this->getMockBuilder('WP_Post')->getMock();
-        $postDateTime = $this->createMock(DateTime::class);
+        $dateTime = $this->createMock(DateTime::class);
         $dateTimeFormat = 'Y-m-d';
-        $testee = new Testee($post, $postDateTime, $dateTimeFormat);
+        $testee = new Testee($post, $dateTime, $dateTimeFormat);
 
-        $postDateTime
+        $dateTime
             ->expects($this->exactly(2))
             ->method('date')
             ->withConsecutive(
@@ -82,15 +82,15 @@ class PostDateTimeTest extends TestCase
     {
         $post = $this->getMockBuilder('WP_Post')->getMock();
         $post->ID = 1;
-        $postDateTime = $this
+        $dateTime = $this
             ->getMockBuilder(DateTime::class)
             ->disableOriginalConstructor()
             ->setMethods(['date'])
             ->getMock();
         $dateTimeFormat = 'Y-m-d';
-        $testee = new Testee($post, $postDateTime, $dateTimeFormat);
+        $testee = new Testee($post, $dateTime, $dateTimeFormat);
 
-        $postDateTime
+        $dateTime
             ->expects($this->once())
             ->method('date')
             ->with($post, $dateTimeFormat)
