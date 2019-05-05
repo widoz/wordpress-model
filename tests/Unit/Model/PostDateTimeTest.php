@@ -13,201 +13,64 @@ declare(strict_types=1);
 namespace WordPressModel\Tests\Unit\Model;
 
 use ProjectTestsHelper\Phpunit\TestCase;
-use WordPressModel\Exception\InvalidPostDateException;
-use WordPressModel\DateTime as Testee;
-use Brain\Monkey\Functions;
+use WordPressModel\DateTime;
+use WordPressModel\Model\PostDateTime as Testee;
+use Brain\Monkey\Filters;
 
 /**
- * Class PostDateTimeTest
+ * Class TimeTest
  *
  * @author Guido Scialfa <dev@guidoscialfa.com>
  */
 class PostDateTimeTest extends TestCase
 {
-    private static $validDateFormat = 'Y-m-d H:i:s';
-
     /**
      * Test Instance
      */
     public function testInstance()
     {
-        $testee = new Testee();
+        $post = $this->getMockBuilder('WP_Post')->getMock();
+        $postDateTime = $this->createMock(DateTime::class);
+        $dateTimeFormat = 'Y-m-d';
+        $testee = new Testee($post, $postDateTime, $dateTimeFormat);
 
         self::assertInstanceOf(Testee::class, $testee);
     }
 
     /**
-     * Test the Post Modified Date
+     * Test Data
      */
-    public function testModifiedDate()
+    public function testFilterGetAppliedWithCorrectData()
     {
-        $post = $this->getMockBuilder('\WP_Post')->getMock();
-        $testee = new Testee();
+        $expectedPostDateTimeValue = 'Expected Post Date Time Value';
+        $expectedTimeValue = 'Expected Time Value';
 
-        Functions\expect('get_the_modified_date')
+        $post = $this->getMockBuilder('WP_Post')->getMock();
+        $postDateTime = $this->createMock(DateTime::class);
+        $dateTimeFormat = 'Y-m-d';
+        $testee = new Testee($post, $postDateTime, $dateTimeFormat);
+
+        $postDateTime
+            ->expects($this->exactly(2))
+            ->method('date')
+            ->withConsecutive(
+                [$post, $dateTimeFormat],
+                [$post, 'l, F j, Y g:i a']
+            )
+            ->willReturnOnConsecutiveCalls(
+                $expectedPostDateTimeValue,
+                $expectedTimeValue
+            );
+
+        Filters\expectApplied(Testee::FILTER_DATA)
             ->once()
-            ->with(self::$validDateFormat, $post)
-            ->andReturn('Valid Date Time');
+            ->with([
+                'text' => $expectedTimeValue,
+                'attributes' => [
+                    'datetime' => $expectedPostDateTimeValue,
+                ],
+            ]);
 
-        $date = $testee->modifiedDate($post, self::$validDateFormat);
-        self::assertSame('Valid Date Time', $date);
-    }
-
-    /**
-     * Test the Post Modified Date Cannot be Retrieved and Throw an
-     * InvalidPostDateException
-     */
-    public function testModifiedDateThrowInvalidPostDateExceptionBecauseDateCannotBeRetrieved()
-    {
-        $post = $this->getMockBuilder('\WP_Post')->getMock();
-        $post->ID = 1;
-        $testee = new Testee();
-
-        Functions\expect('get_the_modified_date')
-            ->once()
-            ->with(self::$validDateFormat, $post)
-            ->andReturn(false);
-
-        $this->expectException(InvalidPostDateException::class);
-        $this->expectExceptionMessage("Invalid post date time retrieved for post with ID: {$post->ID}");
-
-        $testee->modifiedDate($post, self::$validDateFormat);
-    }
-
-    /**
-     * Test the Post Modified Time
-     */
-    public function testModifiedTime()
-    {
-        $post = $this->getMockBuilder('\WP_Post')->getMock();
-        $testee = new Testee();
-
-        Functions\expect('get_the_modified_time')
-            ->once()
-            ->with(self::$validDateFormat, $post)
-            ->andReturn('Valid Date Time');
-
-        $date = $testee->modifiedTime($post, self::$validDateFormat);
-        self::assertSame('Valid Date Time', $date);
-    }
-
-    /**
-     * Test the Post Modified Date Cannot be Retrieved and Throw an
-     * InvalidPostDateException
-     */
-    public function testModifiedTimeThrowInvalidPostDateExceptionBecauseDateCannotBeRetrieved()
-    {
-        $post = $this->getMockBuilder('\WP_Post')->getMock();
-        $post->ID = 1;
-        $testee = new Testee();
-
-        Functions\expect('get_the_modified_time')
-            ->once()
-            ->with(self::$validDateFormat, $post)
-            ->andReturn(false);
-
-        $this->expectException(InvalidPostDateException::class);
-        $this->expectExceptionMessage("Invalid post date time retrieved for post with ID: {$post->ID}");
-
-        $testee->modifiedTime($post, self::$validDateFormat);
-    }
-
-
-    /**
-     * Test the Post Date
-     */
-    public function testDate()
-    {
-        $post = $this->getMockBuilder('\WP_Post')->getMock();
-        $testee = new Testee();
-
-        Functions\expect('get_the_date')
-            ->once()
-            ->with(self::$validDateFormat, $post)
-            ->andReturn('Valid Date Time');
-
-        $date = $testee->date($post, self::$validDateFormat);
-        self::assertSame('Valid Date Time', $date);
-    }
-
-    /**
-     * Test the Post Date Cannot be Retrieved and Throw an
-     * InvalidPostDateException
-     */
-    public function testDateThrowInvalidPostDateExceptionBecauseDateCannotBeRetrieved()
-    {
-        $post = $this->getMockBuilder('\WP_Post')->getMock();
-        $post->ID = 1;
-        $testee = new Testee();
-
-        Functions\expect('get_the_date')
-            ->once()
-            ->with(self::$validDateFormat, $post)
-            ->andReturn(false);
-
-        $this->expectException(InvalidPostDateException::class);
-        $this->expectExceptionMessage("Invalid post date time retrieved for post with ID: {$post->ID}");
-
-        $testee->date($post, self::$validDateFormat);
-    }
-
-    /**
-     * Test the Post Time
-     */
-    public function testTime()
-    {
-        $post = $this->getMockBuilder('\WP_Post')->getMock();
-        $testee = new Testee();
-
-        Functions\expect('get_the_time')
-            ->once()
-            ->with(self::$validDateFormat, $post)
-            ->andReturn('Valid Date Time');
-
-        $date = $testee->time($post, self::$validDateFormat);
-        self::assertSame('Valid Date Time', $date);
-    }
-
-    /**
-     * Test the Post Time Cannot be Retrieved and Throw an
-     * InvalidPostDateException
-     */
-    public function testTimeThrowInvalidPostDateExceptionBecauseDateCannotBeRetrieved()
-    {
-        $post = $this->getMockBuilder('\WP_Post')->getMock();
-        $post->ID = 1;
-        $testee = new Testee();
-
-        Functions\expect('get_the_time')
-            ->once()
-            ->with(self::$validDateFormat, $post)
-            ->andReturn(false);
-
-        $this->expectException(InvalidPostDateException::class);
-        $this->expectExceptionMessage("Invalid post date time retrieved for post with ID: {$post->ID}");
-
-        $testee->time($post, self::$validDateFormat);
-    }
-
-    /**
-     * Test the Post Time
-     */
-    public function testDateTime()
-    {
-        $post = $this->getMockBuilder('\WP_Post')->getMock();
-        $testee = new Testee();
-
-        Functions\expect('get_the_date')
-            ->once()
-            ->with(self::$validDateFormat, $post)
-            ->andReturn('Date');
-
-        Functions\expect('get_the_time')
-            ->once()
-            ->with(self::$validDateFormat, $post)
-            ->andReturn('Time');
-
-        $date = $testee->dateTime($post, self::$validDateFormat, ' : ');
-        self::assertSame('Date : Time', $date);
+        $testee->data();
     }
 }
