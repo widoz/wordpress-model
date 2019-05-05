@@ -16,6 +16,7 @@ use function explode;
 use function get_day_link;
 use InvalidArgumentException;
 use Widoz\Bem\Service as BemService;
+use WordPressModel\DateTime;
 use WordPressModel\Exception\InvalidPostDateException;
 use WordPressModel\Utils\Assert;
 use WP_Post;
@@ -30,7 +31,7 @@ class DayArchiveLink implements Model
     public const FILTER_DATA = 'wordpressmodel.date_archive_link';
 
     /**
-     * @var PostDateTime
+     * @var DateTime
      */
     private $postDateTime;
 
@@ -54,13 +55,13 @@ class DayArchiveLink implements Model
      * @param BemService $bem
      * @param WP_Post $post
      * @param string $text
-     * @param PostDateTime $postDateTime
+     * @param DateTime $postDateTime
      */
     public function __construct(
         BemService $bem,
         WP_Post $post,
         string $text,
-        PostDateTime $postDateTime
+        DateTime $postDateTime
     ) {
 
         Assert::stringNotEmpty($text);

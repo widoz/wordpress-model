@@ -18,7 +18,7 @@ use WordPressModel\Model\DayArchiveLink;
 use WordPressModel\Model\PostPublishedDate as Testee;
 use Brain\Monkey\Filters;
 use WordPressModel\Model\PostPublishedDate;
-use WordPressModel\Model\Time;
+use WordPressModel\Model\PostDateTime;
 
 /**
  * Class PostPublishedDateTest
@@ -34,7 +34,7 @@ class PostPublishedDateTest extends TestCase
     {
         $bem = $this->createMock(Service::class);
         $dayArchiveLink = $this->createMock(DayArchiveLink::class);
-        $time = $this->createMock(Time::class);
+        $time = $this->createMock(PostDateTime::class);
         $testee = new Testee($bem, $dayArchiveLink, $time);
 
         self::assertInstanceOf(Testee::class, $testee);
@@ -49,7 +49,7 @@ class PostPublishedDateTest extends TestCase
 
         $bem = $this->createMock(Service::class);
         $dayArchiveLink = $this->createMock(DayArchiveLink::class);
-        $time = $this->createMock(Time::class);
+        $time = $this->createMock(PostDateTime::class);
         $testee = new Testee($bem, $dayArchiveLink, $time);
 
         $dayArchiveLink

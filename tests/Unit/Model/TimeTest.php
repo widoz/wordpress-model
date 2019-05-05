@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace WordPressModel\Tests\Unit\Model;
 
 use ProjectTestsHelper\Phpunit\TestCase;
-use WordPressModel\Model\PostDateTime;
-use WordPressModel\Model\Time as Testee;
+use WordPressModel\DateTime;
+use WordPressModel\Model\PostDateTime as Testee;
 use Brain\Monkey\Filters;
 
 /**
@@ -30,7 +30,7 @@ class TimeTest extends TestCase
     public function testInstance()
     {
         $post = $this->getMockBuilder('WP_Post')->getMock();
-        $postDateTime = $this->createMock(PostDateTime::class);
+        $postDateTime = $this->createMock(DateTime::class);
         $dateTimeFormat = 'Y-m-d';
         $testee = new Testee($post, $postDateTime, $dateTimeFormat);
 
@@ -46,7 +46,7 @@ class TimeTest extends TestCase
         $expectedTimeValue = 'Expected Time Value';
 
         $post = $this->getMockBuilder('WP_Post')->getMock();
-        $postDateTime = $this->createMock(PostDateTime::class);
+        $postDateTime = $this->createMock(DateTime::class);
         $dateTimeFormat = 'Y-m-d';
         $testee = new Testee($post, $postDateTime, $dateTimeFormat);
 

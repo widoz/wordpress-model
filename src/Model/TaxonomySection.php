@@ -28,7 +28,7 @@ final class TaxonomySection implements FullFilledModel
     private $bem;
 
     /**
-     * @var Terms
+     * @var Model
      */
     private $terms;
 

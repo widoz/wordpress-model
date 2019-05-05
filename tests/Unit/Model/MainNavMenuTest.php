@@ -31,8 +31,17 @@ class MainNavMenuTest extends TestCase
      */
     public function testInstance()
     {
+        $themeLocation = 'location';
+        $id = 'id';
+        $depth = 2;
+        $callback = function() {};
+        $walker = $this
+            ->getMockBuilder('Walker')
+            ->disableOriginalConstructor()
+            ->getMock();
         $bem = $this->createMock(Service::class);
-        $testee = new Testee($bem, 'location');
+
+        $testee = new Testee($bem, $themeLocation, $id, $depth, $callback, $walker);
 
         self::assertInstanceOf(Testee::class, $testee);
     }
@@ -45,14 +54,19 @@ class MainNavMenuTest extends TestCase
         $themeLocation = 'location';
         $id = 'id';
         $depth = 2;
+        $callback = function() {};
 
         $bem = $this
             ->getMockBuilder(Service::class)
             ->disableOriginalConstructor()
             ->setMethods(['forElement'])
             ->getMock();
+        $walker = $this
+            ->getMockBuilder('Walker')
+            ->disableOriginalConstructor()
+            ->getMock();
         $valuable = $this->createMock(Valuable::class);
-        $testee = new Testee($bem, $themeLocation, $id);
+        $testee = new Testee($bem, $themeLocation, $id, 2, $callback, $walker);
 
         $data = [
             'container' => [
@@ -74,10 +88,10 @@ class MainNavMenuTest extends TestCase
                 'menu_id' => $id,
                 'container' => '',
                 'depth' => $depth,
-                'fallback_cb' => null,
+                'fallback_cb' => $callback,
                 'menu_class' => $valuable,
                 'items_wrap' => '<ul class="%2$s">%3$s</ul>',
-                'walker' => null,
+                'walker' => $walker,
             ],
         ];
 

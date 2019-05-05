@@ -35,7 +35,7 @@ final class PostPublishedDate implements FullFilledModel
     private $dayArchiveLink;
 
     /**
-     * @var Time
+     * @var PostDateTime
      */
     private $time;
 
@@ -44,12 +44,12 @@ final class PostPublishedDate implements FullFilledModel
      *
      * @param BemService $bem
      * @param DayArchiveLink $dayArchiveLink
-     * @param Time $time
+     * @param PostDateTime $time
      */
     public function __construct(
         BemService $bem,
         DayArchiveLink $dayArchiveLink,
-        Time $time
+        PostDateTime $time
     ) {
 
         $this->bem = $bem;
