@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace WordPressModel\Utils;
 
 use function array_filter;
+// phpcs:ignore WordPress.PHP.StrictInArray.MissingArguments
 use function array_keys;
 use function rtrim;
 

@@ -118,9 +118,13 @@ class DateTime
      * @return string
      * @throws InvalidArgumentException
      * @throws InvalidPostDateException
+     *
+     * phpcs:disable Generic.NamingConventions.ConstructorName.OldStyle
      */
     public function dateTime(WP_Post $post, string $format, string $separator): string
     {
+        // phpcs:enable
+
         Assert::stringNotEmpty($format);
         Assert::stringNotEmpty($separator);
 
