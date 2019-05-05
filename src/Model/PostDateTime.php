@@ -61,14 +61,14 @@ class PostDateTime implements Model
     public function data(): array
     {
         try {
-            $postDateTime = $this->dateTime->date($this->post, $this->dateTimeFormat);
+            $dateTime = $this->dateTime->date($this->post, $this->dateTimeFormat);
             $timeValue = $this->dateTime->date($this->post, 'l, F j, Y g:i a');
         } catch (InvalidPostDateException $exc) {
-            $postDateTime = '';
+            $dateTime = '';
             $timeValue = '';
         }
 
-        if (!$postDateTime || !$timeValue) {
+        if (!$dateTime || !$timeValue) {
             return [];
         }
 
@@ -80,7 +80,7 @@ class PostDateTime implements Model
         return apply_filters(self::FILTER_DATA, [
             'text' => $timeValue,
             'attributes' => [
-                'datetime' => $postDateTime,
+                'datetime' => $dateTime,
             ],
         ]);
     }
