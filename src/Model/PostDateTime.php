@@ -29,7 +29,7 @@ class PostDateTime implements Model
     /**
      * @var DateTime
      */
-    private $postDateTime;
+    private $dateTime;
 
     /**
      * @var WP_Post
@@ -44,12 +44,12 @@ class PostDateTime implements Model
     /**
      * Time constructor
      * @param WP_Post $post
-     * @param DateTime $postDateTime
+     * @param DateTime $dateTime
      * @param string $dateTimeFormat
      */
-    public function __construct(WP_Post $post, DateTime $postDateTime, string $dateTimeFormat)
+    public function __construct(WP_Post $post, DateTime $dateTime, string $dateTimeFormat)
     {
-        $this->postDateTime = $postDateTime;
+        $this->dateTime = $dateTime;
         $this->post = $post;
         $this->dateTimeFormat = $dateTimeFormat;
     }
@@ -61,8 +61,8 @@ class PostDateTime implements Model
     public function data(): array
     {
         try {
-            $postDateTime = $this->postDateTime->date($this->post, $this->dateTimeFormat);
-            $timeValue = $this->postDateTime->date($this->post, 'l, F j, Y g:i a');
+            $postDateTime = $this->dateTime->date($this->post, $this->dateTimeFormat);
+            $timeValue = $this->dateTime->date($this->post, 'l, F j, Y g:i a');
         } catch (InvalidPostDateException $exc) {
             $postDateTime = '';
             $timeValue = '';
