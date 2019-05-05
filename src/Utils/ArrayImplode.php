@@ -43,7 +43,7 @@ class ArrayImplode
                 continue;
             }
 
-            $string .= $key . $assGlue . $value . $glue;
+            $string .= "{$key}{$assGlue}{$value}{$glue}";
         }
         $string = rtrim($string, $glue);
 
