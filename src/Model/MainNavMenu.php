@@ -62,16 +62,16 @@ final class MainNavMenu implements FullFilledModel
      * @param string $themeLocation
      * @param string $id
      * @param int $depth
-     * @param callable|null $fallback
-     * @param Walker|null $walker
+     * @param callable $fallback
+     * @param Walker $walker
      */
     public function __construct(
         BemService $bem,
         string $themeLocation,
-        string $id = '',
-        int $depth = 2,
-        callable $fallback = null,
-        Walker $walker = null
+        string $id,
+        int $depth,
+        callable $fallback,
+        Walker $walker
     ) {
 
         $this->bem = $bem;
