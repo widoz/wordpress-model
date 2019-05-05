@@ -12,14 +12,9 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
-use function get_the_date;
-use function get_the_modified_date;
-use function get_the_modified_time;
-use function get_the_time;
-use function implode;
 use InvalidArgumentException;
+use WordPressModel\DateTime;
 use WordPressModel\Exception\InvalidPostDateException;
-use WordPressModel\Utils\Assert;
 use WP_Post;
 
 /**
@@ -27,126 +22,66 @@ use WP_Post;
  *
  * @author Guido Scialfa <dev@guidoscialfa.com>
  */
-class PostDateTime
+class PostDateTime implements Model
 {
+    public const FILTER_DATA = 'wordpressmodel.time';
+
     /**
-     * Retrieve the Modified Date for a Post
-     *
-     * @param WP_Post $post
-     * @param string $format
-     * @return string
-     * @throws InvalidArgumentException
-     * @throws InvalidPostDateException
+     * @var DateTime
      */
-    public function modifiedDate(WP_Post $post, string $format): string
+    private $postDateTime;
+
+    /**
+     * @var WP_Post
+     */
+    private $post;
+
+    /**
+     * @var string
+     */
+    private $dateTimeFormat;
+
+    /**
+     * Time constructor
+     * @param WP_Post $post
+     * @param DateTime $postDateTime
+     * @param string $dateTimeFormat
+     */
+    public function __construct(WP_Post $post, DateTime $postDateTime, string $dateTimeFormat)
     {
-        Assert::stringNotEmpty($format);
-
-        $postDate = get_the_modified_date($format, $post);
-
-        $this->bailIfInvalidValue($postDate, $post);
-
-        return $postDate;
+        $this->postDateTime = $postDateTime;
+        $this->post = $post;
+        $this->dateTimeFormat = $dateTimeFormat;
     }
 
     /**
-     * Retrieve the Modified Time for a Post
-     *
-     * @param WP_Post $post
-     * @param string $format
-     * @return string
+     * @inheritDoc
      * @throws InvalidArgumentException
-     * @throws InvalidPostDateException
      */
-    public function modifiedTime(WP_Post $post, string $format): string
+    public function data(): array
     {
-        Assert::stringNotEmpty($format);
-
-        $postDate = get_the_modified_time($format, $post);
-
-        $this->bailIfInvalidValue($postDate, $post);
-
-        return $postDate;
-    }
-
-    /**
-     * Retrieve the Written Date for a Post
-     *
-     * @param WP_Post $post
-     * @param string $format
-     * @return string
-     * @throws InvalidArgumentException
-     * @throws InvalidPostDateException
-     */
-    public function date(WP_Post $post, string $format): string
-    {
-        Assert::stringNotEmpty($format);
-
-        $postDate = get_the_date($format, $post);
-
-        $this->bailIfInvalidValue($postDate, $post);
-
-        return $postDate;
-    }
-
-    /**
-     * Retrieve the Written Time for a Post
-     *
-     * @param WP_Post $post
-     * @param string $format
-     * @return string
-     * @throws InvalidArgumentException
-     * @throws InvalidPostDateException
-     */
-    public function time(WP_Post $post, string $format): string
-    {
-        Assert::stringNotEmpty($format);
-
-        $postTime = get_the_time($format, $post);
-
-        $this->bailIfInvalidValue($postTime, $post);
-
-        return $postTime;
-    }
-
-    /**
-     * Retrieve the Written Date Time for a Post
-     *
-     * @param WP_Post $post
-     * @param string $format
-     * @param string $separator
-     * @return string
-     * @throws InvalidArgumentException
-     * @throws InvalidPostDateException
-     */
-    public function dateTime(WP_Post $post, string $format, string $separator): string
-    {
-        Assert::stringNotEmpty($format);
-        Assert::stringNotEmpty($separator);
-
-        $postDate = $this->date($post, $format);
-        $postTime = $this->time($post, $format);
-
-        return implode([$postDate, $postTime], $separator);
-    }
-
-    /**
-     * Throw InvalidPostDateException if date time is not a valid date or time string value.
-     * Usually all of the WordPress functions return a string or a boolean (false) indicating
-     * it was not possible to retrieve the post date or post time etc... values
-     *
-     * @param mixed $dateTime
-     * @param WP_Post $post
-     * @throws InvalidPostDateException
-     *
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-     */
-    private function bailIfInvalidValue($dateTime, WP_Post $post): void
-    {
-        // phpcs:enable
-
-        if ($dateTime === false) {
-            throw InvalidPostDateException::create($post);
+        try {
+            $postDateTime = $this->postDateTime->date($this->post, $this->dateTimeFormat);
+            $timeValue = $this->postDateTime->date($this->post, 'l, F j, Y g:i a');
+        } catch (InvalidPostDateException $exc) {
+            $postDateTime = '';
+            $timeValue = '';
         }
+
+        if (!$postDateTime || !$timeValue) {
+            return [];
+        }
+
+        /**
+         * Filter Data
+         *
+         * @param array $data The data model
+         */
+        return apply_filters(self::FILTER_DATA, [
+            'text' => $timeValue,
+            'attributes' => [
+                'datetime' => $postDateTime,
+            ],
+        ]);
     }
 }
