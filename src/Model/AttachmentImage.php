@@ -22,7 +22,7 @@ use WP_Post;
 /**
  * Attachment Image Model
  */
-final class AttachmentImage implements PartialModel
+class AttachmentImage implements PartialModel
 {
     public const FILTER_DATA = 'wordpressmodel.attachment_image';
 

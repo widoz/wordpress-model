@@ -15,23 +15,16 @@ namespace WordPressModel\Model;
 
 use function current_theme_supports;
 use function get_permalink;
-use function get_post_thumbnail_id;
 use function has_post_thumbnail;
-use Widoz\Bem\Service as ServiceBem;
 use WP_Post;
 
 /**
  * Post Thumbnail Model
  */
-final class PostThumbnail implements PartialModel
+class PostThumbnail implements PartialModel
 {
     public const FILTER_DATA = 'wordpressmodel.template_post_thumbnail_data';
     public const FILTER_PERMALINK = 'wordpressmodel.template_post_thumbnail_permalink';
-
-    /**
-     * @var ServiceBem
-     */
-    private $bem;
 
     /**
      * @var WP_Post
@@ -39,25 +32,19 @@ final class PostThumbnail implements PartialModel
     private $post;
 
     /**
-     * @var string
+     * @var AttachmentImage
      */
-    private $attachmentSize;
+    private $attachmentImage;
 
     /**
      * PostThumbnail constructor
-     * @param ServiceBem $bem
      * @param WP_Post $post
-     * @param string $attachmentSize
+     * @param AttachmentImage $attachmentImage
      */
-    public function __construct(
-        ServiceBem $bem,
-        WP_Post $post,
-        string $attachmentSize = 'post-thumbnail'
-    ) {
-
-        $this->bem = $bem;
+    public function __construct(WP_Post $post, AttachmentImage $attachmentImage)
+    {
         $this->post = $post;
-        $this->attachmentSize = $attachmentSize;
+        $this->attachmentImage = $attachmentImage;
     }
 
     /**
@@ -67,7 +54,7 @@ final class PostThumbnail implements PartialModel
     {
         $data = [];
 
-        if ($this->hasSupport() && $this->hasThumbnail()) {
+        if ($this->hasThumbnail()) {
             /**
              * Post Thumbnail Data
              *
@@ -81,7 +68,7 @@ final class PostThumbnail implements PartialModel
                 ],
             ];
 
-            $data += $this->figureAttachmentModel()->data();
+            $data += $this->attachmentImage->data();
         }
 
         /**
@@ -93,37 +80,9 @@ final class PostThumbnail implements PartialModel
     }
 
     /**
-     * @return bool
-     */
-    private function hasSupport(): bool
-    {
-        return current_theme_supports('post-thumbnails');
-    }
-
-    /**
-     * @return bool
-     */
-    private function hasThumbnail(): bool
-    {
-        return has_post_thumbnail($this->post);
-    }
-
-    /**
-     * @return FigureAttachmentImage
-     */
-    private function figureAttachmentModel(): FigureAttachmentImage
-    {
-        return new FigureAttachmentImage(
-            $this->bem,
-            get_post_thumbnail_id($this->post),
-            $this->attachmentSize
-        );
-    }
-
-    /**
      * @return string
      */
-    private function permalink(): string
+    protected function permalink(): string
     {
         $permalink = get_permalink($this->post);
 
@@ -135,5 +94,15 @@ final class PostThumbnail implements PartialModel
         $permalink = apply_filters(self::FILTER_PERMALINK, $permalink);
 
         return (string)$permalink;
+    }
+
+    /**
+     * Post Thumbnail Exists?
+     *
+     * @return bool
+     */
+    protected function hasThumbnail(): bool
+    {
+        return current_theme_supports('post-thumbnails') && has_post_thumbnail($this->post);
     }
 }
