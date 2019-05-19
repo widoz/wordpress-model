@@ -103,7 +103,7 @@ class AuthorTest extends TestCase
                     ],
                 ],
                 'name' => [
-                    'text' => '',
+                    'content' => '',
                     'attributes' => [
                         'class' => $nameBemValue,
                     ],

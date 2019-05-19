@@ -76,7 +76,7 @@ final class Brand implements FullFilledModel
                 ],
             ],
             'name' => [
-                'text' => $blogName,
+                'content' => $blogName,
             ],
             'link' => [
                 'attributes' => [
@@ -86,7 +86,7 @@ final class Brand implements FullFilledModel
                 ],
             ],
             'description' => [
-                'text' => get_bloginfo('description'),
+                'content' => get_bloginfo('description'),
                 'attributes' => [
                     'class' => $this->bem->forElement('description'),
                 ],

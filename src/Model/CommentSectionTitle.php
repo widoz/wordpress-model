@@ -57,7 +57,7 @@ final class CommentSectionTitle implements PartialModel
          */
         return apply_filters(self::FILTER_DATA, [
             'title' => [
-                'text' => $this->title,
+                'content' => $this->title,
                 'attributes' => [
                     'class' => $this->bem->forElement('title'),
                 ],

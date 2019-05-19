@@ -66,7 +66,7 @@ class PostDateTimeTest extends TestCase
         Filters\expectApplied(Testee::FILTER_DATA)
             ->once()
             ->with([
-                'text' => $expectedTimeValue,
+                'content' => $expectedTimeValue,
                 'attributes' => [
                     'datetime' => $expectedPostDateTimeValue,
                 ],

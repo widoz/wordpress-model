@@ -66,13 +66,13 @@ class ArchiveHeaderTest extends TestCase
                     ],
                 ],
                 'title' => [
-                    'text' => 'Title for Archive',
+                    'content' => 'Title for Archive',
                     'attributes' => [
                         'class' => $titleValue,
                     ],
                 ],
                 'description' => [
-                    'text' => 'Description for Archive',
+                    'content' => 'Description for Archive',
                     'attributes' => [
                         'class' => $descriptionValue,
                     ],
@@ -126,13 +126,13 @@ class ArchiveHeaderTest extends TestCase
                     ],
                 ],
                 'title' => [
-                    'text' => 'Title for Home',
+                    'content' => 'Title for Home',
                     'attributes' => [
                         'class' => $titleValue,
                     ],
                 ],
                 'description' => [
-                    'text' => 'Description for Home',
+                    'content' => 'Description for Home',
                     'attributes' => [
                         'class' => $descriptionValue,
                     ],

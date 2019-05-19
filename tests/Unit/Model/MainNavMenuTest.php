@@ -76,7 +76,7 @@ class MainNavMenuTest extends TestCase
                 ],
             ],
             'link' => [
-                'text' => 'Jump To Content',
+                'content' => 'Jump To Content',
                 'attributes' => [
                     'href' => '#content',
                     'id' => 'jump_to_content',

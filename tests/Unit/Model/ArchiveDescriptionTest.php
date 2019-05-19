@@ -63,7 +63,7 @@ class ArchiveDescriptionTest extends TestCase
             ->once()
             ->with([
                 'description' => [
-                    'text' => 'Description for Page For Posts',
+                    'content' => 'Description for Page For Posts',
                     'attributes' => [
                         'class' => $valuable
                     ],
@@ -103,7 +103,7 @@ class ArchiveDescriptionTest extends TestCase
             ->once()
             ->with([
                 'description' => [
-                    'text' => 'Description for Archive',
+                    'content' => 'Description for Archive',
                     'attributes' => [
                         'class' => $valuable
                     ],

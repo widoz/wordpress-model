@@ -99,7 +99,7 @@ final class MainNavMenu implements FullFilledModel
                 ],
             ],
             'link' => [
-                'text' => __('Jump To Content', 'wordpress-model'),
+                'content' => __('Jump To Content', 'wordpress-model'),
                 'attributes' => [
                     'href' => apply_filters(self::FILTER_JUMP_TO_CONTENT_HREF, '#content'),
                     'id' => 'jump_to_content',

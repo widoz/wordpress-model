@@ -100,7 +100,7 @@ class DayArchiveLink implements Model
          * @param array $data The model.
          */
         return apply_filters(self::FILTER_DATA, [
-            'text' => $this->text,
+            'content' => $this->text,
             'attributes' => [
                 'href' => $archiveLink,
                 'class' => $this->bem->forElement('link'),

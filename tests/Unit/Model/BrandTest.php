@@ -123,7 +123,7 @@ class BrandTest extends TestCase
                     ],
                 ],
                 'name' => [
-                    'text' => 'blog_name',
+                    'content' => 'blog_name',
                 ],
                 'link' => [
                     'attributes' => [
@@ -133,7 +133,7 @@ class BrandTest extends TestCase
                     ],
                 ],
                 'description' => [
-                    'text' => 'blog_description',
+                    'content' => 'blog_description',
                     'attributes' => [
                         'class' => $descriptionValue,
                     ],

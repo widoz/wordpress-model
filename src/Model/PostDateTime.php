@@ -78,7 +78,7 @@ class PostDateTime implements Model
          * @param array $data The data model
          */
         return apply_filters(self::FILTER_DATA, [
-            'text' => $timeValue,
+            'content' => $timeValue,
             'attributes' => [
                 'datetime' => $dateTime,
             ],

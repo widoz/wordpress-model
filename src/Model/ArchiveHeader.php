@@ -78,13 +78,13 @@ final class ArchiveHeader implements FullFilledModel
                 ],
             ],
             'title' => [
-                'text' => $title,
+                'content' => $title,
                 'attributes' => [
                     'class' => $this->bem->forElement('title'),
                 ],
             ],
             'description' => [
-                'text' => $description,
+                'content' => $description,
                 'attributes' => [
                     'class' => $this->bem->forElement('description'),
                 ],

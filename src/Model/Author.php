@@ -63,7 +63,7 @@ final class Author implements FullFilledModel
                     ],
                 ],
                 'name' => [
-                    'text' => $this->user->display_name,
+                    'content' => $this->user->display_name,
                     'attributes' => [
                         'class' => $this->bem->forElement('name'),
                     ],

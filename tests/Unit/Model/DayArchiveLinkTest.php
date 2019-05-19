@@ -75,7 +75,7 @@ class DayArchiveLinkTest extends TestCase
             ->willReturn($expectedClass);
 
         Filters\expectApplied(Testee::FILTER_DATA, [
-            'text' => $text,
+            'content' => $text,
             'attributes' => [
                 'href' => $expectedLink,
                 'class' => $expectedClass,

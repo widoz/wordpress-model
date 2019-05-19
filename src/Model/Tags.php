@@ -60,7 +60,7 @@ final class Tags implements FullFilledModel
                 ],
             ],
             'title' => [
-                'text' => __('Tags: ', 'wordpress-model'),
+                'content' => __('Tags: ', 'wordpress-model'),
                 'attributes' => [
                     'class' => $bem->forElement('title'),
                 ],

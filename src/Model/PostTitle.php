@@ -71,7 +71,7 @@ final class PostTitle implements PartialModel
          */
         return apply_filters(self::FILTER_DATA, [
             'title' => [
-                'text' => get_the_title($this->post),
+                'content' => get_the_title($this->post),
                 'attributes' => [
                     'class' => $this->bem->forElement('title'),
                 ],

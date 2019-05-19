@@ -55,7 +55,7 @@ class CommentSectionTitleTest extends TestCase
             ->once()
             ->with([
                 'title' => [
-                    'text' => 'Comments Section Title',
+                    'content' => 'Comments Section Title',
                     'attributes' => [
                         'class' => $titleValue,
                     ],

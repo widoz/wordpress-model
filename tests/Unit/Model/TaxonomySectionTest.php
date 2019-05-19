@@ -75,7 +75,7 @@ class TaxonomySectionTest extends TestCase
                     ],
                 ],
                 'title' => [
-                    'text' => $sectionTitle,
+                    'content' => $sectionTitle,
                     'attributes' => [
                         'class' => $bemTitleValue,
                     ],

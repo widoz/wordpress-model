@@ -67,7 +67,7 @@ final class TaxonomySection implements FullFilledModel
                 ],
             ],
             'title' => [
-                'text' => $this->title,
+                'content' => $this->title,
                 'attributes' => [
                     'class' => $this->bem->forElement('title'),
                 ],
