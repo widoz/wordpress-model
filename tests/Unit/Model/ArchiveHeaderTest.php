@@ -15,8 +15,8 @@ namespace WordPressModel\Tests\Unit\Model;
 
 use Widoz\Bem;
 use WordPressModel\Model\ArchiveHeader as Testee;
-use WordPressModel\Title;
-use WordPressModel\Description;
+use WordPressModel\Factory\TitleFactory;
+use WordPressModel\Factory\DescriptionFactory;
 use \Brain\Monkey;
 use ProjectTestsHelper\Phpunit\TestCase;
 
@@ -28,8 +28,8 @@ class ArchiveHeaderTest extends TestCase
     public function testArchiveHeaderData()
     {
         $bem = $this->createMock(Bem\Service::class);
-        $title = $this->createMock(Title::class);
-        $description = $this->createMock(Description::class);
+        $title = $this->createMock(TitleFactory::class);
+        $description = $this->createMock(DescriptionFactory::class);
         $testee = new Testee($bem, $title, $description);
 
         Monkey\Functions\expect('is_home')
@@ -88,8 +88,8 @@ class ArchiveHeaderTest extends TestCase
     public function testArchiveHeaderDataForPageForPosts()
     {
         $bem = $this->createMock(Bem\Service::class);
-        $title = $this->createMock(Title::class);
-        $description = $this->createMock(Description::class);
+        $title = $this->createMock(TitleFactory::class);
+        $description = $this->createMock(DescriptionFactory::class);
         $testee = new Testee($bem, $title, $description);
 
         Monkey\Functions\expect('is_home')

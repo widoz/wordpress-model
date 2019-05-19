@@ -10,18 +10,18 @@
  */
 declare(strict_types=1);
 
-namespace WordPressModel;
+namespace WordPressModel\Factory;
 
 use function get_post;
 use function get_the_archive_description;
 use WP_Post;
 
 /**
- * Class Description
+ * Class DescriptionFactory
  *
  * @author Guido Scialfa <dev@guidoscialfa.com>
  */
-class Description
+class DescriptionFactory
 {
     public const FILTER_HOME_DESCRIPTION = 'wordpressmodel.home_page_description';
     private const OPTION_PAGE_FOR_POSTS = 'page_for_posts';

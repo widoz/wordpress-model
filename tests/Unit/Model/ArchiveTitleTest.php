@@ -15,7 +15,7 @@ namespace WordPressModel\Tests\Unit\Model;
 
 use ProjectTestsHelper\Phpunit\TestCase;
 use WordPressModel\Model\ArchiveTitle as Testee;
-use WordPressModel\Title;
+use WordPressModel\Factory\TitleFactory;
 use Brain\Monkey;
 
 class ArchiveTitleTest extends TestCase
@@ -25,7 +25,7 @@ class ArchiveTitleTest extends TestCase
      */
     public function testsInstance()
     {
-        $title = $this->createMock(Title::class);
+        $title = $this->createMock(TitleFactory::class);
         $sut = new Testee($title);
 
         self::assertInstanceOf(Testee::class, $sut);
@@ -36,7 +36,7 @@ class ArchiveTitleTest extends TestCase
      */
     public function testTitleForPageForPosts()
     {
-        $title = $this->createMock(Title::class);
+        $title = $this->createMock(TitleFactory::class);
         $testee = new Testee($title);
 
         Monkey\Functions\expect('is_home')
@@ -62,7 +62,7 @@ class ArchiveTitleTest extends TestCase
      */
     public function testTitleForArchive()
     {
-        $title = $this->createMock(Title::class);
+        $title = $this->createMock(TitleFactory::class);
         $testee = new Testee($title);
 
         Monkey\Functions\expect('is_home')

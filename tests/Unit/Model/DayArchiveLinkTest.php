@@ -20,7 +20,7 @@ use Brain\Monkey\Functions;
 use Widoz\Bem\Service;
 use Widoz\Bem\Valuable;
 use WordPressModel\Model\DayArchiveLink as Testee;
-use WordPressModel\DateTime;
+use WordPressModel\Factory\DateTimeFactory;
 
 /**
  * Class DayArchiveLinkTest
@@ -37,7 +37,7 @@ class DayArchiveLinkTest extends TestCase
         $bem = $this->createMock(Service::class);
         $post = $this->getMockBuilder('WP_Post')->getMock();
         $text = 'Inner Text';
-        $dateTime = $this->createMock(DateTime::class);
+        $dateTime = $this->createMock(DateTimeFactory::class);
         $testee = new Testee($bem, $post, $text, $dateTime);
 
         self::assertInstanceOf(Testee::class, $testee);
@@ -55,7 +55,7 @@ class DayArchiveLinkTest extends TestCase
         $bem = $this->createMock(Service::class);
         $post = $this->getMockBuilder('WP_Post')->getMock();
         $text = 'Inner Text';
-        $dateTime = $this->createMock(DateTime::class);
+        $dateTime = $this->createMock(DateTimeFactory::class);
         $testee = new Testee($bem, $post, $text, $dateTime);
 
         Functions\expect('get_day_link')

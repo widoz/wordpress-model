@@ -16,7 +16,7 @@ namespace WordPressModel\Tests\Unit\Model;
 use ProjectTestsHelper\Phpunit\TestCase;
 use WordPressModel\Model\ArchiveDescription as Testee;
 use WordPressModel\Model\ArchiveDescription;
-use WordPressModel\Description;
+use WordPressModel\Factory\DescriptionFactory;
 use Brain\Monkey;
 use Widoz\Bem;
 
@@ -28,7 +28,7 @@ class ArchiveDescriptionTest extends TestCase
     public function testInstance()
     {
         $bem = $this->createMock(Bem\Service::class);
-        $description = $this->createMock(Description::class);
+        $description = $this->createMock(DescriptionFactory::class);
         $testee = new Testee($bem, $description);
 
         self::assertInstanceOf(Testee::class, $testee);
@@ -41,7 +41,7 @@ class ArchiveDescriptionTest extends TestCase
     {
         $valuable = $this->createMock(Bem\Valuable::class);
         $bem = $this->createMock(Bem\Service::class);
-        $description = $this->createMock(Description::class);
+        $description = $this->createMock(DescriptionFactory::class);
         $testee = new Testee($bem, $description);
 
         Monkey\Functions\expect('is_home')
@@ -81,7 +81,7 @@ class ArchiveDescriptionTest extends TestCase
     {
         $valuable = $this->createMock(Bem\Valuable::class);
         $bem = $this->createMock(Bem\Service::class);
-        $description = $this->createMock(Description::class);
+        $description = $this->createMock(DescriptionFactory::class);
         $testee = new Testee($bem, $description);
 
         Monkey\Functions\expect('is_home')

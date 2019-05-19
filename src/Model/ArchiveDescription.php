@@ -14,7 +14,7 @@ namespace WordPressModel\Model;
 
 use function is_home;
 use Widoz\Bem\Service as BemService;
-use WordPressModel\Description;
+use WordPressModel\Factory\DescriptionFactory;
 
 /**
  * Class Description
@@ -26,7 +26,7 @@ final class ArchiveDescription implements PartialModel
     public const FILTER_DATA = 'wordpressmodel.archive_description';
 
     /**
-     * @var Description
+     * @var DescriptionFactory
      */
     private $description;
 
@@ -38,9 +38,9 @@ final class ArchiveDescription implements PartialModel
     /**
      * ArchiveDescription constructor
      * @param BemService $bem
-     * @param Description $description
+     * @param DescriptionFactory $description
      */
-    public function __construct(BemService $bem, Description $description)
+    public function __construct(BemService $bem, DescriptionFactory $description)
     {
         $this->bem = $bem;
         $this->description = $description;

@@ -14,7 +14,7 @@ namespace WordPressModel\Tests\Unit;
 
 use ProjectTestsHelper\Phpunit\TestCase;
 use WordPressModel\Exception\InvalidPostDateException;
-use WordPressModel\DateTime as Testee;
+use WordPressModel\DateTimeFactory as Testee;
 use Brain\Monkey\Functions;
 
 /**

@@ -10,7 +10,7 @@
  */
 declare(strict_types=1);
 
-namespace WordPressModel;
+namespace WordPressModel\Factory;
 
 use function get_the_date;
 use function get_the_modified_date;
@@ -23,11 +23,11 @@ use WordPressModel\Utils\Assert;
 use WP_Post;
 
 /**
- * Class DateTime
+ * Class DateTimeFactory
  *
  * @author Guido Scialfa <dev@guidoscialfa.com>
  */
-class DateTime
+class DateTimeFactory
 {
     /**
      * Retrieve the Modified Date for a Post

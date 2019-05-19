@@ -15,8 +15,8 @@ namespace WordPressModel\Model;
 
 use function is_home;
 use Widoz\Bem\Service as BemService;
-use WordPressModel\Description;
-use WordPressModel\Title;
+use WordPressModel\Factory\DescriptionFactory;
+use WordPressModel\Factory\TitleFactory;
 
 /**
  * Archive Header Model
@@ -31,22 +31,22 @@ final class ArchiveHeader implements FullFilledModel
     private $bem;
 
     /**
-     * @var Title
+     * @var TitleFactory
      */
     private $title;
 
     /**
-     * @var Title
+     * @var TitleFactory
      */
     private $description;
 
     /**
      * ArchiveHeader constructor
      * @param BemService $bem
-     * @param Title $title
-     * @param Description $description
+     * @param TitleFactory $title
+     * @param DescriptionFactory $description
      */
-    public function __construct(BemService $bem, Title $title, Description $description)
+    public function __construct(BemService $bem, TitleFactory $title, DescriptionFactory $description)
     {
         $this->bem = $bem;
         $this->title = $title;

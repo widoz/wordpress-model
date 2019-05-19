@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace WordPressModel\Model;
 
 use function is_home;
-use WordPressModel\Title;
+use WordPressModel\Factory\TitleFactory;
 
 /**
  * Class ArchiveTitle
@@ -25,15 +25,15 @@ final class ArchiveTitle implements Model
     public const FILTER_DATA = 'wordpressmodel.archive_title';
 
     /**
-     * @var Title
+     * @var TitleFactory
      */
     private $title;
 
     /**
      * ArchiveDescription constructor
-     * @param Title $title
+     * @param TitleFactory $title
      */
-    public function __construct(Title $title)
+    public function __construct(TitleFactory $title)
     {
         $this->title = $title;
     }

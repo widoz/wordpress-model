@@ -10,18 +10,18 @@
  */
 declare(strict_types=1);
 
-namespace WordPressModel;
+namespace WordPressModel\Factory;
 
 use function get_post;
 use function get_the_archive_title;
 use WP_Post;
 
 /**
- * Class Title
+ * Class TitleFactory
  *
  * @author Guido Scialfa <dev@guidoscialfa.com>
  */
-class Title
+class TitleFactory
 {
     private const OPTION_PAGE_FOR_POSTS = 'page_for_posts';
 
