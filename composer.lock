@@ -4,8 +4,54 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "975f026fb51dcec9a7ef0b21bf7a58c7",
+    "content-hash": "c50034cffb0673c6e488b5b635806784",
     "packages": [
+        {
+            "name": "rarst/wpdatetime",
+            "version": "0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Rarst/wpdatetime.git",
+                "reference": "d6e48db062f97788fba7ad150d66a3df5a0c9338"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Rarst/wpdatetime/zipball/d6e48db062f97788fba7ad150d66a3df5a0c9338",
+                "reference": "d6e48db062f97788fba7ad150d66a3df5a0c9338",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.10"
+            },
+            "require-dev": {
+                "brain/monkey": "^2.1",
+                "pds/skeleton": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Rarst\\WordPress\\DateTime\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrey Savchenko",
+                    "homepage": "https://www.Rarst.net/"
+                }
+            ],
+            "description": "Extension of PHP’s DateTime and DateTimeZone classes for WordPress context.",
+            "keywords": [
+                "date",
+                "time",
+                "timezone",
+                "wordpress"
+            ],
+            "time": "2018-03-16T12:37:09+00:00"
+        },
         {
             "name": "symfony/polyfill-ctype",
             "version": "v1.11.0",
