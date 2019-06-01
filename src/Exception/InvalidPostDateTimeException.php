@@ -19,13 +19,13 @@ use WP_Post;
  *
  * @author Guido Scialfa <dev@guidoscialfa.com>
  */
-class InvalidPostDateException extends InvalidPostException
+class InvalidPostDateTimeException extends InvalidPostException
 {
     /**
      * Create a New Instance of InvalidPostDateException
      *
      * @param WP_Post $post
-     * @return InvalidPostDateException
+     * @return InvalidPostDateTimeException
      */
     public static function create(WP_Post $post): self
     {
