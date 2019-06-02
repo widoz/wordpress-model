@@ -62,11 +62,9 @@ class ArchiveDescriptionTest extends TestCase
         Monkey\Filters\expectApplied(Testee::FILTER_DATA)
             ->once()
             ->with([
-                'description' => [
-                    'content' => 'Description for Page For Posts',
-                    'attributes' => [
-                        'class' => $valuable
-                    ],
+                'content' => 'Description for Page For Posts',
+                'attributes' => [
+                    'class' => $valuable
                 ],
             ]);
 
@@ -102,11 +100,9 @@ class ArchiveDescriptionTest extends TestCase
         Monkey\Filters\expectApplied(Testee::FILTER_DATA)
             ->once()
             ->with([
-                'description' => [
-                    'content' => 'Description for Archive',
-                    'attributes' => [
-                        'class' => $valuable
-                    ],
+                'content' => 'Description for Archive',
+                'attributes' => [
+                    'class' => $valuable
                 ],
             ]);
 

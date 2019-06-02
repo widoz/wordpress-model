@@ -49,7 +49,7 @@ final class ArchiveTitle implements Model
          * @param array $data The data arguments for the template.
          */
         return apply_filters(self::FILTER_DATA, [
-            'value' => is_home() ? $this->title->forHome() : $this->title->forArchive(),
+            'content' => is_home() ? $this->title->forHome() : $this->title->forArchive(),
         ]);
     }
 }

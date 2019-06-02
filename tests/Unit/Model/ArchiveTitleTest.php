@@ -51,7 +51,7 @@ class ArchiveTitleTest extends TestCase
         Monkey\Filters\expectApplied(Testee::FILTER_DATA)
             ->once()
             ->with([
-                'value' => 'Title for Home',
+                'content' => 'Title for Home',
             ]);
 
         $testee->data();
@@ -77,7 +77,7 @@ class ArchiveTitleTest extends TestCase
         Monkey\Filters\expectApplied(Testee::FILTER_DATA)
             ->once()
             ->with([
-                'value' => 'Title for Archive',
+                'content' => 'Title for Archive',
             ]);
 
         $testee->data();

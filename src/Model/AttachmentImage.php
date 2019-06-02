@@ -78,14 +78,12 @@ class AttachmentImage implements PartialModel
          * @param array $data The data arguments for the template.
          */
         return apply_filters(self::FILTER_DATA, [
-            'image' => [
-                'attributes' => [
-                    'src' => $this->attachImageSource->source(),
-                    'width' => $this->attachImageSource->width(),
-                    'height' => $this->attachImageSource->height(),
-                    'alt' => $this->attachImageAltText->__invoke($this->attachment),
-                    'class' => $this->bem->forElement('image'),
-                ],
+            'attributes' => [
+                'src' => $this->attachImageSource->source(),
+                'width' => $this->attachImageSource->width(),
+                'height' => $this->attachImageSource->height(),
+                'alt' => $this->attachImageAltText->__invoke($this->attachment),
+                'class' => $this->bem->forElement('image'),
             ],
         ]);
     }

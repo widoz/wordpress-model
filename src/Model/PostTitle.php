@@ -21,6 +21,9 @@ use WP_Query;
 
 /**
  * Post Title Model
+ *
+ * TODO Extract the Link from the Post Title Model and Create a Decorator for the one that contains
+ *      the link.
  */
 final class PostTitle implements PartialModel
 {

@@ -57,11 +57,9 @@ final class ArchiveDescription implements PartialModel
          * @param array $data The data arguments for the template.
          */
         return apply_filters(self::FILTER_DATA, [
-            'description' => [
-                'content' => is_home() ? $this->description->forHome() : $this->description->forArchive(),
-                'attributes' => [
-                    'class' => $this->bem->forElement('description'),
-                ],
+            'content' => is_home() ? $this->description->forHome() : $this->description->forArchive(),
+            'attributes' => [
+                'class' => $this->bem->forElement('description'),
             ],
         ]);
     }

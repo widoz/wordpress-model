@@ -80,14 +80,12 @@ class AttachmentImageTest extends TestCase
         Filters\expectApplied(AttachmentImage::FILTER_DATA)
             ->once()
             ->with([
-                'image' => [
-                    'attributes' => [
-                        'src' => '',
-                        'width' => '',
-                        'height' => '',
-                        'alt' => 'alt text',
-                        'class' => $imageBemValue,
-                    ],
+                'attributes' => [
+                    'src' => '',
+                    'width' => '',
+                    'height' => '',
+                    'alt' => 'alt text',
+                    'class' => $imageBemValue,
                 ],
             ]);
 

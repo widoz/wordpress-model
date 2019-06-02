@@ -54,11 +54,9 @@ class CommentSectionTitleTest extends TestCase
         Filters\expectApplied(Testee::FILTER_DATA)
             ->once()
             ->with([
-                'title' => [
-                    'content' => 'Comments Section Title',
-                    'attributes' => [
-                        'class' => $titleValue,
-                    ],
+                'content' => 'Comments Section Title',
+                'attributes' => [
+                    'class' => $titleValue,
                 ],
             ]);
 

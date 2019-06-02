@@ -46,7 +46,6 @@ final class CommentSectionTitle implements PartialModel
 
     /**
      * @return array
-     * @throws DomainException
      */
     public function data(): array
     {
@@ -56,11 +55,9 @@ final class CommentSectionTitle implements PartialModel
          * @param array $data The data arguments for the template.
          */
         return apply_filters(self::FILTER_DATA, [
-            'title' => [
-                'content' => $this->title,
-                'attributes' => [
-                    'class' => $this->bem->forElement('title'),
-                ],
+            'content' => $this->title,
+            'attributes' => [
+                'class' => $this->bem->forElement('title'),
             ],
         ]);
     }
