@@ -12,9 +12,10 @@ declare(strict_types=1);
 
 namespace WordPressModel\Tests\Unit\Model;
 
+use DateTime;
 use ProjectTestsHelper\Phpunit\TestCase;
-use WordPressModel\Factory\PostDateTime\CreatedDateTimeFactory;
-use WordPressModel\Exception\InvalidPostDateTimeException;
+use WordPressModel\Exception\DateTimeException;
+use WordPressModel\Factory\PostDateTime\PostDateTimeFactory;
 use WordPressModel\Model\PostDateTime as Testee;
 use Brain\Monkey\Filters;
 
@@ -30,10 +31,9 @@ class PostDateTimeTest extends TestCase
      */
     public function testInstance()
     {
-        $post = $this->getMockBuilder('WP_Post')->getMock();
-        $dateTime = $this->createMock(CreatedDateTimeFactory::class);
-        $dateTimeFormat = 'Y-m-d';
-        $testee = new Testee($post, $dateTime, $dateTimeFormat);
+        $post = $this->getMockBuilder('\\WP_Post')->getMock();
+        $postDateTimeFactory = $this->createMock(PostDateTimeFactory::class);
+        $testee = new Testee($post, $postDateTimeFactory);
 
         self::assertInstanceOf(Testee::class, $testee);
     }
@@ -43,42 +43,64 @@ class PostDateTimeTest extends TestCase
      */
     public function testFilterGetAppliedWithCorrectData()
     {
-        $expectedPostDateTimeValue = 'Expected Post Date Time Value';
-        $expectedTimeValue = 'Expected Time Value';
+        {
+            $expectedAttributeDateTime = 'attribute_datetime';
+            $expectedPostDateTimeFormatted = 'post_date_time';
 
-        $post = $this->getMockBuilder('WP_Post')->getMock();
-        $dateTime = $this
-            ->getMockBuilder(CreatedDateTimeFactory::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['date'])
-            ->getMock();
-        $dateTimeFormat = 'Y-m-d';
-        $testee = new Testee($post, $dateTime, $dateTimeFormat);
+            $dateTimeStub = $this
+                ->getMockBuilder(DateTime::class)
+                ->disableOriginalConstructor()
+                ->setMethods(['format'])
+                ->getMock();
 
-        $dateTime
-            ->expects($this->exactly(2))
-            ->method('date')
-            ->withConsecutive(
-                [$post, $dateTimeFormat],
-                [$post, 'l, F j, Y g:i a']
-            )
-            ->willReturnOnConsecutiveCalls(
-                $expectedPostDateTimeValue,
-                $expectedTimeValue
+            $post = $this->getMockBuilder('\\WP_Post')->getMock();
+            $postDateTimeFactory = $this
+                ->getMockBuilder(PostDateTimeFactory::class)
+                ->disableOriginalConstructor()
+                ->setMethods(['create'])
+                ->getMock();
+            list($testee, $testeeMethod) = $this->buildTesteeMethodMock(
+                Testee::class,
+                [$post, $postDateTimeFactory],
+                'data',
+                []
             );
+        }
 
-        Filters\expectApplied(Testee::FILTER_DATA)
-            ->once()
-            ->with(
-                [
-                    'content' => $expectedTimeValue,
-                    'attributes' => [
-                        'datetime' => $expectedPostDateTimeValue,
-                    ],
-                ]
-            );
+        {
+            $postDateTimeFactory
+                ->expects($this->once())
+                ->method('create')
+                ->with($post, 'created')
+                ->willReturn($dateTimeStub);
 
-        $testee->data();
+            $dateTimeStub
+                ->expects($this->exactly(2))
+                ->method('format')
+                ->withConsecutive(
+                    ['Y/m/d'],
+                    ['l, F j, Y g:i a']
+                )
+                ->willReturnOnConsecutiveCalls(
+                    $expectedPostDateTimeFormatted,
+                    $expectedAttributeDateTime
+                );
+
+            Filters\expectApplied(Testee::FILTER_DATA)
+                ->once()
+                ->with(
+                    [
+                        'content' => $expectedPostDateTimeFormatted,
+                        'attributes' => [
+                            'datetime' => $expectedAttributeDateTime,
+                        ],
+                    ]
+                );
+        }
+
+        {
+            $testeeMethod->invoke($testee);
+        }
     }
 
     /**
@@ -86,24 +108,35 @@ class PostDateTimeTest extends TestCase
      */
     public function testDataEmptyBecauseIsNotPossibleToRetrieveDateValues()
     {
-        $post = $this->getMockBuilder('WP_Post')->getMock();
-        $post->ID = 1;
-        $dateTime = $this
-            ->getMockBuilder(CreatedDateTimeFactory::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['date'])
-            ->getMock();
-        $dateTimeFormat = 'Y-m-d';
-        $testee = new Testee($post, $dateTime, $dateTimeFormat);
+        {
+            $post = $this->getMockBuilder('\\WP_Post')->getMock();
+            $postDateTimeFactory = $this
+                ->getMockBuilder(PostDateTimeFactory::class)
+                ->disableOriginalConstructor()
+                ->setMethods(['create'])
+                ->getMock();
+            list($testee, $testeeMethod) = $this->buildTesteeMethodMock(
+                Testee::class,
+                [$post, $postDateTimeFactory],
+                'data',
+                []
+            );
+        }
 
-        $dateTime
-            ->expects($this->once())
-            ->method('date')
-            ->with($post, $dateTimeFormat)
-            ->willThrowException(InvalidPostDateTimeException::create($post));
+        {
+            $postDateTimeFactory
+                ->expects($this->once())
+                ->method('create')
+                ->with($post, 'created')
+                ->willThrowException(new DateTimeException());
+        }
 
-        $data = $testee->data();
+        {
+            $result = $testeeMethod->invoke($testee);
+        }
 
-        self::assertSame([], $data);
+        {
+            self::assertEquals([], $result);
+        }
     }
 }

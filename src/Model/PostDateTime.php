@@ -12,9 +12,8 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
-use InvalidArgumentException;
-use WordPressModel\Factory\PostDateTime\CreatedDateTimeFactory;
-use WordPressModel\Exception\InvalidPostDateTimeException;
+use WordPressModel\Exception\DateTimeException;
+use WordPressModel\Factory\PostDateTime\PostDateTimeFactory;
 use WP_Post;
 
 /**
@@ -27,9 +26,9 @@ class PostDateTime implements Model
     public const FILTER_DATA = 'wordpressmodel.time';
 
     /**
-     * @var CreatedDateTimeFactory
+     * @var PostDateTimeFactory
      */
-    private $dateTime;
+    private $dateTimeFactory;
 
     /**
      * @var WP_Post
@@ -37,42 +36,25 @@ class PostDateTime implements Model
     private $post;
 
     /**
-     * @var string
-     */
-    private $dateTimeFormat;
-
-    /**
      * Time constructor
+     *
      * @param WP_Post $post
-     * @param CreatedDateTimeFactory $dateTime
-     * @param string $dateTimeFormat
+     * @param PostDateTimeFactory $postDateTimeFactory
      */
-    public function __construct(
-        WP_Post $post,
-        CreatedDateTimeFactory $dateTime,
-        string $dateTimeFormat
-    ) {
-
-        $this->dateTime = $dateTime;
+    public function __construct(WP_Post $post, PostDateTimeFactory $postDateTimeFactory)
+    {
+        $this->dateTimeFactory = $postDateTimeFactory;
         $this->post = $post;
-        $this->dateTimeFormat = $dateTimeFormat;
     }
 
     /**
      * @inheritDoc
-     * @throws InvalidArgumentException
      */
     public function data(): array
     {
         try {
-            $dateTime = $this->dateTime->date($this->post, $this->dateTimeFormat);
-            $timeValue = $this->dateTime->date($this->post, 'l, F j, Y g:i a');
-        } catch (InvalidPostDateTimeException $exc) {
-            $dateTime = '';
-            $timeValue = '';
-        }
-
-        if (!$dateTime || !$timeValue) {
+            $dateTime = $this->dateTimeFactory->create($this->post, 'created');
+        } catch (DateTimeException $exc) {
             return [];
         }
 
@@ -84,9 +66,9 @@ class PostDateTime implements Model
         return apply_filters(
             self::FILTER_DATA,
             [
-                'content' => $timeValue,
+                'content' => $dateTime->format('Y/m/d'),
                 'attributes' => [
-                    'datetime' => $dateTime,
+                    'datetime' => $dateTime->format('l, F j, Y g:i a'),
                 ],
             ]
         );

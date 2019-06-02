@@ -13,12 +13,14 @@ declare(strict_types=1);
 namespace WordPressModel\Tests\Unit\Model;
 
 use function date;
+use DateTime;
 use function explode;
 use ProjectTestsHelper\Phpunit\TestCase;
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Widoz\Bem\Service;
 use Widoz\Bem\Valuable;
+use WordPressModel\Factory\PostDateTime\PostDateTimeFactory;
 use WordPressModel\Model\DayArchiveLink as Testee;
 use WordPressModel\Factory\PostDateTime\CreatedDateTimeFactory;
 
@@ -35,10 +37,14 @@ class DayArchiveLinkTest extends TestCase
     public function testInstance()
     {
         $bem = $this->createMock(Service::class);
-        $post = $this->getMockBuilder('WP_Post')->getMock();
+        $post = $this->getMockBuilder('\\WP_Post')->getMock();
         $text = 'Inner Text';
-        $dateTime = $this->createMock(CreatedDateTimeFactory::class);
-        $testee = new Testee($bem, $post, $text, $dateTime);
+        $postDateTimeFactory = $this
+            ->getMockBuilder(PostDateTimeFactory::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['create'])
+            ->getMock();
+        $testee = new Testee($bem, $post, $text, $postDateTimeFactory);
 
         self::assertInstanceOf(Testee::class, $testee);
     }
@@ -48,44 +54,66 @@ class DayArchiveLinkTest extends TestCase
      */
     public function testFilterGetAppliedWithCorrectData()
     {
-        $expectedLink = 'Expected Link';
-        $postDate = date('Y m d');
-        $expectedClass = $this->createMock(Valuable::class);
+        {
+            $linkDateFormatStub = 'Y m d';
+            $postDateTimeStub = $this
+                ->getMockBuilder(DateTime::class)
+                ->disableOriginalConstructor()
+                ->setMethods(['format'])
+                ->getMock();
 
-        $bem = $this->createMock(Service::class);
-        $post = $this->getMockBuilder('WP_Post')->getMock();
-        $text = 'Inner Text';
-        $dateTime = $this
-            ->getMockBuilder(CreatedDateTimeFactory::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['date'])
-            ->getMock();
-        $testee = new Testee($bem, $post, $text, $dateTime);
+            $expectedClass = $this->createMock(Valuable::class);
+            $expectedLink = 'Expected Link';
+            $expectedDateTimeString = date($linkDateFormatStub);
 
-        Functions\expect('get_day_link')
-            ->once()
-            ->with(...explode(' ', $postDate))
-            ->andReturn($expectedLink);
+            $bem = $this->createMock(Service::class);
+            $post = $this->getMockBuilder('\\WP_Post')->getMock();
+            $text = 'Inner Text';
+            $postDateTimeFactory = $this
+                ->getMockBuilder(PostDateTimeFactory::class)
+                ->disableOriginalConstructor()
+                ->setMethods(['create'])
+                ->getMock();
+            $testee = new Testee($bem, $post, $text, $postDateTimeFactory);
+        }
 
-        $dateTime
-            ->expects($this->once())
-            ->method('date')
-            ->with($post, 'Y m d')
-            ->willReturn($postDate);
+        {
+            $postDateTimeFactory
+                ->expects($this->once())
+                ->method('create')
+                ->with($post, 'created')
+                ->willReturn($postDateTimeStub);
 
-        $bem
-            ->expects($this->once())
-            ->method('forElement')
-            ->willReturn($expectedClass);
+            $postDateTimeStub
+                ->expects($this->once())
+                ->method('format')
+                ->with($linkDateFormatStub)
+                ->willReturn($expectedDateTimeString);
 
-        Filters\expectApplied(Testee::FILTER_DATA, [
-            'content' => $text,
-            'attributes' => [
-                'href' => $expectedLink,
-                'class' => $expectedClass,
-            ],
-        ]);
+            Functions\expect('get_day_link')
+                ->once()
+                ->with(...explode(' ', $expectedDateTimeString))
+                ->andReturn($expectedLink);
 
-        $testee->data();
+            $bem
+                ->expects($this->once())
+                ->method('forElement')
+                ->willReturn($expectedClass);
+
+            Filters\expectApplied(
+                Testee::FILTER_DATA,
+                [
+                    'content' => $text,
+                    'attributes' => [
+                        'href' => $expectedLink,
+                        'class' => $expectedClass,
+                    ],
+                ]
+            );
+        }
+
+        {
+            $testee->data();
+        }
     }
 }

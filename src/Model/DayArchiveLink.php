@@ -16,8 +16,10 @@ use function explode;
 use function get_day_link;
 use InvalidArgumentException;
 use Widoz\Bem\Service as BemService;
+use WordPressModel\Exception\DateTimeException;
 use WordPressModel\Factory\PostDateTime\CreatedDateTimeFactory;
 use WordPressModel\Exception\InvalidPostDateTimeException;
+use WordPressModel\Factory\PostDateTime\PostDateTimeFactory;
 use WordPressModel\Utils\Assert;
 use WP_Post;
 
@@ -29,11 +31,6 @@ use WP_Post;
 class DayArchiveLink implements Model
 {
     public const FILTER_DATA = 'wordpressmodel.date_archive_link';
-
-    /**
-     * @var CreatedDateTimeFactory
-     */
-    private $dateTime;
 
     /**
      * @var WP_Post
@@ -51,25 +48,30 @@ class DayArchiveLink implements Model
     private $text;
 
     /**
+     * @var PostDateTimeFactory
+     */
+    private $postDateTimeFactory;
+
+    /**
      * DayArchiveLink constructor
      * @param BemService $bem
      * @param WP_Post $post
      * @param string $text
-     * @param CreatedDateTimeFactory $dateTime
+     * @param PostDateTimeFactory $postDateTimeFactory
      */
     public function __construct(
         BemService $bem,
         WP_Post $post,
         string $text,
-        CreatedDateTimeFactory $dateTime
+        PostDateTimeFactory $postDateTimeFactory
     ) {
 
         Assert::stringNotEmpty($text);
 
-        $this->dateTime = $dateTime;
         $this->post = $post;
         $this->bem = $bem;
         $this->text = $text;
+        $this->postDateTimeFactory = $postDateTimeFactory;
     }
 
     /**
@@ -82,9 +84,10 @@ class DayArchiveLink implements Model
         $archiveLink = '';
 
         try {
-            $linkDate = $this->dateTime->date($this->post, 'Y m d');
+            $linkDateTime = $this->postDateTimeFactory->create($this->post, 'created');
+            $linkDate = $linkDateTime->format('Y m d');
             $linkDate = explode(' ', $linkDate);
-        } catch (InvalidPostDateTimeException $exc) {
+        } catch (DateTimeException $exc) {
             $linkDate = null;
         }
 

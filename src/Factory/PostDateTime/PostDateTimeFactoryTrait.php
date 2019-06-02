@@ -36,10 +36,8 @@ trait PostDateTimeFactoryTrait
      * @param WP_Post $post
      * @param DateTimeFormat $format
      * @param DateTimeZone $timeZone
-     * @return DateTimeImmutable
+     * @return DateTimeInterface
      * @throws DateTimeException
-     * @throws InvalidArgumentException
-     * @throws InvalidPostDateTimeException
      */
     public function create(
         WP_Post $post,

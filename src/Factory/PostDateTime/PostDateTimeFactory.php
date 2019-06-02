@@ -72,9 +72,7 @@ class PostDateTimeFactory
      * @param WP_Post $post
      * @param string $type
      * @return DateTimeInterface
-     * @throws InvalidArgumentException
      * @throws DateTimeException
-     * @throws InvalidPostDateTimeException
      */
     public function create(WP_Post $post, string $type): DateTimeInterface
     {
