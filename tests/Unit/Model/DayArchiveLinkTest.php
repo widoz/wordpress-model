@@ -55,7 +55,11 @@ class DayArchiveLinkTest extends TestCase
         $bem = $this->createMock(Service::class);
         $post = $this->getMockBuilder('WP_Post')->getMock();
         $text = 'Inner Text';
-        $dateTime = $this->createMock(CreatedDateTimeFactory::class);
+        $dateTime = $this
+            ->getMockBuilder(CreatedDateTimeFactory::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['date'])
+            ->getMock();
         $testee = new Testee($bem, $post, $text, $dateTime);
 
         Functions\expect('get_day_link')

@@ -93,7 +93,8 @@ class PostThumbnailTest extends TestCase
             list($testee, $testeeMethod) = $this->buildTesteeMethodMock(
                 Testee::class,
                 [$post, $attachmentImage],
-                'permalink'
+                'permalink',
+                []
             );
         }
 
@@ -129,7 +130,8 @@ class PostThumbnailTest extends TestCase
             list($testee, $testeeMethod) = $this->buildTesteeMethodMock(
                 Testee::class,
                 [$post, $attachmentImage],
-                'hasThumbnail'
+                'hasThumbnail',
+                []
             );
         }
 

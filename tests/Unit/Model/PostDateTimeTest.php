@@ -47,7 +47,11 @@ class PostDateTimeTest extends TestCase
         $expectedTimeValue = 'Expected Time Value';
 
         $post = $this->getMockBuilder('WP_Post')->getMock();
-        $dateTime = $this->createMock(CreatedDateTimeFactory::class);
+        $dateTime = $this
+            ->getMockBuilder(CreatedDateTimeFactory::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['date'])
+            ->getMock();
         $dateTimeFormat = 'Y-m-d';
         $testee = new Testee($post, $dateTime, $dateTimeFormat);
 
@@ -65,12 +69,14 @@ class PostDateTimeTest extends TestCase
 
         Filters\expectApplied(Testee::FILTER_DATA)
             ->once()
-            ->with([
-                'content' => $expectedTimeValue,
-                'attributes' => [
-                    'datetime' => $expectedPostDateTimeValue,
-                ],
-            ]);
+            ->with(
+                [
+                    'content' => $expectedTimeValue,
+                    'attributes' => [
+                        'datetime' => $expectedPostDateTimeValue,
+                    ],
+                ]
+            );
 
         $testee->data();
     }

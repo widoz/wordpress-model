@@ -16,7 +16,7 @@ use function explode;
 use function get_day_link;
 use InvalidArgumentException;
 use Widoz\Bem\Service as BemService;
-use WordPressModel\Factory\CreatedDateTimeFactory;
+use WordPressModel\Factory\PostDateTime\CreatedDateTimeFactory;
 use WordPressModel\Exception\InvalidPostDateTimeException;
 use WordPressModel\Utils\Assert;
 use WP_Post;
