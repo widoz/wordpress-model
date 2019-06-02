@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace WordPressModel\Tests\Unit\Factory\PostDateTime;
 
 use function Brain\Monkey\Functions\expect;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use ProjectTestsHelper\Phpunit\TestCase;
 use WordPressModel\Factory\PostDateTime\ModifiedDateTimeFactory as Testee;
 
@@ -23,6 +24,8 @@ use WordPressModel\Factory\PostDateTime\ModifiedDateTimeFactory as Testee;
  */
 class ModifiedDateTimeFactoryTest extends TestCase
 {
+    use MockeryPHPUnitIntegration;
+
     /**
      * Test Time
      */

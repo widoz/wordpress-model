@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace WordPressModel\Model;
 
 use InvalidArgumentException;
-use WordPressModel\Factory\DateTimeFactory;
-use WordPressModel\Exception\InvalidPostDateException;
+use WordPressModel\Factory\CreatedDateTimeFactory;
+use WordPressModel\Exception\InvalidPostDateTimeException;
 use WP_Post;
 
 /**
@@ -27,7 +27,7 @@ class PostDateTime implements Model
     public const FILTER_DATA = 'wordpressmodel.time';
 
     /**
-     * @var DateTimeFactory
+     * @var CreatedDateTimeFactory
      */
     private $dateTime;
 
@@ -44,10 +44,10 @@ class PostDateTime implements Model
     /**
      * Time constructor
      * @param WP_Post $post
-     * @param DateTimeFactory $dateTime
+     * @param CreatedDateTimeFactory $dateTime
      * @param string $dateTimeFormat
      */
-    public function __construct(WP_Post $post, DateTimeFactory $dateTime, string $dateTimeFormat)
+    public function __construct(WP_Post $post, CreatedDateTimeFactory $dateTime, string $dateTimeFormat)
     {
         $this->dateTime = $dateTime;
         $this->post = $post;
@@ -63,7 +63,7 @@ class PostDateTime implements Model
         try {
             $dateTime = $this->dateTime->date($this->post, $this->dateTimeFormat);
             $timeValue = $this->dateTime->date($this->post, 'l, F j, Y g:i a');
-        } catch (InvalidPostDateException $exc) {
+        } catch (InvalidPostDateTimeException $exc) {
             $dateTime = '';
             $timeValue = '';
         }

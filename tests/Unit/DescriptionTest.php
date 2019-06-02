@@ -15,7 +15,7 @@ namespace WordPressModel\Tests\Unit;
 
 use Brain\Monkey;
 use ProjectTestsHelper\Phpunit\TestCase;
-use WordPressModel\DescriptionFactory as Testee;
+use WordPressModel\Factory\DescriptionFactory as Testee;
 
 class DescriptionTest extends TestCase
 {

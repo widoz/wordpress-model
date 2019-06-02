@@ -4,54 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c50034cffb0673c6e488b5b635806784",
+    "content-hash": "46dd9e0e0097708d705648d665b56719",
     "packages": [
-        {
-            "name": "rarst/wpdatetime",
-            "version": "0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Rarst/wpdatetime.git",
-                "reference": "d6e48db062f97788fba7ad150d66a3df5a0c9338"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Rarst/wpdatetime/zipball/d6e48db062f97788fba7ad150d66a3df5a0c9338",
-                "reference": "d6e48db062f97788fba7ad150d66a3df5a0c9338",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5.10"
-            },
-            "require-dev": {
-                "brain/monkey": "^2.1",
-                "pds/skeleton": "^1.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Rarst\\WordPress\\DateTime\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Andrey Savchenko",
-                    "homepage": "https://www.Rarst.net/"
-                }
-            ],
-            "description": "Extension of PHP’s DateTime and DateTimeZone classes for WordPress context.",
-            "keywords": [
-                "date",
-                "time",
-                "timezone",
-                "wordpress"
-            ],
-            "time": "2018-03-16T12:37:09+00:00"
-        },
         {
             "name": "symfony/polyfill-ctype",
             "version": "v1.11.0",
@@ -3062,16 +3016,16 @@
         },
         {
             "name": "widoz/project-tests-helper",
-            "version": "dev-master",
+            "version": "dev-phpunit-7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/widoz/project-tests-helper.git",
-                "reference": "30c7728c78d5305d5adc128343aec795713c054b"
+                "reference": "d3cecaa849afa1917ddfddc59733ffc48061690a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/widoz/project-tests-helper/zipball/30c7728c78d5305d5adc128343aec795713c054b",
-                "reference": "30c7728c78d5305d5adc128343aec795713c054b",
+                "url": "https://api.github.com/repos/widoz/project-tests-helper/zipball/d3cecaa849afa1917ddfddc59733ffc48061690a",
+                "reference": "d3cecaa849afa1917ddfddc59733ffc48061690a",
                 "shasum": ""
             },
             "require": {
@@ -3108,7 +3062,7 @@
                 }
             ],
             "description": "Php Tests Helper library to include into your projects",
-            "time": "2019-01-26T18:37:22+00:00"
+            "time": "2019-06-01T13:21:57+00:00"
         },
         {
             "name": "wp-coding-standards/wpcs",

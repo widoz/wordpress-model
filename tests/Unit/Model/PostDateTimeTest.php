@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace WordPressModel\Tests\Unit\Model;
 
 use ProjectTestsHelper\Phpunit\TestCase;
-use WordPressModel\Factory\DateTimeFactory;
-use WordPressModel\Exception\InvalidPostDateException;
+use WordPressModel\Factory\PostDateTime\CreatedDateTimeFactory;
+use WordPressModel\Exception\InvalidPostDateTimeException;
 use WordPressModel\Model\PostDateTime as Testee;
 use Brain\Monkey\Filters;
 
@@ -31,7 +31,7 @@ class PostDateTimeTest extends TestCase
     public function testInstance()
     {
         $post = $this->getMockBuilder('WP_Post')->getMock();
-        $dateTime = $this->createMock(DateTimeFactory::class);
+        $dateTime = $this->createMock(CreatedDateTimeFactory::class);
         $dateTimeFormat = 'Y-m-d';
         $testee = new Testee($post, $dateTime, $dateTimeFormat);
 
@@ -47,7 +47,7 @@ class PostDateTimeTest extends TestCase
         $expectedTimeValue = 'Expected Time Value';
 
         $post = $this->getMockBuilder('WP_Post')->getMock();
-        $dateTime = $this->createMock(DateTimeFactory::class);
+        $dateTime = $this->createMock(CreatedDateTimeFactory::class);
         $dateTimeFormat = 'Y-m-d';
         $testee = new Testee($post, $dateTime, $dateTimeFormat);
 
@@ -83,7 +83,7 @@ class PostDateTimeTest extends TestCase
         $post = $this->getMockBuilder('WP_Post')->getMock();
         $post->ID = 1;
         $dateTime = $this
-            ->getMockBuilder(DateTimeFactory::class)
+            ->getMockBuilder(CreatedDateTimeFactory::class)
             ->disableOriginalConstructor()
             ->setMethods(['date'])
             ->getMock();
@@ -94,7 +94,7 @@ class PostDateTimeTest extends TestCase
             ->expects($this->once())
             ->method('date')
             ->with($post, $dateTimeFormat)
-            ->willThrowException(InvalidPostDateException::create($post));
+            ->willThrowException(InvalidPostDateTimeException::create($post));
 
         $data = $testee->data();
 

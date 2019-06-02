@@ -15,7 +15,7 @@ namespace WordPressModel\Model;
 
 use InvalidArgumentException;
 use Widoz\Bem\Service as BemService;
-use WordPressModel\Exception\InvalidPostDateException;
+use WordPressModel\Exception\InvalidPostDateTimeException;
 
 /**
  * Post Published Date Model
@@ -60,7 +60,7 @@ final class PostPublishedDate implements FullFilledModel
     /**
      * @inheritDoc
      * @throws InvalidArgumentException
-     * @throws InvalidPostDateException
+     * @throws InvalidPostDateTimeException
      */
     public function data(): array
     {

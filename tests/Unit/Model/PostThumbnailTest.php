@@ -37,13 +37,14 @@ class PostThumbnailTest extends TestCase
             $attachmentImageData = ['attachment_image_data'];
             $testeePermalink = 'testee_permalink';
 
-            $post = $this->getMockBuilder('WP_Post')->getMock();
+            $post = $this->getMockBuilder('\\WP_Post')->getMock();
             $attachmentImage = $this->createMock(AttachmentImage::class);
 
             $testee = $this->buildTesteeMock(
                 Testee::class,
                 [$post, $attachmentImage],
-                ['permalink', 'hasThumbnail']
+                ['permalink', 'hasThumbnail'],
+                ''
             )->getMock();
         }
 

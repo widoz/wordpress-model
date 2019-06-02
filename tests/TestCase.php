@@ -12,11 +12,7 @@ declare(strict_types=1);
 
 namespace WordPressModel\Tests;
 
-use PHPUnit\Framework\MockObject\MockBuilder;
 use ProjectTestsHelper\Phpunit\TestCase as PhpunitTestCase;
-use ReflectionClass;
-use ReflectionException;
-use ReflectionMethod;
 
 /**
  * Class TestCase
@@ -25,59 +21,5 @@ use ReflectionMethod;
  */
 class TestCase extends PhpunitTestCase
 {
-    /**
-     * Build the Testee Mock Object
-     *
-     * Basic configuration available for all of the testee objects, call `getMock` to get the mock.
-     *
-     * @param string $className
-     * @param array $constructorArguments
-     * @param array $methods
-     * @return MockBuilder
-     */
-    protected function buildTesteeMock(
-        string $className,
-        array $constructorArguments,
-        array $methods
-    ): MockBuilder {
 
-        $testee = $this->getMockBuilder($className);
-
-        $constructorArguments
-            ? $testee->setConstructorArgs($constructorArguments)
-            : $testee->disableOriginalConstructor();
-
-        if ($methods) {
-            $testee->setMethods($methods);
-        }
-
-        return $testee;
-    }
-
-    /**
-     * Retrieve a Testee Mock to Test Protected Methods
-     *
-     * return MockBuilder
-     * @param string $className
-     * @param array $constructorArguments
-     * @param string $method
-     * @return array
-     * @throws ReflectionException
-     */
-    public function buildTesteeMethodMock(
-        string $className,
-        array $constructorArguments,
-        string $method
-    ): array {
-
-        $testee = $this->buildTesteeMock($className, $constructorArguments, [])->getMock();
-
-        $reflectionMethod = new ReflectionMethod($className, $method);
-        $reflectionMethod->setAccessible(true);
-
-        return [
-            $testee,
-            $reflectionMethod,
-        ];
-    }
 }

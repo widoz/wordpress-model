@@ -16,8 +16,8 @@ use function explode;
 use function get_day_link;
 use InvalidArgumentException;
 use Widoz\Bem\Service as BemService;
-use WordPressModel\Factory\DateTimeFactory;
-use WordPressModel\Exception\InvalidPostDateException;
+use WordPressModel\Factory\CreatedDateTimeFactory;
+use WordPressModel\Exception\InvalidPostDateTimeException;
 use WordPressModel\Utils\Assert;
 use WP_Post;
 
@@ -31,7 +31,7 @@ class DayArchiveLink implements Model
     public const FILTER_DATA = 'wordpressmodel.date_archive_link';
 
     /**
-     * @var DateTimeFactory
+     * @var CreatedDateTimeFactory
      */
     private $dateTime;
 
@@ -55,13 +55,13 @@ class DayArchiveLink implements Model
      * @param BemService $bem
      * @param WP_Post $post
      * @param string $text
-     * @param DateTimeFactory $dateTime
+     * @param CreatedDateTimeFactory $dateTime
      */
     public function __construct(
         BemService $bem,
         WP_Post $post,
         string $text,
-        DateTimeFactory $dateTime
+        CreatedDateTimeFactory $dateTime
     ) {
 
         Assert::stringNotEmpty($text);
@@ -75,7 +75,7 @@ class DayArchiveLink implements Model
     /**
      * @inheritDoc
      * @throws InvalidArgumentException
-     * @throws InvalidPostDateException
+     * @throws InvalidPostDateTimeException
      */
     public function data(): array
     {
@@ -84,7 +84,7 @@ class DayArchiveLink implements Model
         try {
             $linkDate = $this->dateTime->date($this->post, 'Y m d');
             $linkDate = explode(' ', $linkDate);
-        } catch (InvalidPostDateException $exc) {
+        } catch (InvalidPostDateTimeException $exc) {
             $linkDate = null;
         }
 
