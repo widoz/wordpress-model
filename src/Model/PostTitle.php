@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace WordPressModel\Model;
 
-use function get_permalink;
 use function get_the_title;
 use Widoz\Bem\Service as ServiceBem;
 use WP_Post;
@@ -21,11 +20,8 @@ use WP_Query;
 
 /**
  * Post Title Model
- *
- * TODO Extract the Link from the Post Title Model and Create a Decorator for the one that contains
- *      the link.
  */
-final class PostTitle implements PartialModel
+class PostTitle implements PartialModel
 {
     public const FILTER_DATA = 'wordpressmodel.post_title';
 
@@ -40,37 +36,26 @@ final class PostTitle implements PartialModel
     private $post;
 
     /**
-     * @var WP_Query
-     */
-    private $query;
-
-    /**
      * PostTitle constructor.
      *
      * @param ServiceBem $bem
      * @param WP_Post $post
-     * @param WP_Query $query
      */
-    public function __construct(ServiceBem $bem, WP_Post $post, WP_Query $query)
+    public function __construct(ServiceBem $bem, WP_Post $post)
     {
         $this->bem = $bem;
         $this->post = $post;
-        $this->query = $query;
     }
 
     /**
-     * @return array
+     * @inheritDoc
      */
     public function data(): array
     {
-        $isSingular = $this->query->is_singular();
-        $href = $isSingular ? '' : (string)get_permalink($this->post);
-
         /**
          * Post Title
          *
          * @param array $data The data to inject into the template.
-         * @param WP_Query $query The query associated with the post.
          */
         return apply_filters(self::FILTER_DATA, [
             'title' => [
@@ -79,12 +64,6 @@ final class PostTitle implements PartialModel
                     'class' => $this->bem->forElement('title'),
                 ],
             ],
-            'link' => [
-                'attributes' => [
-                    'class' => $this->bem->forElement('link'),
-                    'href' => $href,
-                ],
-            ],
-        ], $this->query);
+        ]);
     }
 }
