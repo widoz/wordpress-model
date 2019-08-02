@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace WordPressModel\Factory;
 
 use DateTimeZone;
+// phpcs:ignore WordPress.PHP.StrictInArray.MissingArguments
 use function in_array;
 use function is_numeric;
 
