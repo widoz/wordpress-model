@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace WordPressModel\Tests\Unit\Model;
 
+use Brain\Monkey\Expectation\Exception\NotAllowedMethod;
 use Brain\Monkey\Functions;
 use Brain\Monkey\Filters;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
@@ -65,6 +66,7 @@ class BrandTest extends TestCase
 
     /**
      * Test Data Model Contains Correct Values and Data Filter is applied
+     * @throws NotAllowedMethod
      */
     public function testFilterGetAppliedWithCorrectData()
     {

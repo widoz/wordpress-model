@@ -15,6 +15,7 @@ namespace WordPressModel\Tests\Unit\Model;
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use ReflectionException;
 use WordPressModel\Model\AttachmentImage;
 use WordPressModel\Tests\TestCase;
 use WordPressModel\Model\PostThumbnail as Testee;
@@ -76,6 +77,7 @@ class PostThumbnailTest extends TestCase
 
     /**
      * Test Permalink
+     * @throws ReflectionException
      */
     public function testPermalink()
     {
@@ -107,6 +109,7 @@ class PostThumbnailTest extends TestCase
 
     /**
      * Test Post Thumbnail Exists
+     * @throws ReflectionException
      */
     public function testPostThumbnailExists()
     {

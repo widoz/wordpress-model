@@ -15,6 +15,7 @@ namespace WordPressModel\Tests\Functional\Factory\PostDateTime;
 use DateTime;
 use DateTimeZone;
 use ProjectTestsHelper\Phpunit\TestCase;
+use WordPressModel\Exception\DateTimeException;
 use WordPressModel\Factory\DateTimeZoneFactory;
 use WordPressModel\Factory\PostDateTime\CreatedDateTimeFactory;
 use WordPressModel\Factory\PostDateTime\DateTimeFormat;
@@ -30,52 +31,47 @@ class PostDateTimeFactoryTest extends TestCase
 {
     /**
      * Test Create Modified Date Time
+     * @throws DateTimeException
      */
     public function testCreateModifiedDateTime()
     {
-        {
-            $type = 'modified';
-            $dateTimeZone = new DateTimeZone('Europe/Rome');
-            $dateTimeFormat = new DateTimeFormat('Y/m/d', 'H:i:s', ' ');
+        $type = 'modified';
+        $dateTimeZone = new DateTimeZone('Europe/Rome');
+        $dateTimeFormat = new DateTimeFormat('Y/m/d', 'H:i:s', ' ');
 
-            $post = $this->getMockBuilder('\\WP_Post')->getMock();
-            $modifiedDateTimeFactory = $this
-                ->getMockBuilder(ModifiedDateTimeFactory::class)
-                ->disableOriginalConstructor()
-                ->setMethods(['create'])
-                ->getMock();
-            $createdDateTimeFactory = $this
-                ->getMockBuilder(CreatedDateTimeFactory::class)
-                ->disableOriginalConstructor()
-                ->setMethods(['create'])
-                ->getMock();
-            $timeZoneFactory = $this
-                ->getMockBuilder(DateTimeZoneFactory::class)
-                ->setMethods(['create'])
-                ->getMock();
+        $post = $this->getMockBuilder('\\WP_Post')->getMock();
+        $modifiedDateTimeFactory = $this
+            ->getMockBuilder(ModifiedDateTimeFactory::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['create'])
+            ->getMock();
+        $createdDateTimeFactory = $this
+            ->getMockBuilder(CreatedDateTimeFactory::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['create'])
+            ->getMock();
+        $timeZoneFactory = $this
+            ->getMockBuilder(DateTimeZoneFactory::class)
+            ->setMethods(['create'])
+            ->getMock();
 
-            $testee = new Testee(
-                $timeZoneFactory,
-                $dateTimeFormat,
-                $modifiedDateTimeFactory,
-                $createdDateTimeFactory
-            );
-        }
+        $testee = new Testee(
+            $timeZoneFactory,
+            $dateTimeFormat,
+            $modifiedDateTimeFactory,
+            $createdDateTimeFactory
+        );
 
-        {
-            $timeZoneFactory
-                ->expects($this->once())
-                ->method('create')
-                ->willReturn($dateTimeZone);
+        $timeZoneFactory
+            ->expects($this->once())
+            ->method('create')
+            ->willReturn($dateTimeZone);
 
-            $modifiedDateTimeFactory
-                ->expects($this->once())
-                ->method('create')
-                ->willReturn(new DateTime('now', $dateTimeZone));
-        }
+        $modifiedDateTimeFactory
+            ->expects($this->once())
+            ->method('create')
+            ->willReturn(new DateTime('now', $dateTimeZone));
 
-        {
-            $testee->create($post, $type);
-        }
+        $testee->create($post, $type);
     }
 }

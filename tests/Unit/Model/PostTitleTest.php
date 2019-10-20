@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace WordPressModel\Tests\Unit\Model;
 
+use ReflectionException;
 use function Brain\Monkey\Filters\expectApplied;
 use function Brain\Monkey\Functions\expect;
 use ProjectTestsHelper\Phpunit\TestCase;
@@ -48,6 +49,7 @@ class PostTitleTest extends TestCase
 
     /**
      * Test Data Model Contains the Correct Values and Filter is Applied
+     * @throws ReflectionException
      */
     public function testFilterDataIsAppliedCorrectly()
     {

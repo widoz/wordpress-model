@@ -29,29 +29,21 @@ class WpDateTimeZoneFactoryTest extends TestCase
      */
     public function testCreateByTimeZoneString()
     {
-        {
-            $dateTimeZoneStringStub = 'Europe/Rome';
+        $dateTimeZoneStringStub = 'Europe/Rome';
 
-            $testee = new Testee();
-        }
+        $testee = new Testee();
 
-        {
-            expect('get_option')
-                ->once()
-                ->with('timezone_string')
-                ->andReturn($dateTimeZoneStringStub);
-        }
+        expect('get_option')
+            ->once()
+            ->with('timezone_string')
+            ->andReturn($dateTimeZoneStringStub);
 
-        {
-            $result = $testee->create();
-        }
+        $result = $testee->create();
 
-        {
-            self::assertInstanceOf(DateTimeZone::class, $result);
+        self::assertInstanceOf(DateTimeZone::class, $result);
 
-            $dateTimeZone = new DateTimeZone($dateTimeZoneStringStub);
-            self::assertEquals($dateTimeZone, $result);
-        }
+        $dateTimeZone = new DateTimeZone($dateTimeZoneStringStub);
+        self::assertEquals($dateTimeZone, $result);
     }
 
     /**
@@ -61,28 +53,20 @@ class WpDateTimeZoneFactoryTest extends TestCase
      */
     public function testCreateByGmtOffset($offsetStub, $expected)
     {
-        {
-            $testee = new Testee();
-        }
+        $testee = new Testee();
 
-        {
-            expect('get_option')
-                ->once()
-                ->with('timezone_string')
-                ->andReturn(false)
-                ->andAlsoExpectIt()
-                ->once()
-                ->with('gmt_offset')
-                ->andReturn($offsetStub);
-        }
+        expect('get_option')
+            ->once()
+            ->with('timezone_string')
+            ->andReturn(false)
+            ->andAlsoExpectIt()
+            ->once()
+            ->with('gmt_offset')
+            ->andReturn($offsetStub);
 
-        {
-            $result = $testee->create();
-        }
+        $result = $testee->create();
 
-        {
-            self::assertSame($expected, $result->getName());
-        }
+        self::assertSame($expected, $result->getName());
     }
 
     /**

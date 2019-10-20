@@ -30,19 +30,15 @@ class DateTimeFormatTest extends TestCase
      */
     public function testData()
     {
-        {
-            $dateStub = date('Y/m/d');
-            $timeStub = date('H:i:s');
-            $separatorStub = ' ';
+        $dateStub = date('Y/m/d');
+        $timeStub = date('H:i:s');
+        $separatorStub = ' ';
 
-            $testee = new Testee($dateStub, $timeStub, $separatorStub);
-        }
+        $testee = new Testee($dateStub, $timeStub, $separatorStub);
 
-        {
-            /** @var Testee $testee */
-            self::assertSame($dateStub, $testee->date());
-            self::assertSame($timeStub, $testee->time());
-            self::assertSame($separatorStub, $testee->separator());
-        }
+        /** @var Testee $testee */
+        self::assertSame($dateStub, $testee->date());
+        self::assertSame($timeStub, $testee->time());
+        self::assertSame($separatorStub, $testee->separator());
     }
 }

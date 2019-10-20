@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace WordPressModel\Tests\Unit\Factory\PostDateTime;
 
+use ReflectionException;
 use function Brain\Monkey\Functions\expect;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use ProjectTestsHelper\Phpunit\TestCase;
@@ -28,36 +29,31 @@ class CreatedDateTimeFactoryTest extends TestCase
 
     /**
      * Test Time
+     * @throws ReflectionException
      */
     public function testTime()
     {
-        {
-            $formatStub = 'Y/d/m';
-            $postTimeStub = date($formatStub);
+        $formatStub = 'Y/d/m';
+        $postTimeStub = date($formatStub);
 
-            $post = $this->getMockBuilder('\\WP_Post')->getMock();
-            list($testee, $testeeMethod) = $this->buildTesteeMethodMock(
-                Testee::class,
-                [],
-                'time',
-                ['bailIfInvalidValue']
-            );
-        }
+        $post = $this->getMockBuilder('\\WP_Post')->getMock();
+        list($testee, $testeeMethod) = $this->buildTesteeMethodMock(
+            Testee::class,
+            [],
+            'time',
+            ['bailIfInvalidValue']
+        );
 
-        {
-            expect('get_post_time')
-                ->once()
-                ->with($formatStub, false, $post, false)
-                ->andReturn($postTimeStub);
+        expect('get_post_time')
+            ->once()
+            ->with($formatStub, false, $post, false)
+            ->andReturn($postTimeStub);
 
-            $testee
-                ->expects($this->once())
-                ->method('bailIfInvalidValue')
-                ->with($postTimeStub, $post);
-        }
+        $testee
+            ->expects($this->once())
+            ->method('bailIfInvalidValue')
+            ->with($postTimeStub, $post);
 
-        {
-            $testeeMethod->invoke($testee, $post, $formatStub);
-        }
+        $testeeMethod->invoke($testee, $post, $formatStub);
     }
 }

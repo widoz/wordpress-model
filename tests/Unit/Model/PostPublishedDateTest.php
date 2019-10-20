@@ -14,6 +14,7 @@ namespace WordPressModel\Tests\Unit\Model;
 
 use ProjectTestsHelper\Phpunit\TestCase;
 use Widoz\Bem\Service;
+use WordPressModel\Exception\InvalidPostDateTimeException;
 use WordPressModel\Model\DayArchiveLink;
 use WordPressModel\Model\PostPublishedDate as Testee;
 use Brain\Monkey\Filters;
@@ -42,6 +43,7 @@ class PostPublishedDateTest extends TestCase
 
     /**
      * Test Data
+     * @throws InvalidPostDateTimeException
      */
     public function testFilterGetAppliedWithCorrectData()
     {
