@@ -60,10 +60,9 @@ class PostDateTimeTest extends TestCase
             ->disableOriginalConstructor()
             ->setMethods(['create'])
             ->getMock();
-        list($testee, $testeeMethod) = $this->buildTesteeMethodMock(
+        $testee = $this->proxy(
             Testee::class,
             [$post, $postDateTimeFactory],
-            'data',
             []
         );
 
@@ -96,7 +95,10 @@ class PostDateTimeTest extends TestCase
                 ]
             );
 
-        $testeeMethod->invoke($testee);
+        /**
+         * @var Testee $testee
+         */
+        $testee->data();
     }
 
     /**
@@ -111,10 +113,9 @@ class PostDateTimeTest extends TestCase
             ->disableOriginalConstructor()
             ->setMethods(['create'])
             ->getMock();
-        list($testee, $testeeMethod) = $this->buildTesteeMethodMock(
+        $testee = $this->proxy(
             Testee::class,
             [$post, $postDateTimeFactory],
-            'data',
             []
         );
 
@@ -124,7 +125,8 @@ class PostDateTimeTest extends TestCase
             ->with($post, 'created')
             ->willThrowException(new DateTimeException());
 
-        $result = $testeeMethod->invoke($testee);
+        /** @var Testee $testee */
+        $result = $testee->data();
 
         self::assertEquals([], $result);
     }

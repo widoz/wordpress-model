@@ -34,23 +34,22 @@ class PostThumbnailTest extends TestCase
      */
     public function testFilterGetAppliedWithCorrectData()
     {
-        $attachmentImageData = ['attachment_image_data'];
-        $testeePermalink = 'testee_permalink';
+        $attachmentImageData = uniqid();
+        $testeePermalink = uniqid();
 
         $post = $this->getMockBuilder('\\WP_Post')->getMock();
         $attachmentImage = $this->createMock(AttachmentImage::class);
 
-        $testee = $this->buildTesteeMock(
+        $testee = $this->proxy(
             Testee::class,
             [$post, $attachmentImage],
-            ['permalink', 'hasThumbnail'],
-            ''
-        )->getMock();
+            ['permalink', 'hasThumbnail']
+        );
 
         $attachmentImage
             ->expects($this->once())
             ->method('data')
-            ->willReturn($attachmentImageData);
+            ->willReturn(['attachmentImage' => $attachmentImageData]);
 
         $testee
             ->expects($this->once())
@@ -63,6 +62,7 @@ class PostThumbnailTest extends TestCase
             ->willReturn(true);
 
         Filters\expectApplied(Testee::FILTER_DATA)
+            ->once()
             ->with([
                 'link' => [
                     'attributes' => [
@@ -85,10 +85,9 @@ class PostThumbnailTest extends TestCase
 
         $post = $this->getMockBuilder('WP_Post')->getMock();
         $attachmentImage = $this->createMock(AttachmentImage::class);
-        list($testee, $testeeMethod) = $this->buildTesteeMethodMock(
+        $testee = $this->proxy(
             Testee::class,
             [$post, $attachmentImage],
-            'permalink',
             []
         );
 
@@ -102,7 +101,10 @@ class PostThumbnailTest extends TestCase
             ->with($postPermalinkStub)
             ->andReturn($postPermalinkStub);
 
-        $response = $testeeMethod->invoke($testee);
+        /**
+         * @var Testee $testee
+         */
+        $response = $testee->permalink();
 
         self::assertSame($postPermalinkStub, $response);
     }
@@ -115,10 +117,9 @@ class PostThumbnailTest extends TestCase
     {
         $post = $this->getMockBuilder('WP_Post')->getMock();
         $attachmentImage = $this->createMock(AttachmentImage::class);
-        list($testee, $testeeMethod) = $this->buildTesteeMethodMock(
+        $testee = $this->proxy(
             Testee::class,
             [$post, $attachmentImage],
-            'hasThumbnail',
             []
         );
 
@@ -131,7 +132,8 @@ class PostThumbnailTest extends TestCase
             ->with($post)
             ->andReturn(true);
 
-        $response = $testeeMethod->invoke($testee);
+        /** @var Testee $testee */
+        $response = $testee->hasThumbnail($testee);
 
         self::assertSame(true, $response);
     }

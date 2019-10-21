@@ -37,10 +37,9 @@ class ModifiedDateTimeFactoryTest extends TestCase
         $postTimeStub = date($formatStub);
 
         $post = $this->getMockBuilder('\\WP_Post')->getMock();
-        list($testee, $testeeMethod) = $this->buildTesteeMethodMock(
+        $testee = $this->proxy(
             Testee::class,
             [],
-            'time',
             ['bailIfInvalidValue']
         );
 
@@ -54,6 +53,6 @@ class ModifiedDateTimeFactoryTest extends TestCase
             ->method('bailIfInvalidValue')
             ->with($postTimeStub, $post);
 
-        $testeeMethod->invoke($testee, $post, $formatStub);
+        $testee->time($post, $formatStub);
     }
 }

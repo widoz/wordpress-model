@@ -72,10 +72,9 @@ class PostTitleTest extends TestCase
         /*
          * Setup Test
          */
-        list($testee, $testeeMethod) = $this->buildTesteeMethodMock(
+        $testee = $this->proxy(
             Testee::class,
             [$bem, $post],
-            'data',
             []
         );
 
@@ -113,9 +112,9 @@ class PostTitleTest extends TestCase
                 ],
             ]);
 
-        /*
-         * Execute Test
+        /**
+         * @var Testee $testee
          */
-        $testeeMethod->invoke($testee);
+        $testee->data();
     }
 }
